@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF454B55</color>
-    <color name="colorPrimaryDark">#FF454B55</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">@color/sign_in_blue</color>
+    <color name="colorPrimaryDark">@color/sign_in_Yellow</color>
+    <color name="colorAccent">@color/sign_in_gray</color>
 
     <!--Project colors-->
     <color name="login_red">#FFF9595A</color>
-    <color name="login_gray">#FF454B55</color>
+    <color name="Gunmetal">#202C39</color>
+    <color name="Charcoal">#283845</color>
+    <color name="Sage">#b8b08d</color>
+    <color name="Deep_Champagne">#f2d492</color>
+    <color name="Atomic_Tangerine">#f29559</color>
+
+    <!-- Project colors 2-->
+    <color name="CG_Blue">#227c9d</color>
+    <color name="Light_See_Green">#17c3b2</color>
+    <color name="Maximum_Yellow_Red">#ffcb77</color>
+    <color name="Light_Coral">#fe6d73</color>
+    <color name="Floral_White">#fef9ef</color>
+
+    <!--others-->
+    <color name="transparent">@android:color/transparent</color>
+    <color name="English_vermillion">#d64550</color>
+
+    <!-- log in -->
+    <color name="sign_in_blue">#3251F9</color>
+    <color name="sign_in_Yellow">#FFAD03</color>
+    <color name="sign_in_gray">#373540</color>
 
 
 </resources>

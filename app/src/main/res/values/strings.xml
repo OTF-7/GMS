@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GMS</string>
+    <string name="place_holder">Place holder</string>
+    <string name="short_place_holder">holder</string>
+    <string name="long_place_holder">Place holder Place holder Place holder
+        Place holder Place holder Place holder
+        Place holder Place holder Place holder
+        Place holder Place holder Place holder </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

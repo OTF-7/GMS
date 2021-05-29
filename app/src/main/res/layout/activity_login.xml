@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sign_in_background"
+    android:elevation="8dp"
+    android:fillViewport="true"
+    tools:context=".login.activities.LoginActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/login_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/login_collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:soundEffectsEnabled="true"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleGravity="top|start"
+            app:expandedTitleMarginStart="8dp"
+            app:expandedTitleMarginTop="40dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:elevation="8dp"
+                android:src="@drawable/ic_undraw_profile_pic_ic5t"
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="2dp"
+                app:layout_collapseMode="none" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/login_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_sign_in"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="Sign in" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/login_mainText"-->
+    <!--        style="@style/Base.Widget.MaterialComponents.TextView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:fontFamily="@font/delius_swash_caps"-->
+    <!--        android:text="Sign in"-->
+    <!--        android:textColor="@color/sign_in_Yellow"-->
+    <!--        android:textSize="48sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        android:elevation="8dp"-->
+    <!--        android:baselineAlignBottom="false"-->
+    <!--        app:layout_anchor="@id/login_appbar"-->
+    <!--        app:layout_anchorGravity="end|bottom"-->
+    <!--        android:layout_marginEnd="112dp"/>-->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/switch_form_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:focusable="true"
+        android:soundEffectsEnabled="true"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal"
+        app:layout_anchor="@id/login_appbar"
+        app:layout_anchorGravity="end|bottom"
+        app:tint="@color/colorAccent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/login_nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_scrolling_shape"
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pager_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/pager_swap"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_swap"
+                app:layout_constraintEnd_toEndOf="@id/pager_container"
+                app:layout_constraintStart_toStartOf="@id/pager_container"
+                app:layout_constraintTop_toTopOf="@id/pager_container" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/login_pager"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/pager_container"
+                app:layout_constraintEnd_toEndOf="@id/pager_container"
+                app:layout_constraintStart_toStartOf="@id/pager_container"
+                app:layout_constraintTop_toBottomOf="@id/pager_swap" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
