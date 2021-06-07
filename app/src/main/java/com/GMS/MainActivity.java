@@ -13,7 +13,8 @@ ActivityMainBinding mainBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mainBinding.getRoot());
  /*       pager = findViewById(R.id.pager);
         loginViewPagerAdapter = new LoginViewPagerAdapter(getSupportFragmentManager(), 1);
         pager.setAdapter(loginViewPagerAdapter);*/
