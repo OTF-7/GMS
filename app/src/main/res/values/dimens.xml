@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="signin_appBar_height">280dp</dimen>
     <dimen name="signup_appBar_height">200dp</dimen>
+    <dimen tools:override="true"  name="design_navigation_separator_vertical_padding">
+        20dp
+    </dimen>
+
 </resources>

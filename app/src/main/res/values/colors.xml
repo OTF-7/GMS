@@ -29,5 +29,12 @@
     <color name="sign_in_gray">#373540</color>
 
 
+    <!-- color we need it -->
+
+    <color name="light_blue">#01E2FF</color>
+    <color name="orange">#FF9000</color>
+    <color name="white">#ffffff</color>
+
+
 </resources>
 
