@@ -54,5 +54,4 @@ public class SingInFragment extends Fragment {
         signinBinding.signInButton.animate().translationY(0).alpha(1).setDuration(750).setStartDelay(1800);
 
     }
-
 }
