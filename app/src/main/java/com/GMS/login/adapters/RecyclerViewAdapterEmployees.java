@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,8 @@ private ArrayList<EmployeeItem> employeeItems ;
         holder.vieww.setBackgroundResource(R.drawable.corner_shape_available);
         else
             holder.tvEmpStatus.setTextColor(Color.LTGRAY);
+
+
     }
 
     @Override
@@ -71,7 +74,6 @@ private ArrayList<EmployeeItem> employeeItems ;
             tvEmpJob = itemView.findViewById(R.id.tv_employee_job);
             tvEmpStatus = itemView.findViewById(R.id.tv_employee_status);
             vieww= itemView.findViewById(R.id.view_color_state);
-
         }
     }
 

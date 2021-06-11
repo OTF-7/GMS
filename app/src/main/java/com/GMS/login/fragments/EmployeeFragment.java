@@ -53,7 +53,6 @@ public class EmployeeFragment extends Fragment {
         rvEmployees.setHasFixedSize(true);
         rvEmployees.setLayoutManager(layoutManager);
         rvEmployees.setAdapter(adapter);
-
        return  view ;
     }
 }

@@ -58,7 +58,7 @@ public class ManagerActivity extends AppCompatActivity   {
           // inflate and set action bar
         mToolBar = findViewById(R.id.tool_bar_id);
         setSupportActionBar(mToolBar);
-        /*
+
         // inflate the elements of navigation view and set them
          drawerLayout = findViewById(R.id.drawer_layout);
          navigationView = findViewById(R.id.navigation_view);
@@ -83,10 +83,11 @@ public class ManagerActivity extends AppCompatActivity   {
                    case R.id.setting:
                }
 
+               drawerLayout.closeDrawer(GravityCompat.START);
                return true;
            }
        });
-    */
+
 
 
         // to take the matrix of height and width
