@@ -17,4 +17,22 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+
+    <color name="color_background">#000</color>
+    <color name="color_desire_front">#96979b</color>
+    <color name="color_desire_font">#96979b</color>
+
+
+    <style name="bottom_bar_them" parent="ThemeOverlay.MaterialComponents.Dark">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/architects_daughter</item>
+        <item name="android:textColor">#fff</item>s
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>
