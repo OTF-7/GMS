@@ -1,9 +1,6 @@
-package com.GMS.login.adapters;
+package com.GMS.manager.adapters;
 
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
-import com.GMS.login.helperClasses.EmployeeItem;
+import com.GMS.manager.helperClasses.EmployeeItem;
 
 import org.jetbrains.annotations.NotNull;
 

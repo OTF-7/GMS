@@ -1,4 +1,4 @@
-package com.GMS.login.adapters;
+package com.GMS.manager.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +16,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapterSetting extends RecyclerView.Adapter<RecyclerViewAdapterSetting.RecyclerViewViewHolderSetting>
 {
-    ArrayList<com.example.manager.SettingItem> settingItems ;
+    ArrayList<com.GMS.manager.helperClasses.SettingItem> settingItems;
 
-    public RecyclerViewAdapterSetting(ArrayList<com.example.manager.SettingItem> settingItems)
-    {
+    public RecyclerViewAdapterSetting(ArrayList<com.GMS.manager.helperClasses.SettingItem> settingItems) {
         this.settingItems = settingItems;
     }
 
@@ -40,7 +39,7 @@ public class RecyclerViewAdapterSetting extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewViewHolderSetting holder, int position)
     {
-        com.example.manager.SettingItem item = settingItems.get(position);
+        com.GMS.manager.helperClasses.SettingItem item = settingItems.get(position);
         holder.circleImageView.setImageResource(item.getIconResource());
         holder.tvSettingItemTitle.setText(item.getTitle());
         holder.getTvSettingItemDescription.setText(item.getDescription());

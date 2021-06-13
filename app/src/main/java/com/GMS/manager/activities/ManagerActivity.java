@@ -1,18 +1,5 @@
-package com.GMS.login.activities;
+package com.GMS.manager.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
-
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -20,32 +7,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+
 import com.GMS.R;
+import com.GMS.databinding.ActivityManagerBinding;
 import com.GMS.login.adapters.FragmentAdapter;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 
-import org.jetbrains.annotations.NotNull;
+public class ManagerActivity extends AppCompatActivity {
 
-public class ManagerActivity extends AppCompatActivity   {
-
-   BottomAppBar bottomAppBar ;
-   BottomNavigationView bottomNavigationView ;
-   long animationDuration = 500 ;
-   Toolbar mToolBar ;
-    ViewPager2 viewPager2;
+    static int height, width;
+    ActivityManagerBinding mBinding;
+    Toolbar mToolBar;
     FragmentAdapter fragmentAdapter;
-     static int height , width ;
 
-     DrawerLayout drawerLayout ;
-     ActionBarDrawerToggle toggle ;
-      NavigationView navigationView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager);
+        mBinding = ActivityManagerBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
         final FloatingActionButton floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +39,7 @@ public class ManagerActivity extends AppCompatActivity   {
 
             }
         });
-          // inflate and set action bar
+        // inflate and set action bar
         mToolBar = findViewById(R.id.tool_bar_id);
         setSupportActionBar(mToolBar);
         /*
@@ -94,32 +78,28 @@ public class ManagerActivity extends AppCompatActivity   {
         getWindowManager().getDefaultDisplay().getMetrics(matrics);
         height = matrics.heightPixels;
         width = matrics.widthPixels;
-        // inflate viewPager element
-        viewPager2 = findViewById(R.id.view_pager2);
         // set the fragment into adapter
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentAdapter = new FragmentAdapter(fragmentManager, getLifecycle());
-        viewPager2.setAdapter(fragmentAdapter);
+        mBinding.viewPager2.setAdapter(fragmentAdapter);
 
         // inflate and set the bottom navigation view
-
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        bottomNavigationView.setBackground(null);
-        bottomNavigationView.getMenu().getItem(1).setEnabled(false);
-        bottomNavigationView.getMenu().getItem(1).setTitle("");
-        bottomNavigationView.getMenu().getItem(1).setIcon(null);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        mBinding.bottomNavigationView.setBackground(null);
+        mBinding.bottomNavigationView.getMenu().getItem(1).setEnabled(false);
+        mBinding.bottomNavigationView.getMenu().getItem(1).setTitle("");
+        mBinding.bottomNavigationView.getMenu().getItem(1).setIcon(null);
+        mBinding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.emp) {
                     setTitle("Employess");
-                    viewPager2.setCurrentItem(0);
+                    mBinding.viewPager2.setCurrentItem(0);
 
                 }
                 if (item.getItemId() == R.id.space) {
                     setTitle("not yet");
 
-                    viewPager2.setCurrentItem(1);
+                    mBinding.viewPager2.setCurrentItem(1);
 
                 }
                 if (item.getItemId() == R.id.actions) {
@@ -127,22 +107,19 @@ public class ManagerActivity extends AppCompatActivity   {
                     setTitle("Actions");
 
 
-                    viewPager2.setCurrentItem(1);
+                    mBinding.viewPager2.setCurrentItem(1);
 
                 }
                 return false;
             }
         });
-
-
-
     }
 
     // to inflate the menu for action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.top_action_bar_menu , menu);
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.top_action_bar_menu, menu);
         return true;
     }
 
@@ -150,13 +127,10 @@ public class ManagerActivity extends AppCompatActivity   {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if(item.getItemId()==R.id.search_id)
-        {
-            Toast.makeText(getBaseContext() , "search" ,Toast.LENGTH_SHORT ).show();
-        }
-        else
-        {
-            Toast.makeText(getBaseContext() ,  height+"" ,Toast.LENGTH_SHORT ).show();
+        if (item.getItemId() == R.id.search_id) {
+            Toast.makeText(getBaseContext(), "search", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getBaseContext(), height + "", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

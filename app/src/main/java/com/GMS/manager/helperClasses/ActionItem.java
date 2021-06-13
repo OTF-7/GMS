@@ -1,4 +1,4 @@
-package com.GMS.login.helperClasses;
+package com.GMS.manager.helperClasses;
 
 public class ActionItem {
     private String agent ;

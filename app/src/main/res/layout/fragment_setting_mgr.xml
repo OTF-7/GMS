@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.fragments.SettingFragment">
+    tools:context=".manager.fragments.SettingFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_setting_item_icon"

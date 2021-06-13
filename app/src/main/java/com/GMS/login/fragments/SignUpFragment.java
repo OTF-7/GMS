@@ -19,4 +19,10 @@ public class SignUpFragment extends Fragment {
         signupBinding = FragmentSignUpBinding.inflate(inflater, container, false);
         return signupBinding.getRoot();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        signupBinding = null;
+    }
 }

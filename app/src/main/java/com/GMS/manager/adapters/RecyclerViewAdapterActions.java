@@ -1,4 +1,4 @@
-package com.GMS.login.adapters;
+package com.GMS.manager.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
-import com.GMS.login.helperClasses.ActionItem;
+import com.GMS.manager.helperClasses.ActionItem;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RecyclerVieAdappterActions extends RecyclerView.Adapter<RecyclerVieAdappterActions.RecyclerViewHolderActions>{
+public class RecyclerViewAdapterActions extends RecyclerView.Adapter<RecyclerViewAdapterActions.RecyclerViewHolderActions> {
 
     ArrayList<ActionItem> actions;
 
-    public RecyclerVieAdappterActions(ArrayList<ActionItem> actions) {
+    public RecyclerViewAdapterActions(ArrayList<ActionItem> actions) {
         this.actions = actions;
     }
 

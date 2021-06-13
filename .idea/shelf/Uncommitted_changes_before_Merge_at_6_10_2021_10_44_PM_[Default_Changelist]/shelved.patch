@@ -1,0 +1,376 @@
+Index: app/src/main/res/layout/fragment_sing_in.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/sing_in_root\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".login.fragments.SingInFragment\">\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/username_field\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:layout_marginEnd=\"16dp\"\r\n        android:hint=\"UserName\"\r\n        android:padding=\"4dp\"\r\n        app:errorEnabled=\"true\"\r\n        app:helperTextEnabled=\"true\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.0\"\r\n        app:startIconContentDescription=\"user icon\"\r\n        app:startIconDrawable=\"@drawable/ic_baseline_person_24\">\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/fields_shape\"\r\n            android:soundEffectsEnabled=\"true\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/password_field\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:hint=\"Password\"\r\n        android:padding=\"4dp\"\r\n        app:endIconMode=\"password_toggle\"\r\n        app:errorEnabled=\"true\"\r\n        app:helperTextEnabled=\"true\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/username_field\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/username_field\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/username_field\"\r\n        app:startIconContentDescription=\"user icon\"\r\n        app:startIconDrawable=\"@drawable/ic_baseline_vpn_key_24\">\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/fields_shape\"\r\n            android:inputType=\"textPassword\"\r\n            android:soundEffectsEnabled=\"true\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <Button\r\n        android:id=\"@+id/sign_in_button\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginHorizontal=\"32dp\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:soundEffectsEnabled=\"true\"\r\n        android:text=\"Sign in\"\r\n        android:textSize=\"16sp\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/password_field\"\r\n        app:layout_constraintHorizontal_chainStyle=\"spread_inside\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/password_field\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/password_field\" />\r\n\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_sing_in.xml	(revision 3811a8d570735220f48d42e83c840014450a4531)
++++ app/src/main/res/layout/fragment_sing_in.xml	(date 1623354097370)
+@@ -66,13 +66,75 @@
+         android:layout_height="wrap_content"
+         android:layout_marginHorizontal="32dp"
+         android:layout_marginTop="16dp"
++        android:padding="8dp"
+         android:soundEffectsEnabled="true"
+         android:text="Sign in"
+         android:textSize="16sp"
+         app:layout_constraintEnd_toEndOf="@+id/password_field"
+-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+         app:layout_constraintStart_toStartOf="@+id/password_field"
+         app:layout_constraintTop_toBottomOf="@+id/password_field" />
+ 
++    <Button
++        android:id="@+id/forgot_password_button"
++        style="@style/Widget.MaterialComponents.Button.TextButton"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="16dp"
++        android:padding="0dp"
++        android:text="Forgot password?"
++        android:textColor="@color/colorPrimary"
++        android:textSize="16sp"
++        app:layout_constraintStart_toStartOf="@+id/password_field"
++        app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
++
++    <TextView
++        android:id="@+id/signin_with_button"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="16dp"
++        android:fontFamily="sans-serif-light"
++        android:text="Sign in with"
++        android:textColor="@color/colorAccent"
++        android:textSize="16sp"
++        app:layout_constraintStart_toStartOf="@+id/forgot_password_button"
++        app:layout_constraintTop_toBottomOf="@+id/forgot_password_button" />
++
++    <com.google.android.material.floatingactionbutton.FloatingActionButton
++        android:id="@+id/facebook_sign_in_button"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_margin="16dp"
++        android:layout_marginTop="40dp"
++        android:backgroundTint="@android:color/white"
++        android:src=""
++        android:clickable="true"
++        android:contentDescription="facebook login button"
++        android:focusable="true"
++        android:soundEffectsEnabled="true"
++        app:borderWidth="0dp"
++        app:fabSize="normal"
++        app:layout_constraintEnd_toStartOf="@+id/google_sign_in_button"
++        app:layout_constraintHorizontal_bias="0.5"
++        app:layout_constraintHorizontal_chainStyle="packed"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/signin_with_button" />
++
++    <com.google.android.material.floatingactionbutton.FloatingActionButton
++        android:id="@+id/google_sign_in_button"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_margin="16dp"
++        android:backgroundTint="@android:color/white"
++        android:clickable="true"
++        android:contentDescription="google login button"
++        android:focusable="true"
++        android:soundEffectsEnabled="true"
++        app:borderWidth="0dp"
++        app:fabSize="normal"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.5"
++        app:layout_constraintStart_toEndOf="@+id/facebook_sign_in_button"
++        app:layout_constraintTop_toBottomOf="@+id/signin_with_button" />
++
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/GMS/login/activities/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.GMS.login.activities;\r\n\r\nimport android.graphics.drawable.TransitionDrawable;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.view.WindowManager;\r\nimport android.view.animation.Animation;\r\nimport android.view.animation.AnimationUtils;\r\nimport android.widget.ImageView;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\nimport androidx.coordinatorlayout.widget.CoordinatorLayout;\r\nimport androidx.core.widget.NestedScrollView;\r\nimport androidx.viewpager2.widget.ViewPager2;\r\n\r\nimport com.GMS.R;\r\nimport com.GMS.login.adapters.LoginViewPagerAdapter;\r\nimport com.GMS.login.helperClasses.AppBarStateChangeListener;\r\nimport com.google.android.material.appbar.AppBarLayout;\r\nimport com.google.android.material.appbar.CollapsingToolbarLayout;\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\r\n\r\npublic class LoginActivity extends AppCompatActivity {\r\n\r\n    CoordinatorLayout rootLayout;\r\n    ViewPager2 logInPager;\r\n    ImageView sign_up_image, sign_in_image;\r\n    LoginViewPagerAdapter viewPagerAdapter;\r\n    FloatingActionButton switchFormButton;\r\n    CollapsingToolbarLayout collapsingToolbarLayout;\r\n    AppBarLayout appBarLayout;\r\n    Toolbar toolbar;\r\n    Animation appBarLayoutAnimation;\r\n    ViewGroup.LayoutParams appBarLayoutParams;\r\n    int appBarHeight = 0;\r\n    NestedScrollView nestedScrollView;\r\n    boolean signin_signup_state = false;\r\n    TransitionDrawable transition;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);\r\n        setContentView(R.layout.activity_login);\r\n        rootLayout = findViewById(R.id.login_root_layout);\r\n        logInPager = findViewById(R.id.login_pager);\r\n        sign_in_image = findViewById(R.id.sign_in_image);\r\n        sign_up_image = findViewById(R.id.sign_up_image);\r\n        switchFormButton = findViewById(R.id.switch_form_button);\r\n        collapsingToolbarLayout = findViewById(R.id.login_collapsing_toolbar);\r\n        appBarLayout = findViewById(R.id.login_appbar);\r\n        toolbar = findViewById(R.id.login_toolbar);\r\n        appBarLayoutParams = appBarLayout.getLayoutParams();\r\n        final float scale = getResources().getDisplayMetrics().density;\r\n        nestedScrollView = findViewById(R.id.login_nestedScrollView);\r\n        transition = (TransitionDrawable) rootLayout.getBackground();\r\n\r\n//        change the form shape when the toolbar collapses and expands\r\n        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {\r\n            @Override\r\n            public void onStateChanged(AppBarLayout appBarLayout, State state) {\r\n                if (state == State.COLLAPSED) {\r\n                    nestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape2));\r\n                } else {\r\n                    nestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape));\r\n                }\r\n            }\r\n        });\r\n\r\n        viewPagerAdapter = new LoginViewPagerAdapter(this);\r\n        logInPager.setAdapter(viewPagerAdapter);\r\n        logInPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {\r\n            @Override\r\n            public void onPageScrollStateChanged(int state) {\r\n                super.onPageScrollStateChanged(state);\r\n                if (logInPager.getCurrentItem() == 0) {\r\n                    switchFormButton.setImageResource(R.drawable.ic_add);\r\n                    collapsingToolbarLayout.setTitle(\"Sign in\");\r\n                    transition.reverseTransition(800);\r\n                    sign_up_image.setVisibility(View.GONE);\r\n                    sign_in_image.setVisibility(View.VISIBLE);\r\n                    rootLayout.setBackground(getResources().getDrawable(R.drawable.sign_in_background));\r\n                    toolbar.setNavigationIcon(R.drawable.ic_sign_in);\r\n                    signin_signup_state = false;\r\n                    appBarLayoutAnimation = AnimationUtils.loadAnimation(getApplicationContext(),\r\n                            R.anim.zooming);\r\n                    appBarHeight = (int) (280f * scale + 0.5f);\r\n\r\n                } else {\r\n                    switchFormButton.setImageResource(R.drawable.ic_sign_in);\r\n                    collapsingToolbarLayout.setTitle(\"Sign up\");\r\n\r\n                    sign_up_image.setVisibility(View.VISIBLE);\r\n                    sign_in_image.setVisibility(View.GONE);\r\n                    transition.startTransition(200);\r\n                    rootLayout.setBackground(getResources().getDrawable(R.drawable.sign_up_background));\r\n                    toolbar.setNavigationIcon(R.drawable.ic_sign_up);\r\n                    signin_signup_state = true;\r\n                    appBarLayoutAnimation = AnimationUtils.loadAnimation(getApplicationContext(),\r\n                            R.anim.zooming);\r\n                    appBarHeight = (int) (200f * scale + 0.5f);\r\n                }\r\n                if (appBarLayoutParams.height != appBarHeight) {\r\n                    appBarLayoutParams.height = appBarHeight;\r\n                    appBarLayout.startAnimation(appBarLayoutAnimation);\r\n                    appBarLayout.setLayoutParams(appBarLayoutParams);\r\n                }\r\n            }\r\n        });\r\n\r\n        switchFormButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                if (!signin_signup_state) {\r\n                    logInPager.setCurrentItem(1);\r\n                } else {\r\n                    logInPager.setCurrentItem(0);\r\n                }\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/GMS/login/activities/LoginActivity.java	(revision 3811a8d570735220f48d42e83c840014450a4531)
++++ app/src/main/java/com/GMS/login/activities/LoginActivity.java	(date 1623354098692)
+@@ -2,123 +2,126 @@
+ 
+ import android.graphics.drawable.TransitionDrawable;
+ import android.os.Bundle;
++import android.os.Handler;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.view.WindowManager;
+ import android.view.animation.Animation;
+ import android.view.animation.AnimationUtils;
+-import android.widget.ImageView;
+ 
+ import androidx.appcompat.app.AppCompatActivity;
+-import androidx.appcompat.widget.Toolbar;
+-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+-import androidx.core.widget.NestedScrollView;
+ import androidx.viewpager2.widget.ViewPager2;
+ 
+ import com.GMS.R;
++import com.GMS.databinding.ActivityLoginBinding;
+ import com.GMS.login.adapters.LoginViewPagerAdapter;
+ import com.GMS.login.helperClasses.AppBarStateChangeListener;
+ import com.google.android.material.appbar.AppBarLayout;
+-import com.google.android.material.appbar.CollapsingToolbarLayout;
+-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+ 
+ public class LoginActivity extends AppCompatActivity {
+ 
+-    CoordinatorLayout rootLayout;
+-    ViewPager2 logInPager;
+-    ImageView sign_up_image, sign_in_image;
++    final int DELAYED_TIME = 50;
++    final Handler handler = new Handler();
++    ActivityLoginBinding loginBinding;
+     LoginViewPagerAdapter viewPagerAdapter;
+-    FloatingActionButton switchFormButton;
+-    CollapsingToolbarLayout collapsingToolbarLayout;
+-    AppBarLayout appBarLayout;
+-    Toolbar toolbar;
+     Animation appBarLayoutAnimation;
+     ViewGroup.LayoutParams appBarLayoutParams;
+     int appBarHeight = 0;
+-    NestedScrollView nestedScrollView;
+     boolean signin_signup_state = false;
+     TransitionDrawable transition;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
++        loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
++        setContentView(loginBinding.getRoot());
+         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+-        setContentView(R.layout.activity_login);
+-        rootLayout = findViewById(R.id.login_root_layout);
+-        logInPager = findViewById(R.id.login_pager);
+-        sign_in_image = findViewById(R.id.sign_in_image);
+-        sign_up_image = findViewById(R.id.sign_up_image);
+-        switchFormButton = findViewById(R.id.switch_form_button);
+-        collapsingToolbarLayout = findViewById(R.id.login_collapsing_toolbar);
+-        appBarLayout = findViewById(R.id.login_appbar);
+-        toolbar = findViewById(R.id.login_toolbar);
+-        appBarLayoutParams = appBarLayout.getLayoutParams();
++
++        appBarLayoutParams = loginBinding.loginAppbar.getLayoutParams();
+         final float scale = getResources().getDisplayMetrics().density;
+-        nestedScrollView = findViewById(R.id.login_nestedScrollView);
+-        transition = (TransitionDrawable) rootLayout.getBackground();
++
++        appBarLayoutAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
++                R.anim.zooming);
++
++        transition = (TransitionDrawable) loginBinding.getRoot().getBackground();
+ 
+ //        change the form shape when the toolbar collapses and expands
+-        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
++        loginBinding.loginAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+             @Override
+             public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                 if (state == State.COLLAPSED) {
+-                    nestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape2));
++                    loginBinding.loginNestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape2));
+                 } else {
+-                    nestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape));
++                    loginBinding.loginNestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape));
+                 }
+             }
+         });
++
++        loginBinding.loginNestedScrollView.setAlpha(0);
++        loginBinding.loginNestedScrollView.setTranslationY(400);
++        loginBinding.switchFormButton.setTranslationX(400);
+ 
+         viewPagerAdapter = new LoginViewPagerAdapter(this);
+-        logInPager.setAdapter(viewPagerAdapter);
+-        logInPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
++        loginBinding.loginPager.setAdapter(viewPagerAdapter);
++
++        loginBinding.loginPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+             @Override
+             public void onPageScrollStateChanged(int state) {
+                 super.onPageScrollStateChanged(state);
+-                if (logInPager.getCurrentItem() == 0) {
+-                    switchFormButton.setImageResource(R.drawable.ic_add);
+-                    collapsingToolbarLayout.setTitle("Sign in");
++
++                if (loginBinding.loginPager.getCurrentItem() == 0) {
++                    loginBinding.switchFormButton.setImageResource(R.drawable.ic_add);
++                    loginBinding.loginCollapsingToolbar.setTitle("Sign in");
+                     transition.reverseTransition(800);
+-                    sign_up_image.setVisibility(View.GONE);
+-                    sign_in_image.setVisibility(View.VISIBLE);
+-                    rootLayout.setBackground(getResources().getDrawable(R.drawable.sign_in_background));
+-                    toolbar.setNavigationIcon(R.drawable.ic_sign_in);
++                    loginBinding.signUpImage.setVisibility(View.GONE);
++                    loginBinding.signInImage.setVisibility(View.VISIBLE);
++                    loginBinding.getRoot().setBackground(getResources().getDrawable(R.drawable.sign_in_background));
++                    loginBinding.loginToolbar.setNavigationIcon(R.drawable.ic_sign_in);
+                     signin_signup_state = false;
+-                    appBarLayoutAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
+-                            R.anim.zooming);
+                     appBarHeight = (int) (280f * scale + 0.5f);
+ 
+                 } else {
+-                    switchFormButton.setImageResource(R.drawable.ic_sign_in);
+-                    collapsingToolbarLayout.setTitle("Sign up");
++                    loginBinding.switchFormButton.setImageResource(R.drawable.ic_sign_in);
++                    loginBinding.loginCollapsingToolbar.setTitle("Sign up");
+ 
+-                    sign_up_image.setVisibility(View.VISIBLE);
+-                    sign_in_image.setVisibility(View.GONE);
++                    loginBinding.signUpImage.setVisibility(View.VISIBLE);
++                    loginBinding.signInImage.setVisibility(View.GONE);
+                     transition.startTransition(200);
+-                    rootLayout.setBackground(getResources().getDrawable(R.drawable.sign_up_background));
+-                    toolbar.setNavigationIcon(R.drawable.ic_sign_up);
++                    loginBinding.getRoot().setBackground(getResources().getDrawable(R.drawable.sign_up_background));
++                    loginBinding.loginToolbar.setNavigationIcon(R.drawable.ic_sign_up);
+                     signin_signup_state = true;
+-                    appBarLayoutAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
+-                            R.anim.zooming);
+                     appBarHeight = (int) (200f * scale + 0.5f);
+                 }
+                 if (appBarLayoutParams.height != appBarHeight) {
+                     appBarLayoutParams.height = appBarHeight;
+-                    appBarLayout.startAnimation(appBarLayoutAnimation);
+-                    appBarLayout.setLayoutParams(appBarLayoutParams);
++                    loginBinding.loginAppbar.startAnimation(appBarLayoutAnimation);
++                    loginBinding.loginAppbar.setLayoutParams(appBarLayoutParams);
+                 }
+             }
+         });
+ 
+-        switchFormButton.setOnClickListener(new View.OnClickListener() {
++        loginBinding.switchFormButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 if (!signin_signup_state) {
+-                    logInPager.setCurrentItem(1);
++                    loginBinding.loginPager.setCurrentItem(1);
+                 } else {
+-                    logInPager.setCurrentItem(0);
++                    loginBinding.loginPager.setCurrentItem(0);
+                 }
+             }
+         });
+     }
++
++    @Override
++    protected void onStart() {
++        super.onStart();
++        loginBinding.loginNestedScrollView.animate().translationY(0).alpha(1).setDuration(750).setStartDelay(100);
++        loginBinding.switchFormButton.animate().translationX(0).setDuration(500).setStartDelay(700);
++        handler.postDelayed(new Runnable() {
++            @Override
++            public void run() {
++                loginBinding.loginAppbar.setAnimation(appBarLayoutAnimation);
++            }
++        }, DELAYED_TIME);
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/GMS/login/fragments/SignUpFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.GMS.login.fragments;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.GMS.R;\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Use the {@link SignUpFragment#newInstance} factory method to\r\n * create an instance of this fragment.\r\n *\r\n */\r\npublic class SignUpFragment extends Fragment {\r\n\r\n    // TODO: Rename parameter arguments, choose names that match\r\n    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER\r\n    private static final String ARG_PARAM1 = \"param1\";\r\n    private static final String ARG_PARAM2 = \"param2\";\r\n\r\n    // TODO: Rename and change types of parameters\r\n    private String mParam1;\r\n    private String mParam2;\r\n\r\n    /**\r\n     * Use this factory method to create a new instance of\r\n     * this fragment using the provided parameters.\r\n     *\r\n     * @param param1 Parameter 1.\r\n     * @param param2 Parameter 2.\r\n     * @return A new instance of fragment SignUpFragment.\r\n     */\r\n    // TODO: Rename and change types and number of parameters\r\n    public static SignUpFragment newInstance(String param1, String param2) {\r\n        SignUpFragment fragment = new SignUpFragment();\r\n        Bundle args = new Bundle();\r\n        args.putString(ARG_PARAM1, param1);\r\n        args.putString(ARG_PARAM2, param2);\r\n        fragment.setArguments(args);\r\n        return fragment;\r\n    }\r\n\r\n    public SignUpFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            mParam1 = getArguments().getString(ARG_PARAM1);\r\n            mParam2 = getArguments().getString(ARG_PARAM2);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_sign_up, container, false);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/GMS/login/fragments/SignUpFragment.java	(revision 3811a8d570735220f48d42e83c840014450a4531)
++++ app/src/main/java/com/GMS/login/fragments/SignUpFragment.java	(date 1623354173121)
+@@ -63,4 +63,9 @@
+         // Inflate the layout for this fragment
+         return inflater.inflate(R.layout.fragment_sign_up, container, false);
+     }
+-}
+\ No newline at end of file
++    @Override
++    public void onDestroy() {
++        super.onDestroy();
++        signupBinding = null;
++    }
++}
+Index: app/src/main/java/com/GMS/login/fragments/SingInFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.GMS.login.fragments;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.GMS.R;\r\n\r\n\r\npublic class SingInFragment extends Fragment {\r\n\r\n    public SingInFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        View view = inflater.inflate(R.layout.fragment_sing_in, container, false);\r\n\r\n        return view;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/GMS/login/fragments/SingInFragment.java	(revision 3811a8d570735220f48d42e83c840014450a4531)
++++ app/src/main/java/com/GMS/login/fragments/SingInFragment.java	(date 1623354252738)
+@@ -1,29 +1,63 @@
+ package com.GMS.login.fragments;
+ 
+ import android.os.Bundle;
++import android.os.Handler;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.view.animation.Animation;
++import android.view.animation.AnimationUtils;
+ 
+ import androidx.fragment.app.Fragment;
+ 
+ import com.GMS.R;
++import com.GMS.databinding.FragmentSingInBinding;
+ 
+ 
+ public class SingInFragment extends Fragment {
++    FragmentSingInBinding signinBinding;
++    Animation fieldsAnimation;
++    Animation buttonAnimation;
++    Animation formAnimation;
++    Animation fabAnimation;
++    Animation appBarLayoutAnimation;
+ 
+     public SingInFragment() {
+         // Required empty public constructor
+     }
+ 
+-
+-
++    final int DELAYED_TIME = 2700;
++    final Handler handler = new Handler();
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                              Bundle savedInstanceState) {
+         // Inflate the layout for this fragment
+-        View view = inflater.inflate(R.layout.fragment_sing_in, container, false);
++        signinBinding = FragmentSingInBinding.inflate(inflater, container, false);
++        fieldsAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.lefttoright);
++
+ 
+-        return view;
++        signinBinding.usernameField.setTranslationY(800);
++        signinBinding.usernameField.setAlpha(0);
++        signinBinding.passwordField.setTranslationY(800);
++        signinBinding.passwordField.setAlpha(0);
++        signinBinding.signInButton.setTranslationY(1600);
++        signinBinding.signInButton.setAlpha(0);
++
++        return signinBinding.getRoot();
++    }
++
++    @Override
++    public void onStart() {
++        super.onStart();
++        signinBinding.usernameField.animate().translationY(0).alpha(1).setDuration(750).setStartDelay(1200);
++        signinBinding.passwordField.animate().translationY(0).alpha(1).setDuration(750).setStartDelay(1500);
++        signinBinding.signInButton.animate().translationY(0).alpha(1).setDuration(750).setStartDelay(1800);
++
++    }
++
++    @Override
++    public void onDestroy() {
++        super.onDestroy();
++        signinBinding = null;
+     }
+ }
+\ No newline at end of file
