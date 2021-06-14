@@ -6,9 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.GMS.login.fragments.EmployeeFragment;
-import com.GMS.login.fragments.FavoriteFragment;
-import com.GMS.login.fragments.SettingFragment;
+import com.GMS.manager.fragments.EmployeeFragment;
+import com.GMS.manager.fragments.FavoriteFragment;
 
 public class FragmentAdapter extends FragmentStateAdapter {
 

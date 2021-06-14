@@ -32,7 +32,12 @@
 
     <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/architects_daughter</item>
-        <item name="android:textColor">#fff</item>s
+        <item name="android:textColor">#fff</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
 </resources>

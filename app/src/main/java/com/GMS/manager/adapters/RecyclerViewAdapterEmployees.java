@@ -1,22 +1,18 @@
-package com.GMS.login.adapters;
+package com.GMS.manager.adapters;
 
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
-import com.GMS.login.helperClasses.EmployeeItem;
+import com.GMS.manager.helperClasses.EmployeeItem;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,8 +51,6 @@ private ArrayList<EmployeeItem> employeeItems ;
         holder.vieww.setBackgroundResource(R.drawable.corner_shape_available);
         else
             holder.tvEmpStatus.setTextColor(Color.LTGRAY);
-
-
     }
 
     @Override
@@ -74,6 +68,7 @@ private ArrayList<EmployeeItem> employeeItems ;
             tvEmpJob = itemView.findViewById(R.id.tv_employee_job);
             tvEmpStatus = itemView.findViewById(R.id.tv_employee_status);
             vieww= itemView.findViewById(R.id.view_color_state);
+
         }
     }
 
