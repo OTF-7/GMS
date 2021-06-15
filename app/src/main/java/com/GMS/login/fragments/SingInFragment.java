@@ -1,5 +1,6 @@
 package com.GMS.login.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import com.GMS.databinding.FragmentSingInBinding;
 
+import com.GMS.databinding.FragmentSingInBinding;
+import com.GMS.manager.*;
+import com.GMS.manager.activities.ManagerActivity;
 
 public class SingInFragment extends Fragment {
     final int DELAYED_TIME = 2700;
@@ -19,6 +23,8 @@ public class SingInFragment extends Fragment {
     public SingInFragment() {
         // Required empty public constructor
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +44,13 @@ public class SingInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 signinBinding.fingerPrintAnimation.playAnimation();
+            }
+        });
+        signinBinding.signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(signinBinding.getRoot().getContext() , ManagerActivity.class);
+                startActivity(intent);
             }
         });
         return signinBinding.getRoot();

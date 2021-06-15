@@ -2,12 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.3'
+    buildToolsVersion '31.0.0 rc3'
 
     buildFeatures {
         viewBinding = true
     }
-
     defaultConfig {
         applicationId "com.GMS"
         minSdkVersion 21
@@ -41,18 +40,15 @@ dependencies {
     implementation 'com.cuberto:liquid-swipe:1.0.0'
 // kotlin dependencies
     implementation 'androidx.core:core-ktx:1.5.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.20-RC"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 // View pager2
     implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0-alpha02'
+    implementation 'androidx.fragment:fragment-ktx:1.4.0-alpha01'
 // material design
-    implementation 'com.google.android.material:material:1.4.0-rc01'
+    implementation 'com.google.android.material:material:1.4.0-beta01'
 //  collapsing tool bar
     implementation 'com.android.support:design:30.0.0'
 //    circular image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    // lottie animation
-    def lottieVersion = "3.7.0"
-    implementation "com.airbnb.android:lottie:$lottieVersion"
 
 }

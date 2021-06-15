@@ -5,5 +5,4 @@
         />
     <item android:color="#fff" android:state_checked="false"
         />
-
 </selector>
