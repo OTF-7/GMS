@@ -51,22 +51,11 @@
 
 
         </com.google.android.material.bottomappbar.BottomAppBar>
->>>>>>> manager-ui
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
-            android:src="@drawable/add_floating_button_icon"
-            android:backgroundTint="@color/orange"
-            app:layout_anchor="@id/bottom_app_bar"
-            android:layout_gravity="center"
-
-            />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
-=======
             android:layout_gravity="center"
             app:borderWidth="0dp"
             app:elevation="0dp"
@@ -79,7 +68,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <include layout="@layout/top_action_bar_layout"
-       />
+        />
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
@@ -95,4 +84,3 @@
         app:itemTextColor="#fff"
         app:menu="@menu/navigation_view_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>
->>>>>>> manager-ui
