@@ -1,6 +1,7 @@
 package com.GMS.manager.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -22,7 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 
-import com.GMS.MainActivity;
 import com.GMS.R;
 import com.GMS.databinding.ActivityManagerBinding;
 import com.GMS.login.adapters.FragmentAdapter;
@@ -31,7 +31,6 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.timepicker.MaterialTimePicker;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,13 +43,14 @@ public class ManagerActivity extends AppCompatActivity {
     Toolbar mToolBar;
     FragmentAdapter fragmentAdapter;
     // an array to get items from Resceurce
-    String [] itemsSpinner ;
+    String[] itemsSpinner;
     ArrayAdapter adapter;
     ActionBarDrawerToggle toggle;
     // dialog of add action to the date base
     Dialog actionDialog;
     // to get the date of date picker
-    String dateFrom , dateTo ;
+    String dateFrom, dateTo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,16 +60,12 @@ public class ManagerActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 if(mBinding.viewPager2.getCurrentItem()==0)
-                 {
-                     Toast.makeText(getBaseContext() , "Employees" , Toast.LENGTH_SHORT).show();
-                 }
-                 else
-                {
+                if (mBinding.viewPager2.getCurrentItem() == 0) {
+                    Toast.makeText(getBaseContext(), "Employees", Toast.LENGTH_SHORT).show();
+                } else {
                     showActionDialogForAdd();
-
                 }
-                }
+            }
 
         });
         // inflate and set action bar
@@ -77,56 +73,57 @@ public class ManagerActivity extends AppCompatActivity {
         setSupportActionBar(mToolBar);
         // inflate the elements of navigation view and set them
 
-         toggle = new ActionBarDrawerToggle(this , mBinding.drawerLayout ,mToolBar , R.string.Open , R.string.Close);
-         mBinding.drawerLayout.addDrawerListener(toggle);
-         toggle.setDrawerIndicatorEnabled(true);
-         toggle.syncState();
-       mBinding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-           @Override
-           public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+        toggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout, mToolBar, R.string.Open, R.string.Close);
+        mBinding.drawerLayout.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.syncState();
+        mBinding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
 
-               switch (item.getItemId()) {
-                   case R.id.account:
-                   Toast.makeText(getBaseContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                     break;
-                   case R.id.emp_reports:
+                switch (item.getItemId()) {
+                    case R.id.account:
+                        Toast.makeText(getBaseContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.emp_reports:
 
-                       MaterialDatePicker.Builder builderFrom =MaterialDatePicker.Builder.datePicker();
-                       builderFrom.setTitleText("From this date");
-                       MaterialDatePicker materialTimePickerFrom = builderFrom.build();
-                       materialTimePickerFrom.show(getSupportFragmentManager() , "DATE_PICKER");
-                       materialTimePickerFrom.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-                           @Override
-                           public void onPositiveButtonClick(Object selection) {
-                               dateFrom = materialTimePickerFrom.getHeaderText();
-                               MaterialDatePicker.Builder builderTo =MaterialDatePicker.Builder.datePicker();
-                               builderTo.setTitleText("To this date");
-                               MaterialDatePicker materialTimePickerTo = builderTo.build();
-                               materialTimePickerTo.show(getSupportFragmentManager() , "DATE_PICKER");
-                               materialTimePickerTo.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-                                   @Override
-                                   public void onPositiveButtonClick(Object selection) {
-                                       dateTo = materialTimePickerTo.getHeaderText();
-                                       Toast.makeText(getBaseContext() , dateFrom+"\n"+dateTo  , Toast.LENGTH_SHORT).show();
-                                   }
-                               });
-                           }
-                       });
+                        MaterialDatePicker.Builder builderFrom = MaterialDatePicker.Builder.datePicker();
+                        builderFrom.setTitleText("From this date");
+                        MaterialDatePicker materialTimePickerFrom = builderFrom.build();
+                        materialTimePickerFrom.show(getSupportFragmentManager(), "DATE_PICKER");
+                        materialTimePickerFrom.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+                            @Override
+                            public void onPositiveButtonClick(Object selection) {
+                                dateFrom = materialTimePickerFrom.getHeaderText();
+                                MaterialDatePicker.Builder builderTo = MaterialDatePicker.Builder.datePicker();
+                                builderTo.setTitleText("To this date");
+                                MaterialDatePicker materialTimePickerTo = builderTo.build();
+                                materialTimePickerTo.show(getSupportFragmentManager(), "DATE_PICKER");
+                                materialTimePickerTo.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+                                    @Override
+                                    public void onPositiveButtonClick(Object selection) {
+                                        dateTo = materialTimePickerTo.getHeaderText();
+                                        Toast.makeText(getBaseContext(), dateFrom + "\n" + dateTo, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
 
 
+                        break;
+                    case R.id.action_reports:
+                        Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.setting:
+                        Intent settingintent = new Intent(mBinding.getRoot().getContext() , SettingActivity.class);
+                        startActivity(settingintent);
+                        break;
+                }
 
-                       break;
-                   case R.id.action_reports:
-                       Toast.makeText(getApplicationContext() , item.getTitle(), Toast.LENGTH_SHORT).show();
-                       break;
-                   case R.id.setting:
-               }
-
-               mBinding.drawerLayout.closeDrawer(GravityCompat.START);
-               return true;
-           }
-       });
-
+                mBinding.drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
 
 
         // to take the matrix of height and width
@@ -192,12 +189,11 @@ public class ManagerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showActionDialogForAdd()
-    {
+    public void showActionDialogForAdd() {
         itemsSpinner = getResources().getStringArray(R.array.items_array);
-        adapter = new ArrayAdapter(getBaseContext() ,R.layout.spinner_item , itemsSpinner);
+        adapter = new ArrayAdapter(getBaseContext(), R.layout.spinner_item, itemsSpinner);
 
-        Toast.makeText(getBaseContext() , "Actions" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "Actions", Toast.LENGTH_SHORT).show();
 
         actionDialog = new Dialog(mBinding.getRoot().getContext());
         actionDialog.setContentView(R.layout.add_dialoge);
@@ -206,7 +202,7 @@ public class ManagerActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getBaseContext() , "will done",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "will done", Toast.LENGTH_LONG).show();
             }
         });
         txt.setAdapter(adapter);

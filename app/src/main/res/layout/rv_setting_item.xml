@@ -20,20 +20,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_setting_item_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:elevation="8dp"
-        android:src="@drawable/ic_baseline_home_24"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="0dp"
-        android:background="#FFFFFFFF"
-        app:layout_collapseMode="none"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentStart="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="#FFFFFFFF"
+        android:elevation="0dp"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        app:layout_collapseMode="none"
+        android:src="@drawable/ic_baseline_home_24"
+    />
 
     <TextView
         android:id="@+id/tv_setting_item_title"
@@ -41,11 +42,11 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/iv_setting_item_icon"
         android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp"
         android:layout_toEndOf="@+id/iv_setting_item_icon"
         android:text="Title"
         android:textColor="#000"
-        android:textSize="20sp"
-        android:layout_marginLeft="8dp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_setting_item_description"
@@ -53,10 +54,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_setting_item_title"
         android:layout_alignRight="@+id/iv_setting_item_icon"
-        android:layout_toEndOf="@+id/iv_setting_item_icon"
         android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toEndOf="@+id/iv_setting_item_icon"
         android:text="Description"
-        android:layout_marginLeft="8dp"/>
+        android:textSize="10sp" />
 </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
