@@ -36,13 +36,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class ManagerActivity extends AppCompatActivity {
 
-    // variable for  height and width of screen
+    // variable for height and width of screen
     static int height, width;
-    // for using dataBinding instead of inflate each view speratly
+    // for using dataBinding instead of inflate each view separately
     ActivityManagerBinding mBinding;
     Toolbar mToolBar;
     FragmentAdapter fragmentAdapter;
-    // an array to get items from Resceurce
+    // an array to get items from Resource
     String[] itemsSpinner;
     ArrayAdapter adapter;
     ActionBarDrawerToggle toggle;
@@ -56,6 +56,7 @@ public class ManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityManagerBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+
         final FloatingActionButton floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +116,7 @@ public class ManagerActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.setting:
-                        Intent settingintent = new Intent(mBinding.getRoot().getContext() , SettingActivity.class);
+                        Intent settingintent = new Intent(mBinding.getRoot().getContext(), SettingActivity.class);
                         startActivity(settingintent);
                         break;
                 }

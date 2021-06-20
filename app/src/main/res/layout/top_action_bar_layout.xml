@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     android:background="@android:color/transparent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="8dp">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/top_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme"
         android:layout_margin="5dp"
         android:background="@android:color/transparent"
-        >
+        android:theme="@style/AppTheme">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar_id"
+            style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/shape_top_action_bar"
-            app:titleTextColor="@color/color_desire_font"
             app:menu="@menu/top_action_bar_menu"
-            style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
-            />
+            app:titleTextColor="@color/color_desire_font" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
