@@ -11,9 +11,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.GMS.databinding.FragmentSingInBinding;
-import com.GMS.manager.*;
 import com.GMS.manager.activities.ManagerActivity;
-import com.GMS.representative.activities.RepresentativeActivity;
+import com.GMS.agent.activities.AgentActivity;
 
 public class SingInFragment extends Fragment {
     final int DELAYED_TIME = 2700;
@@ -49,7 +48,7 @@ public class SingInFragment extends Fragment {
             public void onClick(View view) {
                 if(signinBinding.usernameField.getEditText().getText().toString().equals("Rep"))
                 {
-                    Intent intent = new Intent(signinBinding.getRoot().getContext() , RepresentativeActivity.class);
+                    Intent intent = new Intent(signinBinding.getRoot().getContext() , AgentActivity.class);
                     startActivity(intent);
                     Toast.makeText(signinBinding.getRoot().getContext() ,"Rep" ,Toast.LENGTH_SHORT).show();
 

@@ -1,4 +1,4 @@
-package com.GMS.representative.helperClasses;
+package com.GMS.agent.helperClasses;
 
 public class CitizenItem {
 

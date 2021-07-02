@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F4F4"
-    tools:context=".representative.activities.RepresentativeActivity">
+    tools:context=".agent.activities.AgentActivity">
 
     <include
         android:id="@+id/rep_top_bar"
@@ -228,61 +228,26 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_header"
-        app:tabGravity="center"
-        app:tabIndicator="@drawable/tab_indictor"
-        app:tabIndicatorAnimationMode="elastic"
-        app:tabMode="fixed"
-        android:background="@color/transparent"
-        android:backgroundTint="@color/transparent"
-        app:tabSelectedTextColor="@color/blue" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="16dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintTop_toBottomOf="@id/card_header"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="#F4F4F4"
+        android:padding="8dp"
        >
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/pager_container"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_citizen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:background="@color/transparent"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/pager_container"
-            app:layout_constraintTop_toTopOf="@id/pager_container"
-            app:layout_constraintStart_toStartOf="@id/pager_container"
-            app:layout_constraintEnd_toEndOf="@id/pager_container"
             />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
