@@ -86,16 +86,20 @@ public class RepresentativeActivity extends AppCompatActivity {
             @Override
             public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
 
+                BadgeDrawable mBadgeDrawable ;
                 switch (position)
                 {
                     case 0 :
                         tab.setText("Need Scan");
-                        BadgeDrawable mBadgeDrawable =tab.getOrCreateBadge();
+                        mBadgeDrawable=tab.getOrCreateBadge();
                         mBadgeDrawable.setBackgroundColor(getResources().getColor(R.color.blue));
                         mBadgeDrawable.setVisible(true);
                         break;
                     case 1 :
                         tab.setText("Verified");
+                        mBadgeDrawable =tab.getOrCreateBadge();
+                        mBadgeDrawable.setBackgroundColor(getResources().getColor(R.color.blue));
+                        mBadgeDrawable.setVisible(true);
                         break;
                 }
             }
