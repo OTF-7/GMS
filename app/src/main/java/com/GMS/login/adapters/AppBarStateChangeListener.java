@@ -1,4 +1,4 @@
-package com.GMS.manager.helperClasses;
+package com.GMS.login.adapters;
 
 import com.google.android.material.appbar.AppBarLayout;
 

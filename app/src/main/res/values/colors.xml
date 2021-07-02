@@ -34,7 +34,7 @@
     <color name="light_blue">#01E2FF</color>
     <color name="orange">#FF9000</color>
     <color name="white">#ffffff</color>
-
+    <color name="gray">#E6EAF7</color>
     <color name="blue">#2548AF</color>
 </resources>
 

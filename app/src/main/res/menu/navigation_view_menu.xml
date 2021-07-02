@@ -1,49 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group
-        android:checkableBehavior="single"
-        >
-        <item
-            android:title="General info"
-            >
-            <menu>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/account"
-        android:icon="@drawable/person_icon"
-        android:title="account"
-        />
+        android:id="@+id/actions_fragment"
+        android:icon="@drawable/ic_date"
+        android:iconTint="@color/white"
+        android:title="Actions"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/employee_fragment"
+        android:icon="@drawable/ic_employees"
+        android:iconTint="@color/white"
+        android:title="Employees"
+        app:showAsAction="always" />
 
+    <item
+        android:id="@+id/station_fragment"
+        android:icon="@drawable/ic_gas_station"
+        android:iconTint="@color/white"
+        android:title="ٍStations"
+        app:showAsAction="always" />
 
-            </menu>
-        </item>
-    </group>
-    <group
-     android:checkableBehavior="single"
-        >
-        <item
-            android:title="Reports"
-            >
-        <menu>
-            <item
-                android:id="@+id/action_reports"
-                android:icon="@drawable/action_selected_icon"
-                android:title="Actions Reports"
-                />
-            <item
-                android:id="@+id/emp_reports"
-                android:icon="@drawable/emp_icon"
-                android:title="Employees Reports"
-                />
-
-        </menu>
-        </item>
-    </group>
-
-                <item
-                    android:id="@+id/setting"
-                    android:icon="@drawable/setting_icon"
-                    android:title="Setting"
-                    />
-
+    <item
+        android:id="@+id/placeHolder"
+        android:title=""
+        app:showAsAction="always" />
 </menu>

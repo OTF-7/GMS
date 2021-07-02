@@ -1,4 +1,4 @@
-package com.GMS.login.fragments;
+package com.GMS.manager.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,23 +7,23 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.GMS.databinding.FragmentSignUpBinding;
+import com.GMS.databinding.FragmentActionsBinding;
 
-public class SignUpFragment extends Fragment {
-    FragmentSignUpBinding signupBinding;
+public class ActionsFragment extends Fragment {
+    FragmentActionsBinding mActionsBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        signupBinding = FragmentSignUpBinding.inflate(inflater, container, false);
+        mActionsBinding = FragmentActionsBinding.inflate(inflater, container, false);
 
-        return signupBinding.getRoot();
+        return mActionsBinding.getRoot();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        signupBinding = null;
+        mActionsBinding = null;
     }
 }

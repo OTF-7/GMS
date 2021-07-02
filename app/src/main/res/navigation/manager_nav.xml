@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/actions_fragment">
+    <fragment
+        android:id="@+id/actions_fragment"
+        android:name="com.GMS.manager.fragments.ActionsFragment"
+        android:label="fragment_actions"
+        tools:layout="@layout/fragment_actions" />
+    <fragment
+        android:id="@+id/employee_fragment"
+        android:name="com.GMS.manager.fragments.EmployeesFragment"
+        android:label="fragment_employees"
+        tools:layout="@layout/fragment_employees" />
+    <fragment
+        android:id="@+id/station_fragment"
+        android:name="com.GMS.manager.fragments.StationsFragment"
+        android:label="fragment_stations"
+        tools:layout="@layout/fragment_stations" />
+</navigation>

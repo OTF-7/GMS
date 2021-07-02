@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.GMS.databinding.FragmentSingInBinding;
-
-import com.GMS.databinding.FragmentSingInBinding;
-import com.GMS.manager.*;
 import com.GMS.manager.activities.ManagerActivity;
 
 public class SingInFragment extends Fragment {
@@ -23,8 +20,6 @@ public class SingInFragment extends Fragment {
     public SingInFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

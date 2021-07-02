@@ -43,7 +43,7 @@
                app:layout_collapseMode="none" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/sign_in_image"
+                android:id="@+id/signInImage"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_gravity="center"

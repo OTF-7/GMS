@@ -14,8 +14,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityLoginBinding;
+import com.GMS.login.adapters.AppBarStateChangeListener;
 import com.GMS.login.adapters.LoginViewPagerAdapter;
-import com.GMS.manager.helperClasses.AppBarStateChangeListener;
 import com.google.android.material.appbar.AppBarLayout;
 
 public class LoginActivity extends AppCompatActivity {
