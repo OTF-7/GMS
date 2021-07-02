@@ -12,7 +12,7 @@
     <string name="aqel_name">Aqel Name</string>
     <string name="agent_name">Agent Name</string>
     <string name="station_name">station Name</string>
-    <string name="shot_views">Main Information</string>
+    <string name="cotroler_header_card_view">hide</string>
     <string-array name="items_array">
         <item>English</item>
         <item>British</item>

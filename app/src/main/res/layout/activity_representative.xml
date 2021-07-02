@@ -127,7 +127,6 @@
                     android:textColor="#000"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
-
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/agent_name" />
@@ -270,7 +269,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager2"
             android:layout_width="0dp"
             android:layout_height="0dp"

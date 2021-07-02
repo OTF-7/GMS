@@ -15,12 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class MainFragmentAdapter  extends FragmentStateAdapter {
+public class ContentRepFragmentAdapter extends FragmentStateAdapter {
 
-    ArrayList<Fragment> lstFragments = new ArrayList<>();
-    ArrayList<String> lstStrings = new ArrayList<>();
 
-    public MainFragmentAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle) {
+    public ContentRepFragmentAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
