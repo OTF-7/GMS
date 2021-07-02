@@ -18,7 +18,7 @@
         android:id="@+id/station_fragment"
         android:icon="@drawable/ic_gas_station"
         android:iconTint="@color/white"
-        android:title="ٍStations"
+        android:title="Stations"
         app:showAsAction="always" />
 
     <item
