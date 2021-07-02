@@ -46,7 +46,7 @@ public class SingInFragment extends Fragment {
         signinBinding.signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(signinBinding.usernameField.getEditText().getText().toString().equals("Rep"))
+                if(signinBinding.usernameField.getEditText().getText().toString().equals("Rep") && signinBinding.passwordField.getEditText().getText().toString().equals("123"))
                 {
                     Intent intent = new Intent(signinBinding.getRoot().getContext() , AgentActivity.class);
                     startActivity(intent);
@@ -54,7 +54,7 @@ public class SingInFragment extends Fragment {
 
 
                 }
-                else {
+                else if(signinBinding.usernameField.getEditText().getText().toString().equals("mgr") && signinBinding.passwordField.getEditText().getText().toString().equals("456")){
                     Intent intent = new Intent(signinBinding.getRoot().getContext(), ManagerActivity.class);
                     startActivity(intent);
                     Toast.makeText(signinBinding.getRoot().getContext() ,"manager" ,Toast.LENGTH_SHORT).show();
