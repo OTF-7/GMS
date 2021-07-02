@@ -97,9 +97,6 @@ public class RepresentativeActivity extends AppCompatActivity {
                         break;
                     case 1 :
                         tab.setText("Verified");
-                        mBadgeDrawable =tab.getOrCreateBadge();
-                        mBadgeDrawable.setBackgroundColor(getResources().getColor(R.color.blue));
-                        mBadgeDrawable.setVisible(true);
                         break;
                 }
             }
