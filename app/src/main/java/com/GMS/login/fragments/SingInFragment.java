@@ -6,11 +6,13 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.GMS.databinding.FragmentSingInBinding;
 import com.GMS.manager.activities.ManagerActivity;
+import com.GMS.agent.activities.AgentActivity;
 
 public class SingInFragment extends Fragment {
     final int DELAYED_TIME = 2700;
@@ -44,8 +46,19 @@ public class SingInFragment extends Fragment {
         signinBinding.signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(signinBinding.getRoot().getContext() , ManagerActivity.class);
-                startActivity(intent);
+                if(signinBinding.usernameField.getEditText().getText().toString().equals("Rep"))
+                {
+                    Intent intent = new Intent(signinBinding.getRoot().getContext() , AgentActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(signinBinding.getRoot().getContext() ,"Rep" ,Toast.LENGTH_SHORT).show();
+
+
+                }
+                else {
+                    Intent intent = new Intent(signinBinding.getRoot().getContext(), ManagerActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(signinBinding.getRoot().getContext() ,"manager" ,Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return signinBinding.getRoot();

@@ -9,6 +9,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
+    <string name="aqel_name">Aqel Name</string>
+    <string name="agent_name">Agent Name</string>
+    <string name="station_name">station Name</string>
+    <string name="cotroler_header_card_view">hide</string>
     <string-array name="items_array">
         <item>English</item>
         <item>British</item>
