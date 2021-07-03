@@ -42,17 +42,54 @@ public class ActionsFragment extends Fragment {
     }
 
     private void fillActions() {
-        for (int i = 0; i < 10; i++) {
-            Actions action = new Actions();
-            if (i < 7 && i % 2 == 0)
-                action.setActionState(true);
-            else action.setActionState(false);
-            action.setAgentName("Omar Swaid");
-            action.setRepresentativeName("Mohammed shehab");
-            action.setNeighborhoodName("Almadena");
-            action.setDate("2022/7/11");
-            mActionsList.add(action);
-        }
+        Actions action = new Actions();
+
+        action.setActionState(false);
+        action.setAgentName("Omar Swaid");
+        action.setRepresentativeName("Mohammed shehab");
+        action.setNeighborhoodName("Almadena");
+        action.setDate("2022/7/11");
+        mActionsList.add(action);
+
+        action = new Actions();
+        action.setActionState(true);
+        action.setAgentName("Salah Doos");
+        action.setRepresentativeName("Mohammed shehab");
+        action.setNeighborhoodName("Mosa ST");
+        action.setDate("Today");
+        mActionsList.add(action);
+
+        action = new Actions();
+        action.setActionState(false);
+        action.setAgentName("Abdulrahman khaled");
+        action.setRepresentativeName("Naseem Ahmed");
+        action.setNeighborhoodName("Palastine ST");
+        action.setDate("2022/7/11");
+        mActionsList.add(action);
+
+        action = new Actions();
+        action.setActionState(true);
+        action.setAgentName("Ammar sharqy");
+        action.setRepresentativeName("Haitham Taresh");
+        action.setNeighborhoodName("Aldamgha");
+        action.setDate("Today");
+        mActionsList.add(action);
+
+        action = new Actions();
+        action.setActionState(true);
+        action.setAgentName("Omar Swaid");
+        action.setRepresentativeName("Mohammed shehab");
+        action.setNeighborhoodName("Gamal ST");
+        action.setDate("Today");
+        mActionsList.add(action);
+
+        action = new Actions();
+        action.setActionState(false);
+        action.setAgentName("Omar Swaid");
+        action.setRepresentativeName("Mohammed shehab");
+        action.setNeighborhoodName("Alhamdy");
+        action.setDate("2022/7/11");
+        mActionsList.add(action);
     }
 
     @Override
