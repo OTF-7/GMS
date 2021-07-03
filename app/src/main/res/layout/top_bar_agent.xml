@@ -13,13 +13,13 @@
         android:background="@android:color/transparent"
         >
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tool_bar_rep"
+            android:id="@+id/tool_bar_representative"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/top_bar_representative_shape"
+            android:background="@drawable/top_bar_agent_shape"
             app:titleTextColor="@color/white"
             android:foregroundTint="@color/white"
-            app:menu="@menu/menu_representative_top_bar"
+            app:menu="@menu/menu_agent_top_bar"
             style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
             />
 
