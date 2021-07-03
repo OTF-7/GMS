@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
-import com.GMS.databinding.ActivityRepresentativeBinding;
+import com.GMS.databinding.ActivityAgentBinding;
 import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
 import com.GMS.agent.helperClasses.CitizenItem;
 
@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class AgentActivity extends AppCompatActivity {
 
-    ActivityRepresentativeBinding mBinding;
+    ActivityAgentBinding mBinding;
     //MainAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityRepresentativeBinding.inflate(getLayoutInflater());
+        mBinding = ActivityAgentBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
         setSupportActionBar(mBinding.repTopBar.toolBarRep);

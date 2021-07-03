@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/rep_top_bar"
-        layout="@layout/top_bar_representative"
+        layout="@layout/top_bar_agent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
