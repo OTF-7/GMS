@@ -25,11 +25,4 @@
         android:title="Setting"
         app:showAsAction="never"
         />
-    <item
-        android:id="@+id/qr_reader"
-        android:title="QR Reader"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_qr_reader"
-        />
-
 </menu>

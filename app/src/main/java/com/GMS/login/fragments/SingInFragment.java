@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.GMS.agent.activities.AgentActivity;
 import com.GMS.databinding.FragmentSingInBinding;
 import com.GMS.manager.activities.ManagerActivity;
-
+import com.GMS.representative.Activities.RepresentativeActivity;
 public class SingInFragment extends Fragment {
     final int DELAYED_TIME = 2700;
     final Handler handler = new Handler();
@@ -46,16 +46,23 @@ public class SingInFragment extends Fragment {
         signinBinding.signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (signinBinding.usernameField.getEditText().getText().toString().equals("Rep") &&
+                if (signinBinding.usernameField.getEditText().getText().toString().equals("age") &&
                         signinBinding.passwordField.getEditText().getText().toString().equals("123")) {
                     Intent intent = new Intent(signinBinding.getRoot().getContext(), AgentActivity.class);
                     startActivity(intent);
                     Toast.makeText(signinBinding.getRoot().getContext(), "Representative", Toast.LENGTH_SHORT).show();
 
 
-                } else if (signinBinding.usernameField.getEditText().getText().toString().equals("Mgr") &&
+                } else if (signinBinding.usernameField.getEditText().getText().toString().equals("mgr") &&
                         signinBinding.passwordField.getEditText().getText().toString().equals("123")) {
                     Intent intent = new Intent(signinBinding.getRoot().getContext(), ManagerActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(signinBinding.getRoot().getContext(), "Manager", Toast.LENGTH_SHORT).show();
+                }
+                else if(signinBinding.usernameField.getEditText().getText().toString().equals("rep") &&
+                        signinBinding.passwordField.getEditText().getText().toString().equals("123"))
+                {
+                    Intent intent = new Intent(signinBinding.getRoot().getContext(), RepresentativeActivity.class);
                     startActivity(intent);
                     Toast.makeText(signinBinding.getRoot().getContext(), "Manager", Toast.LENGTH_SHORT).show();
                 }

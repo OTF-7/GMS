@@ -28,7 +28,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
     @Override
     public ViewHolderCitizen onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.need_scan_item_representative, null , false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.citizen_item_rv_agent, null , false);
         ViewHolderCitizen viewHolder= new ViewHolderCitizen(view);
         return viewHolder;
     }

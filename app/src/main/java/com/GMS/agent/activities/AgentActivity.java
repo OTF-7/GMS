@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
-import com.GMS.databinding.ActivityRepresentativeBinding;
+import com.GMS.databinding.ActivityAgentBinding;
 import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
 import com.GMS.agent.helperClasses.CitizenItem;
 
@@ -19,17 +19,17 @@ import java.util.ArrayList;
 
 public class AgentActivity extends AppCompatActivity {
 
-    ActivityRepresentativeBinding mBinding;
+    ActivityAgentBinding mBinding;
     //MainAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityRepresentativeBinding.inflate(getLayoutInflater());
+        mBinding = ActivityAgentBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        setSupportActionBar(mBinding.repTopBar.toolBarRep);
-        setTitle("Representative");
+        setSupportActionBar(mBinding.agentTopBar.toolBarRepresentative);
+        setTitle("Agent");
         mBinding.cardViewHeaderContainer.setBackgroundColor(Color.TRANSPARENT);
         mBinding.cardViewHeaderContainer.setAlpha(0);
         mBinding.cardViewHeaderContainer.setTranslationY(-400);
@@ -58,7 +58,7 @@ public class AgentActivity extends AppCompatActivity {
                     mBinding.moreTextView.setText("hide");
 
                     ViewGroup.LayoutParams pView = mBinding.backgroundHeader.getLayoutParams();
-                    double height = mBinding.repTopBar.toolBarRep.getHeight() * 1.7;
+                    double height = mBinding.agentTopBar.toolBarRepresentative.getHeight() * 1.7;
                     pView.height = (int) height;
                     mBinding.backgroundHeader.setLayoutParams(pView);
                 }
@@ -94,7 +94,7 @@ public class AgentActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_representative_top_bar, menu);
+        getMenuInflater().inflate(R.menu.menu_agent_top_bar, menu);
         return true;
     }
 }
