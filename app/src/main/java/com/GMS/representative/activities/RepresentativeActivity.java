@@ -26,7 +26,7 @@ public class RepresentativeActivity extends AppCompatActivity {
         mBinding = ActivityRepresentativeBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        setSupportActionBar(mBinding.toolBar.toolBarAgent);
+        setSupportActionBar(mBinding.toolBar.toolBarRepresentative);
         setTitle("Representative");
      FragmentManager fm  = getSupportFragmentManager();
      vpAdapter = new ViewPager2Adapter(fm , getLifecycle());
@@ -54,7 +54,7 @@ public class RepresentativeActivity extends AppCompatActivity {
          public void onPageSelected(int position) {
            mBinding.tabLayoutRepresentative.selectTab(mBinding.tabLayoutRepresentative.getTabAt(position));
          }
-         
+
      });
 
         /*
