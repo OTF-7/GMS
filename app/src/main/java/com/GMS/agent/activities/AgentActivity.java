@@ -68,12 +68,12 @@ public class AgentActivity extends AppCompatActivity {
 
 
         ArrayList<CitizenItem> items = new ArrayList<>();
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_done));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
 
         RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());

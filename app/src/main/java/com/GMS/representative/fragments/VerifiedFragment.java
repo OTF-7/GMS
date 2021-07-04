@@ -32,12 +32,12 @@ public class VerifiedFragment extends Fragment {
        mBinding  = FragmentVerifiedBinding.inflate(inflater , container , false);
 
         ArrayList<CitizenItem> items = new ArrayList<>();
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_identity_card_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_identity_card_scan ));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_identity_card_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" ,  3, R.drawable.ic_identity_card_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_identity_card_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_identity_card_scan));
 
         RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());

@@ -33,12 +33,12 @@ public class NeedScanFragment extends Fragment {
         mBinding = FragmentNeedScanBinding.inflate(inflater , container , false);
 
         ArrayList<CitizenItem> items = new ArrayList<>();
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_need_scan ));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" ,  3, R.drawable.ic_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_need_scan));
 
         RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());

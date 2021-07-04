@@ -3,6 +3,7 @@ package com.GMS.agent.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         holder.citizenName.setText(holder.citizenName.getText()+item.getCitizenName());
         holder.citizenId.setText(holder.citizenId.getText()+item.getCitizenId());
         holder.count.setText(holder.count.getText()+String.valueOf(item.getCountCylinder()));
-
+        holder.ivStatte.setImageResource(item.getIvStateResource());
     }
 
     @Override
@@ -52,11 +53,13 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
     class ViewHolderCitizen extends RecyclerView.ViewHolder
     {
         TextView citizenName , citizenId , count;
+        ImageView ivStatte ;
         public ViewHolderCitizen(@NonNull @NotNull View itemView) {
             super(itemView);
             citizenName = itemView.findViewById(R.id.tv_citizen_name);
             citizenId = itemView.findViewById(R.id.tv_citizen_id);
             count = itemView.findViewById(R.id.tv_count);
+            ivStatte = itemView.findViewById(R.id.iv_state);
         }
     }
 }
