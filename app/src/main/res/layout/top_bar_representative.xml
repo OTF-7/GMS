@@ -23,6 +23,5 @@
             style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
             />
 
-
     </com.google.android.material.appbar.AppBarLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

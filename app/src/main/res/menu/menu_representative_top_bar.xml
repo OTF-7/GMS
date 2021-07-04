@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+
+        android:id="@+id/search_ic"
+        android:title="search"
+        app:showAsAction="always|collapseActionView"
+        android:icon="@drawable/search_icon"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+    <item
+        android:id="@+id/addition_requsts"
+        android:title="Addition Requests"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/setting_item"
+        android:title="Setting"
+        app:showAsAction="never"
+        />
+</menu>

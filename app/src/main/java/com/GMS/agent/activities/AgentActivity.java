@@ -28,7 +28,7 @@ public class AgentActivity extends AppCompatActivity {
         mBinding = ActivityAgentBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        setSupportActionBar(mBinding.agentTopBar.toolBarRepresentative);
+        setSupportActionBar(mBinding.agentTopBar.toolBarAgent);
         setTitle("Agent");
         mBinding.cardViewHeaderContainer.setBackgroundColor(Color.TRANSPARENT);
         mBinding.cardViewHeaderContainer.setAlpha(0);
@@ -58,7 +58,7 @@ public class AgentActivity extends AppCompatActivity {
                     mBinding.moreTextView.setText("hide");
 
                     ViewGroup.LayoutParams pView = mBinding.backgroundHeader.getLayoutParams();
-                    double height = mBinding.agentTopBar.toolBarRepresentative.getHeight() * 1.7;
+                    double height = mBinding.agentTopBar.toolBarAgent.getHeight() * 1.7;
                     pView.height = (int) height;
                     mBinding.backgroundHeader.setLayoutParams(pView);
                 }
