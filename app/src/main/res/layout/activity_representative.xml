@@ -26,7 +26,8 @@
         app:tabIndicator="@drawable/tab_indictor"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorGravity="stretch"
-        app:tabMode="fixed" />
+        app:tabMode="fixed"
+        android:background="@color/transparent"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/login_nestedScrollView"
