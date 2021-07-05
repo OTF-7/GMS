@@ -1,11 +1,15 @@
 package com.GMS.representative.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityRepresentativeBinding;
@@ -73,6 +77,25 @@ public class RepresentativeActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_representative_top_bar , menu);
 
+        return true ;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId())
+        {
+            case R.id.setting_item:
+                Toast.makeText(getBaseContext() , item.getTitle().toString()  ,  Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.addition_requsts:
+                Toast.makeText(getBaseContext() , item.getTitle().toString() , Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this , AdditionRequestsActivity.class);
+                startActivity(intent);
+                break;
+        }
         return true ;
     }
 }
