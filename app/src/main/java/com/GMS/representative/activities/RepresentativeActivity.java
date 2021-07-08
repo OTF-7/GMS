@@ -1,14 +1,19 @@
 package com.GMS.representative.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.GMS.R;
@@ -21,6 +26,11 @@ import com.google.android.material.tabs.TabLayout;
 
 public class RepresentativeActivity extends AppCompatActivity {
 
+    public static final int ADDITION_REQUEST_REQ_CODE=1;
+    MenuItem mMenuItemNotification ;
+    TextView tvNotificationCounter ;
+    ImageView ivNotificationIcon ;
+    public static int pendingNotification=99;
     MainAdapter mAdapter ;
     ViewPager2Adapter vpAdapter ;
     ActivityRepresentativeBinding mBinding ;
@@ -76,26 +86,69 @@ public class RepresentativeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_representative_top_bar , menu);
+        mMenuItemNotification = menu.findItem(R.id.notification_addition);
+        checkNotification();
 
         return true ;
+    }
+
+    private void checkNotification()
+    {
+
+
+        if(pendingNotification == 0 )
+        {
+            mMenuItemNotification.setActionView(null);
+        }
+        else
+        {
+            mMenuItemNotification.setActionView(R.layout.notification_layout);
+            View view = mMenuItemNotification.getActionView();
+            tvNotificationCounter = view.findViewById(R.id.notification_counter);
+            ivNotificationIcon =view.findViewById(R.id.iv_notification_icon);
+            ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openAdditionRequestActivity();
+                }
+            });
+            Drawable mDrawable = getDrawable(R.drawable.notification_counter_shape);
+            view.findViewById(R.id.card_view).setBackground(mDrawable);
+            tvNotificationCounter.setText(String.valueOf(pendingNotification));
+        }
+    }
+    private void openAdditionRequestActivity() {
+        Intent intent = new Intent(this , AdditionRequestsActivity.class);
+        intent.putExtra("pendingNotification" , pendingNotification);
+        startActivityForResult(intent , ADDITION_REQUEST_REQ_CODE );
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
+
         switch (item.getItemId())
         {
-            case R.id.setting_item:
+            case R.id.setting_item :
                 Toast.makeText(getBaseContext() , item.getTitle().toString()  ,  Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.addition_requsts:
+            case R.id.notification_addition :
                 Toast.makeText(getBaseContext() , item.getTitle().toString() , Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this , AdditionRequestsActivity.class);
-                startActivity(intent);
+                openAdditionRequestActivity();
                 break;
         }
         return true ;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==ADDITION_REQUEST_REQ_CODE)
+        {
+            pendingNotification=data.getIntExtra("pendingNotification" , pendingNotification);
+            checkNotification();
+        }
     }
 }

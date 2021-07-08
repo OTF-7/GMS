@@ -11,10 +11,13 @@
         android:icon="@drawable/search_icon"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
     <item
-        android:id="@+id/addition_requsts"
-        android:title="Addition Requests"
-        app:showAsAction="never"
+        android:id="@+id/notification_addition"
+        android:icon="@drawable/ic_notification_addition"
+        android:title="notification addition"
+        app:showAsAction="always"
+        android:actionLayout="@layout/notification_layout"
         />
+
     <item
         android:id="@+id/setting_item"
         android:title="Setting"
