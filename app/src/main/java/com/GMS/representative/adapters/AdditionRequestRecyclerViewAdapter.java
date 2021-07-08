@@ -1,5 +1,6 @@
 package com.GMS.representative.adapters;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
         holder.tvCitizenAddress.setText(item.getCitizenAddress());
         holder.tvCitizenHireDate.setText(item.getCitizenHireDate());
 
+
     }
 
     @Override
@@ -52,13 +54,15 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
     class AdditionRequestViewHolder extends RecyclerView.ViewHolder
     {
         ImageView citizenPicture ;
-        TextView tvCitizenName , tvCitizenAddress, tvCitizenHireDate ;
+        TextView tvCitizenName , tvCitizenAddress, tvCitizenHireDate , tvSeeDocument ;
         public AdditionRequestViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             citizenPicture = itemView.findViewById(R.id.citizen_picture);
             tvCitizenName = itemView.findViewById(R.id.tv_citizen_name);
             tvCitizenAddress = itemView.findViewById(R.id.tv_citizen_address);
             tvCitizenHireDate = itemView.findViewById(R.id.tv_citizen_hire_date);
+            tvSeeDocument = itemView.findViewById(R.id.tv_see_document_detail);
+            tvSeeDocument.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         }
     }
 }

@@ -124,13 +124,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_separator" />
-
             <TextView
                 android:id="@+id/tv_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="Confirm"
+                android:drawableStart="@drawable/ic_confirm"
+                android:drawablePadding="4dp"
                 android:textColor="@color/green"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_see_document_detail"
@@ -142,6 +143,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="Regret"
+                android:drawableStart="@drawable/ic_regret"
+                android:drawablePadding="4dp"
                 android:textColor="@color/English_vermillion"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_confirm"
