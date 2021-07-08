@@ -17,4 +17,6 @@
         <item>English</item>
         <item>British</item>
     </string-array>
+    <string name="need_scan">Need Scan</string>
+    <string name="verified">Verified</string>
 </resources>

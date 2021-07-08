@@ -45,8 +45,8 @@ public class RepresentativeActivity extends AppCompatActivity {
      FragmentManager fm  = getSupportFragmentManager();
      vpAdapter = new ViewPager2Adapter(fm , getLifecycle());
      mBinding.mainViewPager.setAdapter(vpAdapter);
-     mBinding.tabLayoutRepresentative.addTab(mBinding.tabLayoutRepresentative.newTab().setText("Need Scan"));
-     mBinding.tabLayoutRepresentative.addTab(mBinding.tabLayoutRepresentative.newTab().setText("Need Scan"));
+     mBinding.tabLayoutRepresentative.addTab(mBinding.tabLayoutRepresentative.newTab().setText(getResources().getString(R.string.need_scan)));
+     mBinding.tabLayoutRepresentative.addTab(mBinding.tabLayoutRepresentative.newTab().setText(getResources().getString(R.string.verified)));
      mBinding.tabLayoutRepresentative.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
          @Override
          public void onTabSelected(TabLayout.Tab tab) {
