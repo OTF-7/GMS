@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:src="@drawable/ic_qr_reader"
+        android:src="@drawable/ic_qr_need_scan_mobile"
         app:borderWidth="0dp"
         app:fabSize="normal"
         android:layout_margin="16dp"

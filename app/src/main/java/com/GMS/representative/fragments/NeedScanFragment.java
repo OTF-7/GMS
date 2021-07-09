@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.GMS.R;
-import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
-import com.GMS.agent.helperClasses.CitizenItem;
+
+import com.GMS.representative.adapters.RecyclerViewAdapterCitizen;
+import com.GMS.representative.helperClass.CitizenItem;
 import com.GMS.databinding.FragmentNeedScanBinding;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 public class NeedScanFragment extends Fragment {
 
-
+    public static final  int FRAGMENT_ID=1 ;
     FragmentNeedScanBinding mBinding ;
     public NeedScanFragment() {
         // Required empty public constructor
@@ -32,20 +33,19 @@ public class NeedScanFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentNeedScanBinding.inflate(inflater , container , false);
 
-        ArrayList<CitizenItem> items = new ArrayList<>();
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_need_scan));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_need_scan ));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_need_scan));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" ,  3, R.drawable.ic_need_scan));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_need_scan));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_need_scan));
+        ArrayList<com.GMS.representative.helperClass.CitizenItem> items = new ArrayList<>();
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_qr_need_scan ));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" ,  3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
 
-        RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items);
+        RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items , FRAGMENT_ID);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBinding.rvNeedScanFragment.setHasFixedSize(true);
         mBinding.rvNeedScanFragment.setLayoutManager(layoutManager);
         mBinding.rvNeedScanFragment.setAdapter(adapter);
-
 
         return mBinding.getRoot();
     }

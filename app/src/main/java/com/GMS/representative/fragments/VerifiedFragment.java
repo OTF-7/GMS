@@ -11,15 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.GMS.R;
-import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
-import com.GMS.agent.helperClasses.CitizenItem;
 import com.GMS.databinding.FragmentVerifiedBinding;
+import com.GMS.representative.adapters.RecyclerViewAdapterCitizen;
+import com.GMS.representative.helperClass.CitizenItem;
 
 import java.util.ArrayList;
 
 public class VerifiedFragment extends Fragment {
 
 
+    public static final int FRAGMENT_ID=2;
     FragmentVerifiedBinding mBinding ;
     public VerifiedFragment() {
         // Required empty public constructor
@@ -39,7 +40,7 @@ public class VerifiedFragment extends Fragment {
         items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_identity_card_scan));
         items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_identity_card_scan));
 
-        RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items);
+        RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items  , FRAGMENT_ID);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBinding.rvVerifiedFragment.setHasFixedSize(true);
         mBinding.rvVerifiedFragment.setLayoutManager(layoutManager);
