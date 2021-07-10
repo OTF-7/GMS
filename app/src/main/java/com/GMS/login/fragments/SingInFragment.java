@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.GMS.agent.activities.AgentActivity;
+import com.GMS.aqel.activities.AqelActivity;
 import com.GMS.databinding.FragmentSingInBinding;
 import com.GMS.manager.activities.ManagerActivity;
 import com.GMS.agent.activities.AgentActivity;
@@ -52,7 +53,7 @@ public class SingInFragment extends Fragment {
                         signinBinding.passwordField.getEditText().getText().toString().equals("123")) {
                     Intent intent = new Intent(signinBinding.getRoot().getContext(), AgentActivity.class);
                     startActivity(intent);
-                    Toast.makeText(signinBinding.getRoot().getContext(), "Representative", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(signinBinding.getRoot().getContext(), "Agent", Toast.LENGTH_SHORT).show();
 
 
                 } else if (signinBinding.usernameField.getEditText().getText().toString().equals("mgr") &&
@@ -67,8 +68,16 @@ public class SingInFragment extends Fragment {
 
                     Intent intent = new Intent(signinBinding.getRoot().getContext(), RepresentativeActivity.class);
                     startActivity(intent);
-                    Toast.makeText(signinBinding.getRoot().getContext(), "Manager", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(signinBinding.getRoot().getContext(), "Representative", Toast.LENGTH_SHORT).show();
               }
+                else if(signinBinding.usernameField.getEditText().getText().toString().equals("aqe") &&
+                        signinBinding.passwordField.getEditText().getText().toString().equals("123"))
+                {
+
+                    Intent intent = new Intent(signinBinding.getRoot().getContext(), AqelActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(signinBinding.getRoot().getContext(), "Aqel", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return signinBinding.getRoot();

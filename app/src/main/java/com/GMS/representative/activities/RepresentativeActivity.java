@@ -20,8 +20,6 @@ import com.GMS.R;
 import com.GMS.databinding.ActivityRepresentativeBinding;
 import com.GMS.representative.adapters.MainAdapter;
 import com.GMS.representative.adapters.ViewPager2Adapter;
-import com.GMS.representative.fragments.NeedScanFragment;
-import com.GMS.representative.fragments.VerifiedFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class RepresentativeActivity extends AppCompatActivity {
@@ -73,8 +71,8 @@ public class RepresentativeActivity extends AppCompatActivity {
 
         /*
         mAdapter = new MainAdapter(getSupportFragmentManager());
-        mAdapter.addFragment(new NeedScanFragment() , "Need Scan");
-        mAdapter.addFragment(new VerifiedFragment() , "Verified");
+        mAdapter.addFragment(new NeedScanRepFragment() , "Need Scan");
+        mAdapter.addFragment(new VerifiedRepFragment() , "Verified");
         mBinding.mainViewPager.setAdapter(mAdapter);
         mBinding.tabLayoutRepresentative.setupWithViewPager(mBinding.mainViewPager);
         */

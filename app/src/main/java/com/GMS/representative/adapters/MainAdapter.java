@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.GMS.representative.fragments.NeedScanFragment;
-import com.GMS.representative.fragments.VerifiedFragment;
+import com.GMS.representative.fragments.NeedScanRepFragment;
+import com.GMS.representative.fragments.VerifiedRepFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,8 +35,8 @@ public class MainAdapter extends FragmentPagerAdapter {
         switch (position)
         {
             case 0 :
-                return new NeedScanFragment();
-            case 1: return new VerifiedFragment();
+                return new NeedScanRepFragment();
+            case 1: return new VerifiedRepFragment();
         }
         return null;
     }

@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.GMS.representative.fragments.NeedScanFragment;
-import com.GMS.representative.fragments.VerifiedFragment;
+import com.GMS.representative.fragments.NeedScanRepFragment;
+import com.GMS.representative.fragments.VerifiedRepFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,10 +23,10 @@ public class ViewPager2Adapter  extends FragmentStateAdapter {
         switch (position)
         {
             case 0 :
-                return new NeedScanFragment();
-            case 1: return new VerifiedFragment();
+                return new NeedScanRepFragment();
+            case 1: return new VerifiedRepFragment();
         }
-        return new NeedScanFragment();
+        return new NeedScanRepFragment();
     }
 
     @Override

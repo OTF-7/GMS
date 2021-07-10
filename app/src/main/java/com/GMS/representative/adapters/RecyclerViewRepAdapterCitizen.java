@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
-import com.GMS.representative.helperClass.CitizenItem;
+import com.GMS.representative.helperClass.CitizenItemOfRep;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerViewAdapterCitizen.ViewHolderCitizen>
+public class RecyclerViewRepAdapterCitizen extends RecyclerView.Adapter<RecyclerViewRepAdapterCitizen.ViewHolderCitizen>
 {
-     ArrayList<CitizenItem> lsts = new ArrayList<>();
+     ArrayList<CitizenItemOfRep> lsts = new ArrayList<>();
      int typeOfPage;
 
-    public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> lsts, int typeOfPage) {
+    public RecyclerViewRepAdapterCitizen(ArrayList<CitizenItemOfRep> lsts, int typeOfPage) {
         this.lsts = lsts;
         this.typeOfPage = typeOfPage;
     }
@@ -38,7 +38,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolderCitizen holder, int position) {
 
-        CitizenItem item = lsts.get(position);
+        CitizenItemOfRep item = lsts.get(position);
 
         holder.citizenName.setText(holder.citizenName.getText()+item.getCitizenName());
         holder.citizenId.setText(holder.citizenId.getText()+item.getCitizenId());

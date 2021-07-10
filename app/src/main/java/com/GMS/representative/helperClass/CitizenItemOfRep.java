@@ -1,6 +1,6 @@
 package com.GMS.representative.helperClass;
 
-public class CitizenItem {
+public class CitizenItemOfRep {
 
     private String  citizenName ;
     private String citizenId ;
@@ -8,7 +8,7 @@ public class CitizenItem {
     private int ivStateResource ;
     private int ivPersonalImage ;
 
-    public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource)
+    public CitizenItemOfRep(String citizenName, String citizenId, int countCylinder, int ivStateResource)
     {
         this.citizenName = citizenName;
         this.citizenId = citizenId;
@@ -16,14 +16,14 @@ public class CitizenItem {
         this.ivStateResource = ivStateResource;
     }
 
-    public CitizenItem(String citizenName, String citizenId, int countCylinder)
+    public CitizenItemOfRep(String citizenName, String citizenId, int countCylinder)
     {
         this.citizenName = citizenName;
         this.citizenId = citizenId;
         this.countCylinder = countCylinder;
     }
 
-    public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource, int ivPersonalImage) {
+    public CitizenItemOfRep(String citizenName, String citizenId, int countCylinder, int ivStateResource, int ivPersonalImage) {
         this.citizenName = citizenName;
         this.citizenId = citizenId;
         this.countCylinder = countCylinder;
