@@ -25,6 +25,8 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="English_vermillion">#d64550</color>
     <color name="green">#32733D</color>
+    <color name="black">#000000</color>
+    <color name="light_red">#fe6d73</color>
 
     <!-- log in -->
     <color name="sign_in_blue">#3251F9</color>
