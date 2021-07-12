@@ -30,7 +30,7 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
     @NotNull
     @Override
     public AdditionRequestViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.addition_request_item,null , false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.addition_request_item,parent , false);
         AdditionRequestViewHolder viewHolder = new AdditionRequestViewHolder(view);
 
         return viewHolder;

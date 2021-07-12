@@ -1,4 +1,4 @@
-package com.GMS.agent.adapters;
+package com.GMS.aqel.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +29,7 @@ public class RecyclerViewAqelAdapter  extends RecyclerView.Adapter<RecyclerViewA
     @NotNull
     @Override
     public ViewHolderCitizen onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.citizen_item_rv , null , false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.citizen_item_rv , parent , false);
         ViewHolderCitizen viewHoder = new ViewHolderCitizen(view);
 
         return viewHoder ;

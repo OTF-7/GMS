@@ -152,6 +152,7 @@
             android:text="add"
             android:textColor="@color/white"
             android:layout_margin="16dp"
+            android:clickable="true"
             app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"

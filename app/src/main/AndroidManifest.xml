@@ -11,19 +11,23 @@
         android:theme="@style/AppTheme">
         <activity android:name=".aqel.activities.AddCitizenActivity"></activity>
         <activity android:name=".aqel.activities.AqelActivity">
+
+        </activity>
+        <activity android:name=".representative.activities.AdditionRequestsActivity" />
+        <activity android:name=".agent.activities.AgentActivity" >
+
+        </activity>
+        <activity android:name=".manager.activities.ManagerActivity" />
+        <activity android:name=".login.activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".representative.activities.AdditionRequestsActivity" />
-        <activity android:name=".agent.activities.AgentActivity" />
-        <activity android:name=".manager.activities.ManagerActivity" />
-        <activity android:name=".login.activities.LoginActivity">
+        <activity android:name=".representative.activities.RepresentativeActivity" >
 
         </activity>
-        <activity android:name=".representative.activities.RepresentativeActivity" />
         <activity android:name=".MainActivity" />
 
         <meta-data

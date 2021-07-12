@@ -30,7 +30,7 @@ public class RecyclerViewRepAdapterCitizen extends RecyclerView.Adapter<Recycler
     @NotNull
     @Override
     public ViewHolderCitizen onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.citizen_item_rv, null , false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.citizen_item_rv, parent , false);
         ViewHolderCitizen viewHolder= new ViewHolderCitizen(view);
         return viewHolder;
     }

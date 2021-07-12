@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.GMS.R;
-import com.GMS.agent.adapters.RecyclerViewAqelAdapter;
+import com.GMS.aqel.adapters.RecyclerViewAqelAdapter;
 import com.GMS.aqel.helperClass.CitizenItemOfAqel;
 import com.GMS.databinding.FragmentNeedScanAqelBinding;
-import com.GMS.representative.helperClass.CitizenItemOfRep;
 
 import java.util.ArrayList;
 

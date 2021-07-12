@@ -3,14 +3,34 @@ package com.GMS.aqel.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.GMS.R;
+import com.GMS.databinding.ActivityAddCitizenBinding;
 
 public class AddCitizenActivity extends AppCompatActivity {
+
+    ActivityAddCitizenBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_citizen);
+        mBinding = ActivityAddCitizenBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
+
+        mBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext() , "sucess" , Toast.LENGTH_SHORT).show();
+            }
+        });
+        mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_need_scan"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="4dp"
         android:backgroundTint="#fff"
