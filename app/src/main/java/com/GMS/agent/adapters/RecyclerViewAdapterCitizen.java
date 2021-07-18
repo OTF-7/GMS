@@ -1,10 +1,14 @@
 package com.GMS.agent.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,13 +19,22 @@ import com.GMS.agent.helperClasses.CitizenItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerViewAdapterCitizen.ViewHolderCitizen> {
+public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerViewAdapterCitizen.ViewHolderCitizen> implements Filterable {
 
     ArrayList<CitizenItem> items ;
-
+    ArrayList<CitizenItem> lstsFull ;
+    Context mContext ;
     public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items) {
         this.items = items;
+        lstsFull = new ArrayList<>(items);
+    }
+
+    public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items, Context context) {
+        this.items = items;
+        mContext = context;
+        lstsFull = new ArrayList<>(items);
     }
 
     @NonNull
@@ -38,9 +51,10 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull @NotNull ViewHolderCitizen holder, int position) {
         CitizenItem item = items.get(position);
 
-        holder.citizenName.setText(holder.citizenName.getText()+item.getCitizenName());
-        holder.citizenId.setText(holder.citizenId.getText()+item.getCitizenId());
-        holder.count.setText(holder.count.getText()+String.valueOf(item.getCountCylinder()));
+
+        holder.citizenName.setText(item.getCitizenName());
+        holder.citizenId.setText(item.getCitizenId());
+        holder.count.setText(String.valueOf(item.getCountCylinder()));
         holder.ivStatte.setImageResource(item.getIvStateResource());
     }
 
@@ -48,6 +62,46 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
     public int getItemCount() {
         return items.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filterUser;
+    }
+    private Filter filterUser=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            String searchText = constraint.toString().toLowerCase();
+
+            ArrayList<CitizenItem> tempLst =new ArrayList<>();
+
+             if(searchText.isEmpty()) {
+                tempLst.addAll(lstsFull);
+            }
+            else
+            {
+                for(CitizenItem item :lstsFull)
+                {
+
+                    if(item.getCitizenName().toLowerCase().contains(searchText))
+                    {
+
+                        tempLst.add(item);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values=tempLst;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            items.clear();
+            items.addAll((Collection<? extends CitizenItem>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
 
     class ViewHolderCitizen extends RecyclerView.ViewHolder

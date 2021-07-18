@@ -3,10 +3,13 @@ package com.GMS.agent.activities;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +24,7 @@ public class AgentActivity extends AppCompatActivity {
 
     ActivityAgentBinding mBinding;
     //MainAdapter adapter;
-
+    RecyclerViewAdapterCitizen adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +72,13 @@ public class AgentActivity extends AppCompatActivity {
 
         ArrayList<CitizenItem> items = new ArrayList<>();
         items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_done));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Abubaker Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Omar Taha" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Mohammed Shihab" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Omar Swaid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("hasan Someeri" , "45d55d45s55g" , 3 , R.drawable.ic_done));
 
-        RecyclerViewAdapterCitizen adapter = new RecyclerViewAdapterCitizen(items);
+        adapter = new RecyclerViewAdapterCitizen(items , getBaseContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
         mBinding.rvCitizen.setHasFixedSize(true);
         mBinding.rvCitizen.setLayoutManager(layoutManager);
@@ -95,6 +98,25 @@ public class AgentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_agent_top_bar, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_ic);
+        SearchView searchView= (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+
+        });
+
+
         return true;
     }
 }

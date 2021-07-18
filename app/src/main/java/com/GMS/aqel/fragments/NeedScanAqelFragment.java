@@ -34,11 +34,11 @@ public class NeedScanAqelFragment extends Fragment {
 
         ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
         items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_qr_need_scan ));
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" ,  3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Omar Taha" , "45d55d45s55g" , 3 ,R.drawable.ic_qr_need_scan ));
+        items.add(new CitizenItemOfAqel("Abubaker Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Mohammed Shihab" , "45d55d45s55g" ,  3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Omar swaid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Hasan Someeri" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
 
         RecyclerViewAqelAdapter adapter = new RecyclerViewAqelAdapter(items , FRAGMENT_ID);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
