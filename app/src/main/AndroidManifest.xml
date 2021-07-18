@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".aqel.activities.AddCitizenActivity"></activity>
+        <activity android:name=".aqel.activities.AddCitizenActivity">
+        </activity>
         <activity android:name=".aqel.activities.AqelActivity">
 
         </activity>

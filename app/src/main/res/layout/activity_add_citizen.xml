@@ -70,7 +70,7 @@
                 android:id="@+id/et_citizen_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -94,6 +94,7 @@
                 android:id="@+id/et_number_of_family"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="2"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 

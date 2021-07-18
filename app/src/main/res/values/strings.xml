@@ -14,8 +14,10 @@
     <string name="station_name">station Name</string>
     <string name="cotroler_header_card_view">hide</string>
     <string-array name="items_array">
-        <item>English</item>
-        <item>British</item>
+        <item>AL_kornish</item>
+        <item>Mousa Street</item>
+        <item>AL_medinah</item>
+        <item>AL_hawak square</item>
     </string-array>
     <string name="need_scan">Need Scan</string>
     <string name="verified">Verified</string>

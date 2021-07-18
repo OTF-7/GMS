@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -19,6 +21,10 @@ public class AddCitizenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityAddCitizenBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+
+        String  []array = getResources().getStringArray(R.array.items_array);
+        ArrayAdapter mAdapter = new ArrayAdapter(getBaseContext() , R.layout.spinner_item , array);
+        mBinding.actvNeighborhoodName.setAdapter(mAdapter);
 
         mBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
