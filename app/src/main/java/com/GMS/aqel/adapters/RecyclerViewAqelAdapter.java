@@ -45,9 +45,9 @@ public class RecyclerViewAqelAdapter  extends RecyclerView.Adapter<RecyclerViewA
 
         CitizenItemOfAqel item = lstsCitizen.get(position);
 
-        holder.citizenName.setText(holder.citizenName.getText()+item.getCitizenName());
-        holder.citizenId.setText(holder.citizenId.getText()+item.getCitizenId());
-        holder.count.setText(holder.count.getText()+String.valueOf(item.getCountCylinder()));
+        holder.citizenName.setText(item.getCitizenName());
+        holder.citizenId.setText(item.getCitizenId());
+        holder.count.setText(String.valueOf(item.getCountCylinder()));
         holder.ivStatte.setImageResource(item.getIvStateResource());
     }
 
@@ -65,9 +65,8 @@ public class RecyclerViewAqelAdapter  extends RecyclerView.Adapter<RecyclerViewA
         protected FilterResults performFiltering(CharSequence constraint) {
             String searchText = constraint.toString().toLowerCase();
             ArrayList<CitizenItemOfAqel> tempLst =new ArrayList<>();
-            if(tempLst.size()==0 )
-                tempLst.addAll(lstsFull);
-            else if(searchText.isEmpty())
+
+            if(searchText.isEmpty())
                 tempLst.addAll(lstsFull);
             else
             {

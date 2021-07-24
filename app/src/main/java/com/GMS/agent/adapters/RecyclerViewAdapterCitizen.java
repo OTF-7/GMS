@@ -56,6 +56,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         holder.citizenId.setText(item.getCitizenId());
         holder.count.setText(String.valueOf(item.getCountCylinder()));
         holder.ivStatte.setImageResource(item.getIvStateResource());
+        holder.price.setText("RY "+String.valueOf(item.getCountCylinder()*item.getPrice()));
     }
 
     @Override
@@ -106,7 +107,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
 
     class ViewHolderCitizen extends RecyclerView.ViewHolder
     {
-        TextView citizenName , citizenId , count;
+        TextView citizenName , citizenId , count , price;
         ImageView ivStatte ;
         public ViewHolderCitizen(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -114,6 +115,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
             citizenId = itemView.findViewById(R.id.tv_citizen_id);
             count = itemView.findViewById(R.id.tv_count);
             ivStatte = itemView.findViewById(R.id.iv_state);
+            price = itemView.findViewById(R.id.tv_price);
         }
     }
 }

@@ -3,6 +3,8 @@ package com.GMS.representative.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,20 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
+import com.GMS.aqel.helperClass.CitizenItemOfAqel;
 import com.GMS.representative.helperClass.CitizenItemOfRep;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class RecyclerViewRepAdapterCitizen extends RecyclerView.Adapter<RecyclerViewRepAdapterCitizen.ViewHolderCitizen>
+    implements Filterable
 {
      ArrayList<CitizenItemOfRep> lsts = new ArrayList<>();
+    ArrayList<CitizenItemOfRep> fullLsts ;
      int typeOfPage;
 
     public RecyclerViewRepAdapterCitizen(ArrayList<CitizenItemOfRep> lsts, int typeOfPage) {
         this.lsts = lsts;
         this.typeOfPage = typeOfPage;
+        this.fullLsts =new ArrayList<>(this.lsts);
     }
 
     @NonNull
@@ -40,9 +47,9 @@ public class RecyclerViewRepAdapterCitizen extends RecyclerView.Adapter<Recycler
 
         CitizenItemOfRep item = lsts.get(position);
 
-        holder.citizenName.setText(holder.citizenName.getText()+item.getCitizenName());
-        holder.citizenId.setText(holder.citizenId.getText()+item.getCitizenId());
-        holder.count.setText(holder.count.getText()+String.valueOf(item.getCountCylinder()));
+        holder.citizenName.setText(item.getCitizenName());
+        holder.citizenId.setText(item.getCitizenId());
+        holder.count.setText(String.valueOf(item.getCountCylinder()));
         holder.ivStatte.setImageResource(item.getIvStateResource());
     }
 
@@ -53,6 +60,39 @@ public class RecyclerViewRepAdapterCitizen extends RecyclerView.Adapter<Recycler
 
     }
 
+    @Override
+    public Filter getFilter() {
+        return filterUser;
+    }
+   private Filter filterUser = new Filter() {
+       @Override
+       protected FilterResults performFiltering(CharSequence constraint) {
+           String searchText = constraint.toString().toLowerCase();
+           ArrayList<CitizenItemOfRep> tempLst = new ArrayList<>();
+           if(searchText.isEmpty())
+
+           {
+               tempLst.addAll(fullLsts);
+           }
+           else {
+               for(CitizenItemOfRep item : fullLsts)
+                   if(item.getCitizenName().toLowerCase().contains(searchText))
+                   {
+                       tempLst.add(item);
+                   }
+           }
+           FilterResults filterResults = new FilterResults();
+           filterResults.values=tempLst;
+           return filterResults;
+       }
+
+       @Override
+       protected void publishResults(CharSequence constraint, FilterResults results) {
+           lsts.clear();
+           lsts.addAll((Collection<? extends CitizenItemOfRep>) results.values);
+           notifyDataSetChanged();
+       }
+   };
     class ViewHolderCitizen extends RecyclerView.ViewHolder
     {
         TextView citizenName , citizenId , count;

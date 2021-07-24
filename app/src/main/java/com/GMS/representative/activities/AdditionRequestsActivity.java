@@ -12,6 +12,7 @@ import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
 import com.GMS.agent.helperClasses.CitizenItem;
 import com.GMS.databinding.ActivityAdditionRequestsBinding;
 import com.GMS.representative.adapters.AdditionRequestRecyclerViewAdapter;
+import com.GMS.representative.fragments.NeedScanRepFragment;
 import com.GMS.representative.helperClass.CitizenAdditionRequest;
 
 import java.util.ArrayList;

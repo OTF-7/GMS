@@ -71,12 +71,12 @@ public class AgentActivity extends AppCompatActivity {
 
 
         ArrayList<CitizenItem> items = new ArrayList<>();
-        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,R.drawable.ic_done));
-        items.add(new CitizenItem("Abubaker Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("Omar Taha" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("Mohammed Shihab" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("Omar Swaid" , "45d55d45s55g" , 3 , R.drawable.ic_done));
-        items.add(new CitizenItem("hasan Someeri" , "45d55d45s55g" , 3 , R.drawable.ic_done));
+        items.add(new CitizenItem("Abdulrahman Khalid" , "45d55d45s55g" , 3 ,0 ,3700.0 ));
+        items.add(new CitizenItem("Abubaker Khalid" , "45d55d45s55g" , 4 , 0,3700.0));
+        items.add(new CitizenItem("Omar Taha" , "45d55d45s55g" , 1 , 0,3700.0 ));
+        items.add(new CitizenItem("Mohammed Shihab" , "45d55d45s55g" , 2 ,0,3700.0 ));
+        items.add(new CitizenItem("Omar Swaid" , "45d55d45s55g" , 5 , 0,3700.0 ));
+        items.add(new CitizenItem("hasan Someeri" , "45d55d45s55g" , 3, 0,3700.0 ));
 
         adapter = new RecyclerViewAdapterCitizen(items , getBaseContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());

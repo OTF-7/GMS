@@ -60,32 +60,4 @@ public class AqelActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_aqel_top_bar, menu);
-        return true ;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        super.onOptionsItemSelected(item);
-
-        switch (item.getItemId())
-        {
-            case R.id.add_citizen:
-                Toast.makeText(getBaseContext() , item.getTitle() , Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this , AddCitizenActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.setting_item:
-                Toast.makeText(getBaseContext() , item.getTitle() , Toast.LENGTH_SHORT).show();
-                break;
-        }
-
-
-
-
-        return true ;
-    }
 }

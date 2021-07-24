@@ -7,6 +7,7 @@ public class CitizenItem {
     private int countCylinder ;
     private int ivStateResource ;
     private int ivPersonalImage ;
+    private double price ;
 
     public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource)
     {
@@ -21,6 +22,18 @@ public class CitizenItem {
         this.citizenName = citizenName;
         this.citizenId = citizenId;
         this.countCylinder = countCylinder;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource, double price) {
+        this.citizenName = citizenName;
+        this.citizenId = citizenId;
+        this.countCylinder = countCylinder;
+        this.ivStateResource = ivStateResource;
+        this.price = price;
     }
 
     public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource, int ivPersonalImage) {
