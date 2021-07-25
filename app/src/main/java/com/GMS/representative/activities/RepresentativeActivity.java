@@ -37,7 +37,8 @@ public class RepresentativeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityRepresentativeBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
+        // change color of status bar color
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mBinding.toolBar.toolBarRepresentative);
         setTitle("Representative");
      FragmentManager fm  = getSupportFragmentManager();

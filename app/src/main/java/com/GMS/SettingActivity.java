@@ -23,5 +23,11 @@ public class SettingActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext() , "Account Constraint" , Toast.LENGTH_SHORT).show();
             }
         });
+        mBinding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

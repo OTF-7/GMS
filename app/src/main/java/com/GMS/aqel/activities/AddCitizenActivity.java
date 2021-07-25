@@ -22,6 +22,8 @@ public class AddCitizenActivity extends AppCompatActivity {
         mBinding = ActivityAddCitizenBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+
         String  []array = getResources().getStringArray(R.array.items_array);
         ArrayAdapter mAdapter = new ArrayAdapter(getBaseContext() , R.layout.spinner_item , array);
         mBinding.actvNeighborhoodName.setAdapter(mAdapter);

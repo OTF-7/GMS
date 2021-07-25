@@ -26,7 +26,8 @@ public class AqelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityAqelBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
+        // change color of status bar color
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mBinding.toolBar.toolBarAqel);
         setTitle("Aqel");
 

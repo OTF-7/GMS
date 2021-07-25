@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,8 @@ public class AgentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityAgentBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
+        // change color of status bar color
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mBinding.agentTopBar.toolBarAgent);
         setTitle("Agent");
         mBinding.cardViewHeaderContainer.setBackgroundColor(Color.TRANSPARENT);

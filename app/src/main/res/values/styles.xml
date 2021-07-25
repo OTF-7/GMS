@@ -5,8 +5,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        // for color of three dots in top bar
+        <item name="actionOverflowButtonStyle">@style/IconOverFlow</item>
     </style>
 
+    // for color of items and icons into top bar
+    <style name="IconOverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/white</item>
+    </style>
     <!-- appbar theme. -->
     <style name="AppBarTheme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
         <!-- Customize your theme here. -->
