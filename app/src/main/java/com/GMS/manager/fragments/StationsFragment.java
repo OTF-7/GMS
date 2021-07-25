@@ -39,13 +39,47 @@ public class StationsFragment extends Fragment {
     }
 
     private void fillStations() {
-        for (int i = 0; i < 10; i++) {
-            Stations station = new Stations();
-            station.setStationName("Aleesi");
-            station.setStationIcon(R.drawable.ic_petrol_pump);
+        Stations station = new Stations();
 
-            mStationsList.add(station);
-        }
+        station.setStationName("Aleesi");
+        station.setStationIcon(R.drawable.station_1);
+        mStationsList.add(station);
+
+        station = new Stations();
+        station.setStationName("Shamsan");
+        station.setStationIcon(R.drawable.station_2);
+        mStationsList.add(station);
+
+        station = new Stations();
+        station.setStationName("Alrajehy");
+        station.setStationIcon(R.drawable.ic_petrol_pump);
+        mStationsList.add(station);
+
+        station = new Stations();
+        station.setStationName("Alnoor");
+        station.setStationIcon(R.drawable.station_3);
+        mStationsList.add(station);
+
+        station = new Stations();
+        station.setStationName("Alhuda");
+        station.setStationIcon(R.drawable.station_4);
+        mStationsList.add(station);
+
+        station = new Stations();
+        station.setStationName("Altayseer");
+        station.setStationIcon(R.drawable.ic_petrol_pump);
+        mStationsList.add(station);
+
+        station = new Stations();
+        station.setStationName("Hodaidah Center");
+        station.setStationIcon(R.drawable.station_1);
+        mStationsList.add(station);
+
+        station = new Stations();
+        station.setStationName("Aleesi");
+        station.setStationIcon(R.drawable.ic_petrol_pump);
+        mStationsList.add(station);
+
     }
 
     @Override
