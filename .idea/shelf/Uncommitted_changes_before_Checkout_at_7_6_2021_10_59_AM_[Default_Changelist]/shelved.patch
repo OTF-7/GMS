@@ -1,0 +1,55 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.GMS\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".representative.Activities.RepresentativeActivity\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".agent.activities.AgentActivity\" />\r\n        <activity android:name=\".manager.activities.ManagerActivity\" />\r\n        <activity android:name=\".login.activities.LoginActivity\">\r\n\r\n        </activity>\r\n        <activity android:name=\".MainActivity\" />\r\n\r\n        <meta-data\r\n            android:name=\"preloaded_fonts\"\r\n            android:resource=\"@array/preloaded_fonts\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision a326a260f076803570dd7f20537c2a60f3795adb)
++++ app/src/main/AndroidManifest.xml	(date 1625327540085)
+@@ -9,15 +9,16 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <activity android:name=".representative.Activities.RepresentativeActivity">
++        <activity android:name=".agent.activities.AgentActivity">
++
++        </activity>
++        <activity android:name=".manager.activities.ManagerActivity" >
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+-        <activity android:name=".agent.activities.AgentActivity" />
+-        <activity android:name=".manager.activities.ManagerActivity" />
+         <activity android:name=".login.activities.LoginActivity">
+ 
+         </activity>
+Index: app/src/main/java/com/GMS/login/fragments/SingInFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.GMS.login.fragments;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.os.Handler;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.GMS.agent.activities.AgentActivity;\r\nimport com.GMS.databinding.FragmentSingInBinding;\r\nimport com.GMS.manager.activities.ManagerActivity;\r\nimport com.GMS.representative.Activities.RepresentativeActivity;\r\npublic class SingInFragment extends Fragment {\r\n    final int DELAYED_TIME = 2700;\r\n    final Handler handler = new Handler();\r\n    FragmentSingInBinding signinBinding;\r\n\r\n    public SingInFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        signinBinding = FragmentSingInBinding.inflate(inflater, container, false);\r\n\r\n        signinBinding.usernameField.setTranslationY(800);\r\n        signinBinding.usernameField.setAlpha(0);\r\n        signinBinding.passwordField.setTranslationY(800);\r\n        signinBinding.passwordField.setAlpha(0);\r\n        signinBinding.signInButton.setTranslationY(1600);\r\n        signinBinding.signInButton.setAlpha(0);\r\n        signinBinding.forgotPasswordButton.setTranslationX(2000);\r\n        signinBinding.forgotPasswordButton.setAlpha(0);\r\n        signinBinding.fingerPrintAnimation.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                signinBinding.fingerPrintAnimation.playAnimation();\r\n            }\r\n        });\r\n        signinBinding.signInButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                if (signinBinding.usernameField.getEditText().getText().toString().equals(\"age\") &&\r\n                        signinBinding.passwordField.getEditText().getText().toString().equals(\"123\")) {\r\n                    Intent intent = new Intent(signinBinding.getRoot().getContext(), AgentActivity.class);\r\n                    startActivity(intent);\r\n                    Toast.makeText(signinBinding.getRoot().getContext(), \"Representative\", Toast.LENGTH_SHORT).show();\r\n\r\n\r\n                } else if (signinBinding.usernameField.getEditText().getText().toString().equals(\"mgr\") &&\r\n                        signinBinding.passwordField.getEditText().getText().toString().equals(\"123\")) {\r\n                    Intent intent = new Intent(signinBinding.getRoot().getContext(), ManagerActivity.class);\r\n                    startActivity(intent);\r\n                    Toast.makeText(signinBinding.getRoot().getContext(), \"Manager\", Toast.LENGTH_SHORT).show();\r\n                }\r\n                else if(signinBinding.usernameField.getEditText().getText().toString().equals(\"rep\") &&\r\n                        signinBinding.passwordField.getEditText().getText().toString().equals(\"123\"))\r\n                {\r\n                    Intent intent = new Intent(signinBinding.getRoot().getContext(), RepresentativeActivity.class);\r\n                    startActivity(intent);\r\n                    Toast.makeText(signinBinding.getRoot().getContext(), \"Manager\", Toast.LENGTH_SHORT).show();\r\n                }\r\n            }\r\n        });\r\n        return signinBinding.getRoot();\r\n    }\r\n\r\n    @Override\r\n    public void onStart() {\r\n        super.onStart();\r\n        signinBinding.usernameField.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1200);\r\n        signinBinding.passwordField.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1800);\r\n        signinBinding.signInButton.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(2400);\r\n        signinBinding.forgotPasswordButton.animate().translationX(0).alpha(1).setDuration(750).setStartDelay(3000);\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onDestroy() {\r\n        super.onDestroy();\r\n        signinBinding = null;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/GMS/login/fragments/SingInFragment.java	(revision a326a260f076803570dd7f20537c2a60f3795adb)
++++ app/src/main/java/com/GMS/login/fragments/SingInFragment.java	(date 1625327459888)
+@@ -13,7 +13,6 @@
+ import com.GMS.agent.activities.AgentActivity;
+ import com.GMS.databinding.FragmentSingInBinding;
+ import com.GMS.manager.activities.ManagerActivity;
+-import com.GMS.representative.Activities.RepresentativeActivity;
+ public class SingInFragment extends Fragment {
+     final int DELAYED_TIME = 2700;
+     final Handler handler = new Handler();
+@@ -62,7 +61,7 @@
+                 else if(signinBinding.usernameField.getEditText().getText().toString().equals("rep") &&
+                         signinBinding.passwordField.getEditText().getText().toString().equals("123"))
+                 {
+-                    Intent intent = new Intent(signinBinding.getRoot().getContext(), RepresentativeActivity.class);
++                    Intent intent = new Intent(signinBinding.getRoot().getContext(), AgentActivity.class);
+                     startActivity(intent);
+                     Toast.makeText(signinBinding.getRoot().getContext(), "Manager", Toast.LENGTH_SHORT).show();
+                 }
