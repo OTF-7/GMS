@@ -2,30 +2,34 @@ package com.GMS.agent.helperClasses;
 
 public class CitizenItem {
 
-    private String  citizenName ;
-    private String citizenId ;
-    private int countCylinder ;
-    private int ivStateResource ;
-    private int ivPersonalImage ;
-    private double price ;
+    private final String citizenName;
+    private final String citizenId;
+    private final int countCylinder;
+    private int ivStateResource;
+    private int ivPersonalImage;
+    private double price;
+    private boolean acceptedState;
 
-    public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource)
-    {
+    public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource) {
         this.citizenName = citizenName;
         this.citizenId = citizenId;
         this.countCylinder = countCylinder;
         this.ivStateResource = ivStateResource;
     }
 
-    public CitizenItem(String citizenName, String citizenId, int countCylinder)
-    {
+    public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource, double price, boolean acceptedState) {
         this.citizenName = citizenName;
         this.citizenId = citizenId;
         this.countCylinder = countCylinder;
+        this.ivStateResource = ivStateResource;
+        this.price = price;
+        this.acceptedState = acceptedState;
     }
 
-    public double getPrice() {
-        return price;
+    public CitizenItem(String citizenName, String citizenId, int countCylinder) {
+        this.citizenName = citizenName;
+        this.citizenId = citizenId;
+        this.countCylinder = countCylinder;
     }
 
     public CitizenItem(String citizenName, String citizenId, int countCylinder, int ivStateResource, double price) {
@@ -42,6 +46,18 @@ public class CitizenItem {
         this.countCylinder = countCylinder;
         this.ivStateResource = ivStateResource;
         this.ivPersonalImage = ivPersonalImage;
+    }
+
+    public boolean isAcceptedState() {
+        return acceptedState;
+    }
+
+    public void setAcceptedState(boolean acceptedState) {
+        this.acceptedState = acceptedState;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public String getCitizenName() {
