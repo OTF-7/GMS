@@ -1,6 +1,8 @@
 package com.GMS.agent.activities;
 
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,20 +25,25 @@ import java.util.ArrayList;
 
 public class AgentActivity extends AppCompatActivity {
 
+    //MainAdapter adapter;
+    public final static int FULL_LIST_ID = 1;
+    public final static int ACCEPTED_LIST_ID = 2;
+    private final int size = -1;
+    private final ArrayList<CitizenItem> fullCitizenList = new ArrayList<>();
+    private final ArrayList<CitizenItem> acceptedCitizenList = new ArrayList<>();
+    private final int countOfAcceptedCitizens = 0;
     Color doneColor;
     private ActivityAgentBinding mBinding;
-    //MainAdapter adapter;
-    private RecyclerViewAdapterCitizen adapter;
+    private RecyclerViewAdapterCitizen fullRVAdapter;
+    private RecyclerViewAdapterCitizen acceptedRVAdapter;
     private ItemClickListener mItemClickListener;
-    private final int size = -1;
-    private int countOfAcceptedCitizens = 0;
-    private final ArrayList<CitizenItem> items = new ArrayList<>();
-
+    public   static Drawable mAcceptedBackgroundImage ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityAgentBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        mAcceptedBackgroundImage=getDrawable(R.drawable.accpted_image_background_shape);
         // change color of status bar color
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
@@ -76,47 +83,74 @@ public class AgentActivity extends AppCompatActivity {
         });
 
 
-        items.add(new CitizenItem("Abdulrahman Khalid", "45d55d45s55g", 3, 0, 3700.0, false));
-        items.add(new CitizenItem("Abubaker Khalid", "45d55d45s55g", 4, 0, 3700.0, false));
-        items.add(new CitizenItem("Omar Taha", "45d55d45s55g", 1, 0, 3700.0, false));
-        items.add(new CitizenItem("Mohammed Shihab", "45d55d45s55g", 2, 0, 3700.0, false));
-        items.add(new CitizenItem("Omar Swaid", "45d55d45s55g", 5, 0, 3700.0, false));
-        items.add(new CitizenItem("hasan Someeri", "45d55d45s55g", 3, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Abdulrahman Khalid", "45d55d45s55g", 3, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Abubaker Khalid", "45d55d45s55g", 4, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Omar Taha", "45d55d45s55g", 1, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Mohammed Shihab", "45d55d45s55g", 2, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Omar Swaid", "45d55d45s55g", 5, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("hasan Someeri", "45d55d45s55g", 3, 0, 3700.0, false));
         mItemClickListener = new ItemClickListener() {
             @Override
             public void onClick(int position, boolean state) {
-                if(state) {
-                    countOfAcceptedCitizens += 1;
+                if (state) {
                     isCylinderAccepted(position);
-                }
-                else
-                {
-
+                } else {
+                    isCylinderDenied(position);
                 }
             }
         };
-        intiRecyclerView();
+        intiFullRVList();
+        intiAcceptedRVList();
 
 
     }
 
-    private void intiRecyclerView() {
-        adapter = new RecyclerViewAdapterCitizen(items, getBaseContext(), mItemClickListener);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
-        mBinding.rvCitizen.setHasFixedSize(true);
-        mBinding.rvCitizen.setLayoutManager(layoutManager);
-        mBinding.rvCitizen.setAdapter(adapter);
+    private void intiFullRVList() {
+        if (fullCitizenList.size() != 0) {
+            mBinding.rvCitizen.setVisibility(View.VISIBLE);
+            fullRVAdapter = new RecyclerViewAdapterCitizen(fullCitizenList, getBaseContext(), mItemClickListener, FULL_LIST_ID);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+            mBinding.rvCitizen.setHasFixedSize(true);
+            mBinding.rvCitizen.setLayoutManager(layoutManager);
+            mBinding.rvCitizen.setAdapter(fullRVAdapter);
+        } else {
+            mBinding.rvCitizen.setVisibility(View.GONE);
+        }
+    }
+
+    private void intiAcceptedRVList() {
+        if (acceptedCitizenList.size() != 0) {
+            mBinding.rvAcceptedCitizen.setVisibility(View.VISIBLE);
+            mBinding.tvAcceptedCitizen.setVisibility(View.VISIBLE);
+            acceptedRVAdapter = new RecyclerViewAdapterCitizen(acceptedCitizenList, getBaseContext(), mItemClickListener, ACCEPTED_LIST_ID);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+            mBinding.rvAcceptedCitizen.setHasFixedSize(true);
+            mBinding.rvAcceptedCitizen.setLayoutManager(layoutManager);
+            mBinding.rvAcceptedCitizen.setAdapter(acceptedRVAdapter);
+        } else {
+            mBinding.rvAcceptedCitizen.setVisibility(View.GONE);
+            mBinding.tvAcceptedCitizen.setVisibility(View.GONE);
+        }
     }
 
     private void isCylinderAccepted(int position) {
-        if (countOfAcceptedCitizens <= items.size()) {
-            CitizenItem item = items.get(position);
-            items.add(item);
-            items.remove(position);
-            mBinding.rvCitizen.setAdapter(null);
-            intiRecyclerView();
-            Toast.makeText(getBaseContext(), String.valueOf(countOfAcceptedCitizens), Toast.LENGTH_SHORT).show();
-        }
+        CitizenItem item = fullCitizenList.get(position);
+        acceptedCitizenList.add(item);
+        fullCitizenList.remove(position);
+        mBinding.rvCitizen.setAdapter(null);
+        intiFullRVList();
+        intiAcceptedRVList();
+        Toast.makeText(getBaseContext(), String.valueOf(countOfAcceptedCitizens), Toast.LENGTH_SHORT).show();
+    }
+
+    private void isCylinderDenied(int position) {
+        CitizenItem item = acceptedCitizenList.get(position);
+        fullCitizenList.add(item);
+        acceptedCitizenList.remove(position);
+        mBinding.rvAcceptedCitizen.setAdapter(null);
+        intiFullRVList();
+        intiAcceptedRVList();
+        Toast.makeText(getBaseContext(), String.valueOf(countOfAcceptedCitizens), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -135,13 +169,14 @@ public class AgentActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
+                fullRVAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                fullRVAdapter.getFilter().filter(newText);
+                acceptedRVAdapter.getFilter().filter(newText);
                 return false;
             }
 

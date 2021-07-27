@@ -10,10 +10,10 @@
     <include
         android:id="@+id/agent_top_bar"
         layout="@layout/top_bar_agent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/background_header"
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/agent_top_bar"/>
+        app:layout_constraintTop_toBottomOf="@id/agent_top_bar" />
     <!--
     <TextView
         android:id="@+id/textTitle"
@@ -71,10 +71,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="cylinder : 000"
                 android:textColor="#000"
                 android:textSize="@dimen/_14ssp"
-                android:fontFamily="sans-serif-medium"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -195,11 +195,11 @@
                     android:id="@+id/station_image"
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
+                    android:contentDescription="TODO"
                     android:src="@drawable/ic_station"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="TODO" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/station_name"
@@ -233,22 +233,48 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
         android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:fillViewport="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_header"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/white"
-        android:padding="4dp"
-       >
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_citizen"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+        app:layout_constraintTop_toBottomOf="@id/card_header">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_citizen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_accepted_citizen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/text_view_accepted_shape"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="accepted citizens"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_citizen" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_accepted_citizen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_accepted_citizen" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

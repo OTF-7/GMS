@@ -1,7 +1,9 @@
 package com.GMS.agent.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
+import com.GMS.agent.activities.AgentActivity;
 import com.GMS.agent.helperClasses.CitizenItem;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,10 +28,6 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
 
     private final ArrayList<CitizenItem> items;
     private final ArrayList<CitizenItem> lstsFull;
-    private Context mContext;
-    private int countOfAcceptedCitizen;
-    private ItemClickListener mItemClickListener;
-    private int selectedPosition = -1;
     private final Filter filterUser = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -60,6 +59,11 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
             notifyDataSetChanged();
         }
     };
+    private Context mContext;
+    private int countOfAcceptedCitizen;
+    private ItemClickListener mItemClickListener;
+    private int selectedPosition = -1;
+    private int idList;
 
     public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items) {
         this.items = items;
@@ -72,8 +76,9 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         lstsFull = new ArrayList<>(items);
     }
 
-    public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items, Context context, ItemClickListener itemClickListener) {
+    public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items, Context context, ItemClickListener itemClickListener, int idList) {
         this.items = items;
+        this.idList = idList;
         mContext = context;
         mItemClickListener = itemClickListener;
         lstsFull = new ArrayList<>(items);
@@ -100,19 +105,28 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         holder.ivStatte.setImageResource(item.getIvStateResource());
         holder.price.setText("RY " + item.getCountCylinder() * item.getPrice());
         if (items.get(position).isAcceptedState()) {
-            holder.itemView.findViewById(R.id.cl_content).setBackgroundColor(Color.LTGRAY);
+            holder.itemView.findViewById(R.id.iv_citizen).setBackground(AgentActivity.mAcceptedBackgroundImage);
         } else {
-            holder.itemView.findViewById(R.id.cl_content).setBackgroundColor(Color.TRANSPARENT);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int mPosition = holder.getAdapterPosition();
-                items.get(position).setAcceptedState(true);
-                mItemClickListener.onClick(position, items.get(position).isAcceptedState());
-                selectedPosition = position;
-                notifyDataSetChanged();
+                if (idList == AgentActivity.FULL_LIST_ID) {
+                    //code for accept the citizen
+                    int mPosition = holder.getAdapterPosition();
+                    items.get(position).setAcceptedState(true);
+                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
+                    selectedPosition = position;
+                    notifyDataSetChanged();
+                } else if (idList == AgentActivity.ACCEPTED_LIST_ID) {
+                    // code for deny thr citizen
+                    items.get(position).setAcceptedState(false);
+                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
+                    selectedPosition = position;
+
+                    notifyDataSetChanged();
+                }
             }
         });
 
