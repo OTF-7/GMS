@@ -1,16 +1,11 @@
 package com.GMS.aqel.activities;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.GMS.R;
 import com.GMS.aqel.adapters.ViewPager2AqelAdapter;
@@ -21,6 +16,7 @@ public class AqelActivity extends AppCompatActivity {
 
     ActivityAqelBinding mBinding;
     ViewPager2AqelAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +27,8 @@ public class AqelActivity extends AppCompatActivity {
         setSupportActionBar(mBinding.toolBar.toolBarAqel);
         setTitle("Aqel");
 
-        FragmentManager fm  = getSupportFragmentManager();
-        adapter = new ViewPager2AqelAdapter(fm , getLifecycle());
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new ViewPager2AqelAdapter(fm, getLifecycle());
         mBinding.mainViewPager.setAdapter(adapter);
         mBinding.tabLayoutAqel.addTab(mBinding.tabLayoutAqel.newTab().setText(getResources().getString(R.string.need_scan)));
         mBinding.tabLayoutAqel.addTab(mBinding.tabLayoutAqel.newTab().setText(getResources().getString(R.string.verified)));
@@ -40,6 +36,11 @@ public class AqelActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mBinding.mainViewPager.setCurrentItem(tab.getPosition());
+                if (mBinding.mainViewPager.getCurrentItem() == 1 || tab.getPosition() == 1) {
+                    mBinding.fabScan.setVisibility(View.GONE);
+                } else {
+                    mBinding.fabScan.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -56,9 +57,20 @@ public class AqelActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mBinding.tabLayoutAqel.selectTab(mBinding.tabLayoutAqel.getTabAt(position));
+                if (position == 1) {
+                    mBinding.fabScan.setVisibility(View.GONE);
+                } else {
+                    mBinding.fabScan.setVisibility(View.VISIBLE);
+                }
+
             }
 
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBinding=null;
+    }
 }

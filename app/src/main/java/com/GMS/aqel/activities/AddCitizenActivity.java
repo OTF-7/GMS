@@ -41,4 +41,10 @@ public class AddCitizenActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBinding=null;
+    }
 }

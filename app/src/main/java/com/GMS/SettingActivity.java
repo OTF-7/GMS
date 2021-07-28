@@ -1,16 +1,17 @@
 package com.GMS;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.GMS.databinding.ActivitySettingBinding;
 
 public class SettingActivity extends AppCompatActivity {
 
     ActivitySettingBinding mBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +21,7 @@ public class SettingActivity extends AppCompatActivity {
         mBinding.constraintAccout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext() , "Account Constraint" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Account Constraint", Toast.LENGTH_SHORT).show();
             }
         });
         mBinding.ivBack.setOnClickListener(new View.OnClickListener() {
@@ -29,5 +30,11 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBinding=null;
     }
 }

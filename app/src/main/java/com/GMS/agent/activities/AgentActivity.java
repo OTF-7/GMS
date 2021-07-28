@@ -160,6 +160,12 @@ public class AgentActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBinding=null;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_agent_top_bar, menu);
@@ -185,4 +191,5 @@ public class AgentActivity extends AppCompatActivity {
 
         return true;
     }
+
 }

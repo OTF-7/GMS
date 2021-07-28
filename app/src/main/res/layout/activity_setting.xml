@@ -11,12 +11,12 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_gravity="center"
+        android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:elevation="0dp"
         android:src="@drawable/sign_in_image"
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="2dp"
-        android:layout_margin="16dp"
         app:flow_horizontalAlign="center"
         app:layout_collapseMode="none"
         app:layout_constraintHorizontal_bias="0.5"
@@ -27,53 +27,53 @@
         android:id="@+id/tv_account_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/iv_account"
-        app:layout_constraintBottom_toBottomOf="@id/iv_account"
-        android:text="name of account"
-       app:layout_constraintStart_toEndOf="@id/iv_account"
         android:layout_margin="16dp"
-        />
+        android:text="name of account"
+        app:layout_constraintBottom_toBottomOf="@id/iv_account"
+        app:layout_constraintStart_toEndOf="@id/iv_account"
+        app:layout_constraintTop_toTopOf="@id/iv_account" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_qr"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
+        android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:elevation="0dp"
         android:src="@drawable/ic_edit"
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="2dp"
-        android:layout_margin="16dp"
         app:flow_horizontalAlign="center"
         app:layout_collapseMode="none"
+        app:layout_constraintBottom_toBottomOf="@id/iv_account"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/iv_account"
         app:layout_constraintTop_toTopOf="@id/iv_account" />
 
     <View
         android:id="@+id/view_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/light_charcoal"
-        app:layout_constraintTop_toBottomOf="@id/iv_account"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        />
+        android:background="@color/light_charcoal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_account" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_accout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/view_separator"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@id/constraint_notification"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:padding="16dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_separator">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_icon_account"
@@ -87,41 +87,42 @@
             app:civ_border_width="2dp"
             app:flow_horizontalAlign="center"
             app:layout_collapseMode="none"
+            app:layout_constraintBottom_toBottomOf="@id/tv_account_info"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_account"
-            app:layout_constraintBottom_toBottomOf="@id/tv_account_info"/>
-    <TextView
-        android:id="@+id/tv_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Account"
-        android:textStyle="bold"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_icon_account"
-        />
-    <TextView
-        android:id="@+id/tv_account_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="change some information of account"
-        app:layout_constraintTop_toBottomOf="@id/tv_account"
-        app:layout_constraintStart_toEndOf="@id/iv_icon_account"
-        android:layout_marginStart="16dp"
-        />
+            app:layout_constraintTop_toTopOf="@id/tv_account" />
+
+        <TextView
+            android:id="@+id/tv_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Account"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_account"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_account_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="change some information of account"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_account"
+            app:layout_constraintTop_toBottomOf="@id/tv_account" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/constraint_accout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@id/constraint_behavior"
-        android:padding="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraint_accout">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_icon_notfication"
             android:layout_width="wrap_content"
@@ -134,41 +135,41 @@
             app:civ_border_width="2dp"
             app:flow_horizontalAlign="center"
             app:layout_collapseMode="none"
+            app:layout_constraintBottom_toBottomOf="@id/tv_notifications_info"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_notificationa"
-            app:layout_constraintBottom_toBottomOf="@id/tv_notifications_info"/>
+            app:layout_constraintTop_toTopOf="@id/tv_notificationa" />
 
         <TextView
-          android:id="@+id/tv_notificationa"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Notifications"
-          android:textStyle="bold"
-          android:textColor="@color/black"
-          app:layout_constraintStart_toEndOf="@id/iv_icon_notfication"
-         app:layout_constraintTop_toTopOf="parent"
-          android:layout_marginStart="16dp"
-          />
-      <TextView
-          android:id="@+id/tv_notifications_info"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="change some informations of notificaions"
-          app:layout_constraintTop_toBottomOf="@id/tv_notificationa"
-           app:layout_constraintStart_toEndOf="@id/iv_icon_notfication"
-          android:layout_marginStart="16dp"
-          />
+            android:id="@+id/tv_notificationa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Notifications"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_notfication"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_notifications_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="change some informations of notificaions"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_notfication"
+            app:layout_constraintTop_toBottomOf="@id/tv_notificationa" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_behavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/constraint_notification"
-        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraint_notification">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_icon_behavior"
             android:layout_width="wrap_content"
@@ -181,39 +182,85 @@
             app:civ_border_width="2dp"
             app:flow_horizontalAlign="center"
             app:layout_collapseMode="none"
+            app:layout_constraintBottom_toBottomOf="@id/tv_app_behavior_info"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_app_behavior"
-            app:layout_constraintBottom_toBottomOf="@id/tv_app_behavior_info"/>
+            app:layout_constraintTop_toTopOf="@id/tv_app_behavior" />
 
         <TextView
             android:id="@+id/tv_app_behavior"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="App behavior"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@id/iv_icon_behavior"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
-            />
+            android:text="App behavior"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_behavior"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_app_behavior_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="change style and theme of app"
-            app:layout_constraintTop_toBottomOf="@id/tv_app_behavior"
-            app:layout_constraintStart_toEndOf="@id/iv_icon_behavior"
             android:layout_marginStart="16dp"
-            />
+            android:text="change style and theme of app"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_behavior"
+            app:layout_constraintTop_toBottomOf="@id/tv_app_behavior" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraint_behavior">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_icon_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
+            android:src="@drawable/ic_help"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
+            app:flow_horizontalAlign="center"
+            app:layout_collapseMode="none"
+            app:layout_constraintBottom_toBottomOf="@id/tv_help_info"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_help" />
+
+        <TextView
+            android:id="@+id/tv_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Help"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_help"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_help_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="help you to understand the app"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_help"
+            app:layout_constraintTop_toBottomOf="@id/tv_help" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageView
         android:id="@+id/iv_back"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
+        android:layout_margin="32dp"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="32dp"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
