@@ -3,86 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:padding="8dp"
     android:background="@color/transparent"
-    android:backgroundTint="@color/transparent">
+    android:backgroundTint="@color/transparent"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="8dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_citizen"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:elevation="0dp"
-                android:padding="1dp"
-                android:src="@drawable/sign_in_image"
-                app:civ_border_color="#FFFFFF"
-                app:civ_border_width="2dp"
-                app:flow_horizontalAlign="center"
-                app:layout_collapseMode="none"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_citizen"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@color/transparent"
+        android:elevation="0dp"
+        android:padding="1dp"
+        android:src="@drawable/sign_in_image"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        app:flow_horizontalAlign="center"
+        app:layout_collapseMode="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_citizen_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="32dp"
-                android:text="Name : "
-                android:textColor="#000"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tv_citizen_id"
-                app:layout_constraintStart_toEndOf="@id/iv_citizen"
-                app:layout_constraintTop_toTopOf="@id/iv_citizen"
-                app:layout_constraintVertical_chainStyle="packed" />
+    <TextView
+        android:id="@+id/tv_citizen_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="Name : "
+        android:textColor="#000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_citizen_id"
+        app:layout_constraintStart_toEndOf="@id/iv_citizen"
+        app:layout_constraintTop_toTopOf="@id/iv_citizen"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/tv_citizen_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="ID : "
-                android:textColor="@color/light_charcoal"
-                android:layout_marginBottom="32dp"
-                app:layout_constraintBottom_toBottomOf="@id/iv_citizen"
-                app:layout_constraintStart_toEndOf="@id/iv_citizen"
-                app:layout_constraintTop_toBottomOf="@+id/tv_citizen_name" />
+    <TextView
+        android:id="@+id/tv_citizen_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="ID : "
+        android:textColor="@color/light_charcoal"
+        app:layout_constraintBottom_toBottomOf="@id/iv_citizen"
+        app:layout_constraintStart_toEndOf="@id/iv_citizen"
+        app:layout_constraintTop_toBottomOf="@+id/tv_citizen_name" />
 
-            <TextView
-                android:id="@+id/tv_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textSize="14sp"
-                android:text="3/3"
-                android:textColor="@color/colorAccent"
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="3/3"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
 
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_state"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:backgroundTint="#000"
-                android:src="@drawable/ic_done"
-                app:layout_constraintTop_toTopOf="@id/tv_citizen_name"
-                app:layout_constraintStart_toStartOf="@id/tv_count"
-                app:layout_constraintEnd_toEndOf="@id/tv_count"
-                 />
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:backgroundTint="#000"
+        android:src="@drawable/ic_done"
+        app:layout_constraintEnd_toEndOf="@id/tv_count"
+        app:layout_constraintStart_toStartOf="@id/tv_count"
+        app:layout_constraintTop_toTopOf="@id/tv_citizen_name" />
 
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="48dp"
-                android:text=""
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_count"
-                app:layout_constraintEnd_toStartOf="@id/tv_count"
-                app:layout_constraintTop_toTopOf="@id/tv_count" />
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:text=""
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_count"
+        app:layout_constraintEnd_toStartOf="@id/tv_count"
+        app:layout_constraintTop_toTopOf="@id/tv_count" />
 </androidx.constraintlayout.widget.ConstraintLayout>

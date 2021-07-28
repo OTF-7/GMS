@@ -1,23 +1,19 @@
 package com.GMS.agent.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.GMS.R;
 import com.GMS.agent.activities.AgentActivity;
 import com.GMS.agent.helperClasses.CitizenItem;
+import com.GMS.databinding.CitizenItemRvBinding;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -84,19 +80,47 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         lstsFull = new ArrayList<>(items);
     }
 
+
     @NonNull
     @NotNull
     @Override
     public ViewHolderCitizen onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.citizen_item_rv, parent, false);
-        ViewHolderCitizen viewHolder = new ViewHolderCitizen(view);
-        return viewHolder;
+        return new ViewHolderCitizen(CitizenItemRvBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolderCitizen holder, int position) {
         CitizenItem item = items.get(position);
+        holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getCitizenName());
+        holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getCitizenId());
+        holder.mCitizenItemRvBinding.ivState.setImageResource(item.getIvStateResource());
+        holder.mCitizenItemRvBinding.tvPrice.setText("RY " + String.valueOf(item.getCountCylinder() * item.getPrice()));
+        holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getCountCylinder()));
+        if (items.get(position).isAcceptedState()) {
+            holder.mCitizenItemRvBinding.ivCitizen.setBorderColor(Color.GREEN);
+        }
+        holder.mCitizenItemRvBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (idList == AgentActivity.FULL_LIST_ID) {
+                    //code for accept the citizen
+                    int mPosition = holder.getAdapterPosition();
+                    items.get(position).setAcceptedState(true);
+                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
+                    selectedPosition = position;
+                    notifyDataSetChanged();
+                } else if (idList == AgentActivity.ACCEPTED_LIST_ID) {
+                    // code for deny thr citizen
+                    items.get(position).setAcceptedState(false);
+                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
+                    selectedPosition = position;
+
+                    notifyDataSetChanged();
+                }
+            }
+        });
+       /*
+
 
 
         holder.citizenName.setText(item.getCitizenName());
@@ -105,7 +129,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         holder.ivStatte.setImageResource(item.getIvStateResource());
         holder.price.setText("RY " + item.getCountCylinder() * item.getPrice());
         if (items.get(position).isAcceptedState()) {
-            holder.itemView.findViewById(R.id.iv_citizen).setBackground(AgentActivity.mAcceptedBackgroundImage);
+            holder.ivPersonlPic.setBorderColor(Color.GREEN);
         } else {
         }
 
@@ -131,6 +155,8 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         });
 
 
+
+        */
     }
 
     @Override
@@ -144,16 +170,12 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
     }
 
     class ViewHolderCitizen extends RecyclerView.ViewHolder {
-        TextView citizenName, citizenId, count, price;
-        ImageView ivStatte;
+        CitizenItemRvBinding mCitizenItemRvBinding;
 
-        public ViewHolderCitizen(@NonNull @NotNull View itemView) {
-            super(itemView);
-            citizenName = itemView.findViewById(R.id.tv_citizen_name);
-            citizenId = itemView.findViewById(R.id.tv_citizen_id);
-            count = itemView.findViewById(R.id.tv_count);
-            ivStatte = itemView.findViewById(R.id.iv_state);
-            price = itemView.findViewById(R.id.tv_price);
+        public ViewHolderCitizen(CitizenItemRvBinding mCitizenItemRvBinding) {
+            super(mCitizenItemRvBinding.getRoot());
+            this.mCitizenItemRvBinding = mCitizenItemRvBinding;
         }
     }
-}
+    }
+
