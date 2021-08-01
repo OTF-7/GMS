@@ -80,7 +80,6 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         lstsFull = new ArrayList<>(items);
     }
 
-
     @NonNull
     @NotNull
     @Override
@@ -94,7 +93,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getCitizenName());
         holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getCitizenId());
         holder.mCitizenItemRvBinding.ivState.setImageResource(item.getIvStateResource());
-        holder.mCitizenItemRvBinding.tvPrice.setText("RY " + String.valueOf(item.getCountCylinder() * item.getPrice()));
+        holder.mCitizenItemRvBinding.tvPrice.setText("RY " + item.getCountCylinder() * item.getPrice());
         holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getCountCylinder()));
         if (items.get(position).isAcceptedState()) {
             holder.mCitizenItemRvBinding.ivCitizen.setBorderColor(Color.GREEN);
@@ -177,5 +176,5 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
             this.mCitizenItemRvBinding = mCitizenItemRvBinding;
         }
     }
-    }
+}
 

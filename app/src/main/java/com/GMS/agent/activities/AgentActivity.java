@@ -1,6 +1,6 @@
 package com.GMS.agent.activities;
 
-import android.content.res.Resources;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
+import com.GMS.SettingActivity;
 import com.GMS.agent.adapters.ItemClickListener;
 import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
 import com.GMS.agent.helperClasses.CitizenItem;
@@ -37,13 +39,14 @@ public class AgentActivity extends AppCompatActivity {
     private RecyclerViewAdapterCitizen fullRVAdapter;
     private RecyclerViewAdapterCitizen acceptedRVAdapter;
     private ItemClickListener mItemClickListener;
-    public   static Drawable mAcceptedBackgroundImage ;
+    public static Drawable mAcceptedBackgroundImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityAgentBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        mAcceptedBackgroundImage=getDrawable(R.drawable.accpted_image_background_shape);
+        mAcceptedBackgroundImage = getDrawable(R.drawable.accpted_image_background_shape);
         // change color of status bar color
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
@@ -162,7 +165,7 @@ public class AgentActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mBinding=null;
+        mBinding = null;
     }
 
     @Override
@@ -192,4 +195,13 @@ public class AgentActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.setting_item:
+                Intent intent = new Intent(this.getBaseContext(), SettingActivity.class);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

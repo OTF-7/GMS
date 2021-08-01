@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.GMS">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,17 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingActivity">
-
-        </activity>
+        <activity android:name=".QRScannerActivity"></activity>
+        <activity android:name=".SettingActivity"></activity>
         <activity android:name=".aqel.activities.AddCitizenActivity" />
-        <activity android:name=".aqel.activities.AqelActivity">
-
-        </activity>
+        <activity android:name=".aqel.activities.AqelActivity"></activity>
         <activity android:name=".representative.activities.AdditionRequestsActivity" />
-        <activity android:name=".agent.activities.AgentActivity">
-
-        </activity>
+        <activity android:name=".agent.activities.AgentActivity"></activity>
         <activity android:name=".manager.activities.ManagerActivity" />
         <activity android:name=".login.activities.LoginActivity">
             <intent-filter>
@@ -34,6 +40,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
     </application>
 
 </manifest>

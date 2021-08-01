@@ -1,5 +1,6 @@
 package com.GMS.aqel.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.aqel.adapters.ViewPager2AqelAdapter;
 import com.GMS.databinding.ActivityAqelBinding;
@@ -66,11 +68,18 @@ public class AqelActivity extends AppCompatActivity {
             }
 
         });
+        mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mBinding=null;
+        mBinding = null;
     }
 }

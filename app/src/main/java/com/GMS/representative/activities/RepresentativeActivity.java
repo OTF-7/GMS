@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.GMS.R;
+import com.GMS.SettingActivity;
 import com.GMS.databinding.ActivityRepresentativeBinding;
 import com.GMS.representative.adapters.MainAdapter;
 import com.GMS.representative.adapters.ViewPager2Adapter;
@@ -137,7 +138,8 @@ public class RepresentativeActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.setting_item:
-                Toast.makeText(getBaseContext(), item.getTitle().toString(), Toast.LENGTH_SHORT).show();
+                  Intent intent = new Intent(mBinding.getRoot().getContext() , SettingActivity.class);
+                  startActivity(intent);
                 break;
 
             case R.id.notification_addition:

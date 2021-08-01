@@ -30,11 +30,33 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             }
         });
+        mBinding.constraintBehavior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "Behaviour Constraint", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        mBinding.constraintNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "Notifications Constraint", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        mBinding.constraintHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "Help Constraint", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mBinding=null;
+        mBinding = null;
     }
 }
