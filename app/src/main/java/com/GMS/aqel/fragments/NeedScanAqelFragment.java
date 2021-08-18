@@ -2,6 +2,12 @@ package com.GMS.aqel.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,14 +15,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.GMS.R;
 import com.GMS.SettingActivity;
@@ -31,9 +29,10 @@ import java.util.ArrayList;
 
 public class NeedScanAqelFragment extends Fragment {
 
+    public static final int FRAGMENT_ID = 1;
     FragmentNeedScanAqelBinding mBinding;
-    RecyclerViewAqelAdapter adapter ;
-    public static final int FRAGMENT_ID=1;
+    RecyclerViewAqelAdapter adapter;
+
     public NeedScanAqelFragment() {
         // Required empty public constructor
     }
@@ -43,17 +42,17 @@ public class NeedScanAqelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mBinding = FragmentNeedScanAqelBinding.inflate(inflater , container , false);
+        mBinding = FragmentNeedScanAqelBinding.inflate(inflater, container, false);
 
         ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar Taha" , "45d55d45s55g" , 3 ,R.drawable.ic_qr_need_scan ));
-        items.add(new CitizenItemOfAqel("Abubaker Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Mohammed Shihab" , "45d55d45s55g" ,  3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar swaid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Hasan Someeri" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Abdulrahman Khalid", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Omar Taha", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Abubaker Khalid", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Mohammed Shihab", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Omar swaid", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Hasan Someeri", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
 
-        adapter = new RecyclerViewAqelAdapter(items , FRAGMENT_ID);
+        adapter = new RecyclerViewAqelAdapter(items, FRAGMENT_ID);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBinding.rvNeedScanFragment.setHasFixedSize(true);
         mBinding.rvNeedScanFragment.setLayoutManager(layoutManager);
@@ -71,7 +70,7 @@ public class NeedScanAqelFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_aqel_top_bar, menu);
         MenuItem searchItem = menu.findItem(R.id.search_ic);
-        SearchView searchView= (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -92,14 +91,13 @@ public class NeedScanAqelFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
-        switch(item.getItemId())
-        {
-            case R.id.add_citizen :
-                Intent mAddCitizenIntent = new Intent(this.getActivity()  , AddCitizenActivity.class);
+        switch (item.getItemId()) {
+            case R.id.add_citizen:
+                Intent mAddCitizenIntent = new Intent(this.getActivity(), AddCitizenActivity.class);
                 startActivity(mAddCitizenIntent);
                 break;
             case R.id.setting_item:
-                Intent mSettingIntent = new Intent(this.getActivity() , SettingActivity.class);
+                Intent mSettingIntent = new Intent(this.getActivity(), SettingActivity.class);
                 startActivity(mSettingIntent);
                 break;
         }

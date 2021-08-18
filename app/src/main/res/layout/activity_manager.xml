@@ -12,21 +12,21 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
-        android:theme="@style/AppTheme"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tool_bar_id"
+            android:id="@+id/action_toolbar"
             style="@style/AppBarTheme"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/shape_top_action_bar"
             app:menu="@menu/top_action_bar_menu"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="Stations"
+            app:title="Actions"
             app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -37,16 +37,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="60dp"
-        app:defaultNavHost="true"
         android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/conr"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="@id/mgrCoordinatorLayoutRoot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout"
         app:navGraph="@navigation/manager_nav" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/conr"
+        android:id="@+id/mgrCoordinatorLayoutRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -2,6 +2,8 @@ package com.GMS.manager.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,14 +13,45 @@ import com.GMS.manager.models.Employees;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeesAdapter extends RecyclerView.Adapter<EmployeesAdapter.EmployeeViewHolder> {
+public class EmployeesAdapter extends RecyclerView.Adapter<EmployeesAdapter.EmployeeViewHolder> implements Filterable {
 
-    private List<Employees> mEmployeesList;
+    private List<Employees> mEmployeesList, mFullEmployeesList;
+    private Filter employeesFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            String searchText = constraint.toString().toLowerCase();
+            ArrayList<Employees> temporaryEmployeesList = new ArrayList<>();
+
+            if (searchText.isEmpty())
+                temporaryEmployeesList.addAll(mFullEmployeesList);
+            else {
+                for (Employees employees : mFullEmployeesList) {
+                    if (employees.getEmployeeName().toLowerCase().contains(searchText)) {
+                        temporaryEmployeesList.add(employees);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = temporaryEmployeesList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            mEmployeesList.clear();
+            mEmployeesList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public EmployeesAdapter(List<Employees> employeesList) {
         this.mEmployeesList = employeesList;
+        this.mFullEmployeesList = new ArrayList<>(employeesList);
     }
 
     @NonNull
@@ -43,6 +76,11 @@ public class EmployeesAdapter extends RecyclerView.Adapter<EmployeesAdapter.Empl
     @Override
     public int getItemCount() {
         return mEmployeesList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return employeesFilter;
     }
 
     public static class EmployeeViewHolder extends RecyclerView.ViewHolder {

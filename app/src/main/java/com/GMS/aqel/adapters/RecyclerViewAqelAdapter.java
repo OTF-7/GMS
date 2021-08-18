@@ -18,16 +18,8 @@ import java.util.Collection;
 
 public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAqelAdapter.ViewHolderCitizen> implements Filterable {
 
-    ArrayList<CitizenItemOfAqel> lstsCitizen;
-    ArrayList<CitizenItemOfAqel> lstsFull;
+    ArrayList<CitizenItemOfAqel> listsCitizen, listsFull;
     int typeOfPage;
-
-    public RecyclerViewAqelAdapter(ArrayList<CitizenItemOfAqel> lstsCitizen, int typeOfPage) {
-        this.lstsCitizen = lstsCitizen;
-        this.typeOfPage = typeOfPage;
-        this.lstsFull = new ArrayList<>(lstsCitizen);
-    }
-
     private Filter filterUser = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -35,9 +27,9 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
             ArrayList<CitizenItemOfAqel> tempLst = new ArrayList<>();
 
             if (searchText.isEmpty())
-                tempLst.addAll(lstsFull);
+                tempLst.addAll(listsFull);
             else {
-                for (CitizenItemOfAqel item : lstsFull) {
+                for (CitizenItemOfAqel item : listsFull) {
                     if (item.getCitizenName().toLowerCase().contains(searchText)) {
                         tempLst.add(item);
                     }
@@ -51,11 +43,17 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            lstsCitizen.clear();
-            lstsCitizen.addAll((Collection<? extends CitizenItemOfAqel>) results.values);
+            listsCitizen.clear();
+            listsCitizen.addAll((Collection<? extends CitizenItemOfAqel>) results.values);
             notifyDataSetChanged();
         }
     };
+
+    public RecyclerViewAqelAdapter(ArrayList<CitizenItemOfAqel> lstsCitizen, int typeOfPage) {
+        this.listsCitizen = lstsCitizen;
+        this.typeOfPage = typeOfPage;
+        this.listsFull = new ArrayList<>(lstsCitizen);
+    }
 
     @NonNull
     @NotNull
@@ -67,7 +65,7 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
 
     @Override
     public int getItemCount() {
-        return lstsCitizen.size();
+        return listsCitizen.size();
     }
 
     @Override
@@ -78,7 +76,7 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolderCitizen holder, int position) {
 
-        CitizenItemOfAqel item = lstsCitizen.get(position);
+        CitizenItemOfAqel item = listsCitizen.get(position);
 
         holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getCitizenName());
         holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getCitizenId());
