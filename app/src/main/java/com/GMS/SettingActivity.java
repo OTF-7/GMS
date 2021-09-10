@@ -1,9 +1,11 @@
 package com.GMS;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.GMS.databinding.ActivitySettingBinding;
@@ -17,6 +19,9 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivitySettingBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        setSupportActionBar(mBinding.toolBarSetting);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
         mBinding.constraintAccout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +57,17 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

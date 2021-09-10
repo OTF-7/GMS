@@ -1,10 +1,16 @@
 package com.GMS.aqel.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -13,6 +19,7 @@ import com.GMS.R;
 import com.GMS.aqel.adapters.ViewPager2AqelAdapter;
 import com.GMS.databinding.ActivityAqelBinding;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class AqelActivity extends AppCompatActivity {
 
@@ -82,4 +89,5 @@ public class AqelActivity extends AppCompatActivity {
         super.onDestroy();
         mBinding = null;
     }
+
 }

@@ -31,7 +31,7 @@
                 android:textColor="@color/Charcoal"
                 android:textSize="24sp"
                 app:drawableTint="@color/CG_Blue"
-                app:layout_constraintBottom_toTopOf="@+id/action_repName"
+                app:layout_constraintBottom_toTopOf="@+id/action_rep_name"
                 app:layout_constraintEnd_toStartOf="@+id/action_date"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -51,11 +51,11 @@
                 android:textColor="@color/Gunmetal"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/action_repName"
-                app:layout_constraintTop_toBottomOf="@+id/action_repName" />
+                app:layout_constraintStart_toStartOf="@+id/action_rep_name"
+                app:layout_constraintTop_toBottomOf="@+id/action_rep_name" />
 
             <TextView
-                android:id="@+id/action_repName"
+                android:id="@+id/action_rep_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

@@ -1,60 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".QRScannerActivity">
 
-<!--
-    <SurfaceView
-        android:id="@+id/surface_view"
+
+    <me.dm7.barcodescanner.zxing.ZXingScannerView
+        android:id="@+id/zxing_scanner_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/view_shape_center"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:background="@drawable/qr_scanner_shape"
-        app:layout_constraintBottom_toBottomOf="@id/tv_value_of_scanner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_value_of_scanner"
+    <ImageButton
+        android:id="@+id/i_btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="hhhhh"
-        app:layout_constraintBottom_toTopOf="@id/btn_accept"
-        app:layout_constraintEnd_toEndOf="@id/btn_cancel"
-        app:layout_constraintStart_toStartOf="@id/btn_accept" />
+        android:background="@color/transparent"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/cancel_icon"
+        app:layout_constraintEnd_toEndOf="@id/zxing_scanner_view"
+        app:layout_constraintTop_toTopOf="@id/zxing_scanner_view" />
 
-    <Button
-        android:id="@+id/btn_accept"
+    <ImageButton
+        android:id="@+id/i_btn_flash_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accept"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_margin="16dp"
+        android:background="@color/transparent"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_flash_off"
+        app:layout_constraintBottom_toBottomOf="@id/i_btn_cancel"
+        app:layout_constraintEnd_toStartOf="@id/i_btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/i_btn_cancel" />
+    <!--
+        <SurfaceView
+            android:id="@+id/surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_accept" />
--->
+        <View
+            android:id="@+id/view_shape_center"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/qr_scanner_shape"
+            app:layout_constraintBottom_toBottomOf="@id/tv_value_of_scanner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_value_of_scanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="hhhhh"
+            app:layout_constraintBottom_toTopOf="@id/btn_accept"
+            app:layout_constraintEnd_toEndOf="@id/btn_cancel"
+            app:layout_constraintStart_toStartOf="@id/btn_accept" />
+
+        <Button
+            android:id="@+id/btn_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_accept" />
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>

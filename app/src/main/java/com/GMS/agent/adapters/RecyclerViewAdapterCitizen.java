@@ -36,7 +36,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
             } else {
                 for (CitizenItem item : lstsFull) {
 
-                    if (item.getCitizenName().toLowerCase().contains(searchText)) {
+                    if (item.getCitizenName().toLowerCase().contains(searchText) || item.getCitizenId().toLowerCase().contains(searchText)) {
 
                         tempLst.add(item);
                     }
@@ -118,44 +118,7 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
                 }
             }
         });
-       /*
 
-
-
-        holder.citizenName.setText(item.getCitizenName());
-        holder.citizenId.setText(item.getCitizenId());
-        holder.count.setText(String.valueOf(item.getCountCylinder()));
-        holder.ivStatte.setImageResource(item.getIvStateResource());
-        holder.price.setText("RY " + item.getCountCylinder() * item.getPrice());
-        if (items.get(position).isAcceptedState()) {
-            holder.ivPersonlPic.setBorderColor(Color.GREEN);
-        } else {
-        }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (idList == AgentActivity.FULL_LIST_ID) {
-                    //code for accept the citizen
-                    int mPosition = holder.getAdapterPosition();
-                    items.get(position).setAcceptedState(true);
-                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
-                    selectedPosition = position;
-                    notifyDataSetChanged();
-                } else if (idList == AgentActivity.ACCEPTED_LIST_ID) {
-                    // code for deny thr citizen
-                    items.get(position).setAcceptedState(false);
-                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
-                    selectedPosition = position;
-
-                    notifyDataSetChanged();
-                }
-            }
-        });
-
-
-
-        */
     }
 
     @Override

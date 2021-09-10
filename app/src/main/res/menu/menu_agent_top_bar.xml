@@ -16,6 +16,11 @@
         app:showAsAction="never"
         />
     <item
+        android:id="@+id/history_item"
+        android:title="History"
+        app:showAsAction="never"
+        />
+    <item
         android:id="@+id/cylinder_recieve_item"
         android:title="Cylinder Recieve"
         app:showAsAction="never"

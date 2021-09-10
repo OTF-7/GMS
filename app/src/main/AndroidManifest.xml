@@ -20,12 +20,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QRScannerActivity"></activity>
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".AccountEditActivity" />
+        <activity android:name=".QRScannerActivity" />
+        <activity android:name=".SettingActivity" />
         <activity android:name=".aqel.activities.AddCitizenActivity" />
-        <activity android:name=".aqel.activities.AqelActivity"></activity>
+        <activity android:name=".aqel.activities.AqelActivity" />
         <activity android:name=".representative.activities.AdditionRequestsActivity" />
-        <activity android:name=".agent.activities.AgentActivity"></activity>
+        <activity android:name=".agent.activities.AgentActivity" />
         <activity android:name=".manager.activities.ManagerActivity" />
         <activity android:name=".login.activities.LoginActivity">
             <intent-filter>

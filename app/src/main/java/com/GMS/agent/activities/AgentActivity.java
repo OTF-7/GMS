@@ -16,6 +16,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.HistoryActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.agent.adapters.ItemClickListener;
@@ -35,6 +36,7 @@ public class AgentActivity extends AppCompatActivity {
     private final ArrayList<CitizenItem> acceptedCitizenList = new ArrayList<>();
     private final int countOfAcceptedCitizens = 0;
     Color doneColor;
+    private static boolean searchAllaw = false;
     private ActivityAgentBinding mBinding;
     private RecyclerViewAdapterCitizen fullRVAdapter;
     private RecyclerViewAdapterCitizen acceptedRVAdapter;
@@ -86,12 +88,12 @@ public class AgentActivity extends AppCompatActivity {
         });
 
 
-        fullCitizenList.add(new CitizenItem("Abdulrahman Khalid", "45d55d45s55g", 3, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Abubaker Khalid", "45d55d45s55g", 4, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Omar Taha", "45d55d45s55g", 1, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Mohammed Shihab", "45d55d45s55g", 2, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Omar Swaid", "45d55d45s55g", 5, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("hasan Someeri", "45d55d45s55g", 3, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Abdulrahman Khalid", "45ssad5", 3, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Abubaker Khalid", "32dsaa2", 4, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Omar Taha", "48000", 1, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Mohammed Shihab", "ahjtr5", 2, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("Omar Swaid", "abcde1", 5, 0, 3700.0, false));
+        fullCitizenList.add(new CitizenItem("hasan Someeri", "32514ad", 3, 0, 3700.0, false));
         mItemClickListener = new ItemClickListener() {
             @Override
             public void onClick(int position, boolean state) {
@@ -123,6 +125,7 @@ public class AgentActivity extends AppCompatActivity {
 
     private void intiAcceptedRVList() {
         if (acceptedCitizenList.size() != 0) {
+            searchAllaw = true;
             mBinding.rvAcceptedCitizen.setVisibility(View.VISIBLE);
             mBinding.tvAcceptedCitizen.setVisibility(View.VISIBLE);
             acceptedRVAdapter = new RecyclerViewAdapterCitizen(acceptedCitizenList, getBaseContext(), mItemClickListener, ACCEPTED_LIST_ID);
@@ -131,6 +134,7 @@ public class AgentActivity extends AppCompatActivity {
             mBinding.rvAcceptedCitizen.setLayoutManager(layoutManager);
             mBinding.rvAcceptedCitizen.setAdapter(acceptedRVAdapter);
         } else {
+            searchAllaw = false;
             mBinding.rvAcceptedCitizen.setVisibility(View.GONE);
             mBinding.tvAcceptedCitizen.setVisibility(View.GONE);
         }
@@ -178,14 +182,21 @@ public class AgentActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                fullRVAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                fullRVAdapter.getFilter().filter(newText);
-                acceptedRVAdapter.getFilter().filter(newText);
+
+                if (!searchAllaw) {
+                    fullRVAdapter.getFilter().filter(newText);
+                } else {
+                    fullRVAdapter.getFilter().filter(newText);
+                    acceptedRVAdapter.getFilter().filter(newText);
+
+                }
+
+
                 return false;
             }
 
@@ -199,8 +210,14 @@ public class AgentActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.setting_item:
-                Intent intent = new Intent(this.getBaseContext(), SettingActivity.class);
-                startActivity(intent);
+                Intent intentSetting = new Intent(this.getBaseContext(), SettingActivity.class);
+                startActivity(intentSetting);
+                break;
+            case R.id.history_item:
+                Intent intentHistory = new Intent(this.getBaseContext(), HistoryActivity.class);
+                startActivity(intentHistory);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }

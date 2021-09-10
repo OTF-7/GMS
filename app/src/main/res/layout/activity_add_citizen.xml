@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login_nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:scrollbarStyle="insideOverlay"
-    android:scrollbars="vertical"
-    android:layout_marginTop="16dp"
-    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     tools:context=".aqel.activities.AddCitizenActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/top_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/AppTheme"
+        android:background="@android:color/transparent"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar_add_citizen"
+            android:layout_width="match_parent"
+            app:title="Add Citizen"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/top_bar_agent_shape"
+            app:titleTextColor="@color/white"
+            android:foregroundTint="@color/white"
+            style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/add_citizen_nestedScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="insideOverlay"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout"
+        >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:padding="16dp"
+    >
         <ImageView
             android:id="@+id/iv_document_photo"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_margin="8dp"
             android:elevation="8dp"
             android:padding="64dp"
-            android:layout_margin="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_document"
             android:tintMode="src_in"
@@ -35,14 +67,14 @@
             android:id="@+id/tv_take_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/simple_text_view_shape"
             android:drawableStart="@drawable/ic_camera"
             android:drawablePadding="-24dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:paddingStart="16dp"
             android:padding="2dp"
+            android:paddingStart="16dp"
             android:text="take pictture of document"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/iv_document_photo"
@@ -55,11 +87,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:hint="Citizen Name"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
             app:endIconMode="clear_text"
             app:helperTextTextColor="#FF0000"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,8 +126,8 @@
                 android:id="@+id/et_number_of_family"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="2"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="2" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -118,8 +150,8 @@
                 android:id="@+id/et_number_of_cylinders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="1"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -145,15 +177,16 @@
                 android:inputType="textAutoComplete"
                 android:maxLength="20" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_add"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:background="@drawable/tab_indictor"
+            android:clickable="true"
             android:text="add"
             android:textColor="@color/white"
-            android:layout_margin="16dp"
-            android:clickable="true"
             app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -164,14 +197,15 @@
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:background="@drawable/tab_indictor"
             android:backgroundTint="@color/light_red"
             android:text="cancel"
             android:textColor="@color/white"
-            android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btn_add"
             app:layout_constraintTop_toBottomOf="@id/neighborhood_name_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>

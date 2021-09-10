@@ -5,7 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingActivity">
-
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/top_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/AppTheme"
+        android:background="@android:color/transparent"
+        >
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar_setting"
+        android:layout_width="match_parent"
+        app:title="Setting"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/top_bar_agent_shape"
+        app:titleTextColor="@color/white"
+        android:foregroundTint="@color/white"
+        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+        />
+    </com.google.android.material.appbar.AppBarLayout>
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_account"
         android:layout_width="64dp"
@@ -18,10 +38,11 @@
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="2dp"
         app:flow_horizontalAlign="center"
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout"
         app:layout_collapseMode="none"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
     <TextView
         android:id="@+id/tv_account_name"

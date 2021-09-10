@@ -1,8 +1,10 @@
 package com.GMS.aqel.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
@@ -22,7 +24,9 @@ public class AddCitizenActivity extends AppCompatActivity {
         mBinding = ActivityAddCitizenBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        setSupportActionBar(mBinding.toolBarAddCitizen);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String  []array = getResources().getStringArray(R.array.items_array);
         ArrayAdapter mAdapter = new ArrayAdapter(getBaseContext() , R.layout.spinner_item , array);
@@ -40,6 +44,18 @@ public class AddCitizenActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

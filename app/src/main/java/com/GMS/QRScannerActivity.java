@@ -2,127 +2,84 @@ package com.GMS;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.GMS.databinding.ActivityQrscannerBinding;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QRScannerActivity extends AppCompatActivity /*implements Detector.Processor */ implements ZXingScannerView.ResultHandler {
 
-    ActivityQrscannerBinding mBinding;
-    BarcodeDetector mBarcodeDetector;
-    CameraSource mCameraSource;
-    ZXingScannerView mZXingScannerView;
+    private ActivityQrscannerBinding mBinding;
+    private BarcodeDetector mBarcodeDetector;
+    private CameraSource mCameraSource;
+    private ZXingScannerView mZXingScannerView;
     final static int CAMERA_PERMISSION = 1024;
+    private TextInputEditText textInputEditTextQTY;
+    private Dialog mDialog;
+    private static String idCitizen;
+    private static int Qty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mZXingScannerView = new ZXingScannerView(getLayoutInflater().getContext());
+        //mZXingScannerView = new ZXingScannerView(getLayoutInflater().getContext());
         mBinding = ActivityQrscannerBinding.inflate(getLayoutInflater());
-        mZXingScannerView = new ZXingScannerView(mBinding.getRoot().getContext());
-        setContentView(mZXingScannerView);
-        /*
-        mBarcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.ALL_FORMATS).build();
-        mBarcodeDetector.setProcessor(this);
-        mCameraSource = new CameraSource.Builder(getApplicationContext() , mBarcodeDetector).setRequestedPreviewSize(1024 , 768).setAutoFocusEnabled(true).build();
-        final Activity activity = this;
-         */
-        /*
-        mBinding.surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+        setContentView(mBinding.getRoot());
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        createDialog();
+
+
+        mBinding.iBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-                try {
-
-                if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)
-                {
-                    ActivityCompat.requestPermissions(activity , new String[]{Manifest.permission.CAMERA} , CAMERA_PERMISSION);
-                    Toast.makeText(mBinding.getRoot().getContext() , "if" , Toast.LENGTH_SHORT).show();
-
-                    return;
-                }
-                mCameraSource.start(mBinding.surfaceView.getHolder());
-
-                }
-                catch (Exception ex)
-                {
-                    Log.e("camera start problem" , ex.getMessage());
-                }
-
-            }
-
-            @Override
-            public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-                mCameraSource.stop();
+            public void onClick(View view) {
+                finish();
             }
         });
 
-         */
-    }
-
-    /*
-        @Override
-        public void release() {
-
-        }
-
-     */
-/*
-    @Override
-    public void receiveDetections(Detector.Detections detections) {
-        SparseArray<Barcode> mBarcodes = detections.getDetectedItems();
-        StringBuilder mStringBuilder = new StringBuilder();
-        if(mBarcodes.size() != 0)
-        {
-
-            for(int i=0 ; i<mBarcodes.size()  ; i++)
-            {
-                mStringBuilder.append(mBarcodes.valueAt(i).rawValue).append("\n");
+        mBinding.iBtnFlashSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBinding.zxingScannerView.getFlash()) {
+                    mBinding.iBtnFlashSwitch.setImageResource(R.drawable.ic_flash_off);
+                    mBinding.zxingScannerView.setFlash(false);
+                } else {
+                    mBinding.iBtnFlashSwitch.setImageResource(R.drawable.ic_flash_on);
+                    mBinding.zxingScannerView.setFlash(true);
+                }
             }
-
-        }
-       mBinding.tvValueOfScanner.post(new Runnable() {
-           @Override
-           public void run() {
-               if(mStringBuilder.length()>0) {
-                   /
-                   mBinding.tvValueOfScanner.setText(mStringBuilder.toString());
-                   mCameraSource.stop();
-                   mBinding.surfaceView.setVisibility(View.INVISIBLE);
-               }
-
-           }
-       });
-
-
-
+        });
     }
 
 
- */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case CAMERA_PERMISSION:
                 if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startQRScanner();
                 } else {
                     finish();
                 }
@@ -132,15 +89,30 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
 
     @Override
     public void handleResult(Result result) {
-
-        Toast.makeText(getApplicationContext(), result.getText().toString(), Toast.LENGTH_SHORT).show();
-        onBackPressed();
+        idCitizen = result.getText();
+        //Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
+        showDialog();
+        // onBackPressed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        //mZXingScannerView.stopCamera();
+        mBinding.zxingScannerView.stopCamera();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        /*
+        * from java code
         mZXingScannerView.stopCamera();
+        mZXingScannerView = null;
+        mBinding=null;
+         */
+        mBinding.zxingScannerView.stopCamera();
+        mBinding = null;
     }
 
     @Override
@@ -170,7 +142,43 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
     }
 
     private void startQRScanner() {
-        mZXingScannerView.setResultHandler(this);
-        mZXingScannerView.startCamera();
+        mBinding.zxingScannerView.setResultHandler(this);
+        mBinding.zxingScannerView.startCamera();
+        mBinding.zxingScannerView.setAutoFocus(true);
+        mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.QR_CODE));
+
+    }
+
+    private void showDialog() {
+        mDialog.show();
+        mDialog.findViewById(R.id.close_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
+        mDialog.findViewById(R.id.btn_accept).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acceptData();
+            }
+        });
+    }
+
+    private void createDialog() {
+        mDialog = new Dialog(mBinding.getRoot().getContext());
+        mDialog.setContentView(R.layout.accept_qr_scanner_dialoge);
+        mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        Window window = mDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations = R.style.DialogAnimation;
+        mDialog.setCancelable(true);
+        textInputEditTextQTY = mDialog.findViewById(R.id.quantity_text_input);
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void acceptData() {
+        Qty = Integer.valueOf(textInputEditTextQTY.getText().toString());
+        Toast.makeText(mBinding.getRoot().getContext(), idCitizen + "have " + "\n" + Qty, Toast.LENGTH_SHORT).show();
     }
 }
