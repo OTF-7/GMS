@@ -2,6 +2,8 @@ package com.GMS.manager.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,14 +13,45 @@ import com.GMS.manager.models.Stations;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHolder> {
+public class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHolder> implements Filterable {
 
-    private List<Stations> mStationsList;
+    private List<Stations> mStationsList, mFullStationsList;
+    private Filter stationsFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            String searchText = constraint.toString().toLowerCase();
+            ArrayList<Stations> temporaryStationsList = new ArrayList<>();
+
+            if (searchText.isEmpty())
+                temporaryStationsList.addAll(mFullStationsList);
+            else {
+                for (Stations stations : mFullStationsList) {
+                    if (stations.getStationName().toLowerCase().contains(searchText)) {
+                        temporaryStationsList.add(stations);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = temporaryStationsList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            mStationsList.clear();
+            mStationsList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public StationsAdapter(List<Stations> stationsList) {
         this.mStationsList = stationsList;
+        mFullStationsList = new ArrayList<>(stationsList);
     }
 
     @NonNull
@@ -37,6 +70,11 @@ public class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.Statio
     @Override
     public int getItemCount() {
         return mStationsList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return stationsFilter;
     }
 
     public static class StationViewHolder extends RecyclerView.ViewHolder {

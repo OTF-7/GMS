@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mainBinding.getRoot());
 
 
+
  /*       pager = findViewById(R.id.pager);
         loginViewPagerAdapter = new LoginViewPagerAdapter(getSupportFragmentManager(), 1);
         pager.setAdapter(loginViewPagerAdapter);*/

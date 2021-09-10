@@ -21,8 +21,11 @@ public class ManagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         mManagerBinding = ActivityManagerBinding.inflate(getLayoutInflater());
         setContentView(mManagerBinding.getRoot());
+        setSupportActionBar(mManagerBinding.actionToolbar);
+
         NavHostFragment mNavHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         if (mNavHostFragment == null) {
             mNavController = mNavHostFragment.getNavController();
@@ -30,7 +33,12 @@ public class ManagerActivity extends AppCompatActivity {
         mNavController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         NavigationUI.setupWithNavController(mManagerBinding.managerBottomNavigationView, mNavController);
-
+        mManagerBinding.managerBottomNavigationView.setOnItemSelectedListener(item -> {
+            mManagerBinding.actionToolbar.setTitle(item.getTitle());
+            mNavController.navigateUp();
+            mNavController.navigate(item.getItemId());
+            return true;
+        });
     }
 
     @Override

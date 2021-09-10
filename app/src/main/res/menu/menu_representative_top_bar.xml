@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/notification_addition"
+        android:actionLayout="@layout/notification_layout"
         android:icon="@drawable/ic_notification_addition"
         android:title="notification addition"
-        app:showAsAction="always"
-        android:actionLayout="@layout/notification_layout"
-        />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/setting_item"
         android:title="Setting"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
 </menu>

@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tool_bar_id"
+            android:id="@+id/action_toolbar"
             style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
