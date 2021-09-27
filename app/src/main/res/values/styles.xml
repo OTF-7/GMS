@@ -10,6 +10,7 @@
     </style>
 
     // for color of items and icons into top bar
+
     <style name="IconOverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
     </style>
@@ -55,4 +56,5 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
+
 </resources>

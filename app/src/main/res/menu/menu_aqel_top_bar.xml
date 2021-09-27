@@ -9,17 +9,17 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
     <item
-        android:id="@+id/notification_addition"
+        android:id="@+id/notification"
         android:icon="@drawable/ic_notification_addition"
         android:title="notification addition"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/add_citizen"
-        android:title="Add citizen"
+        android:title="@string/add_citizen"
         app:showAsAction="never" />
     <item
         android:id="@+id/setting_item"
-        android:title="Setting"
+        android:title="@string/settings"
         app:showAsAction="never" />
 </menu>

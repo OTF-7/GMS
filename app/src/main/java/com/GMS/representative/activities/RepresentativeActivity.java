@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.GMS.IDOfLayout;
+import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.databinding.ActivityRepresentativeBinding;
@@ -81,6 +83,16 @@ public class RepresentativeActivity extends AppCompatActivity {
             }
 
         });
+        mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mBinding.tabLayoutRepresentative.getSelectedTabPosition()==0) {
+                    Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
+                    intent.putExtra(IDOfLayout.ACTIVITY.toString() , IDOfLayout.REPNEEDSCAN.toString());
+                    startActivity(intent);
+                }
+            }
+        });
 
         /*
         mAdapter = new MainAdapter(getSupportFragmentManager());
@@ -106,7 +118,7 @@ public class RepresentativeActivity extends AppCompatActivity {
     private void checkNotification() {
 
 
-        if (pendingNotification == 0) {
+        if (pendingNotification <=0) {
             mMenuItemNotification.setActionView(null);
         } else {
             mMenuItemNotification.setActionView(R.layout.notification_layout);

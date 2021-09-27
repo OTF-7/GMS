@@ -11,7 +11,7 @@
     <string name="Close">Close</string>
     <string name="aqel_name">Aqel Name</string>
     <string name="agent_name">Agent Name</string>
-    <string name="station_name">station Name</string>
+    <string name="station_name">station Name</string>01
     <string name="cotroler_header_card_view">hide</string>
     <string-array name="items_array">
         <item>AL_kornish</item>
@@ -21,4 +21,46 @@
     </string-array>
     <string name="need_scan">Need Scan</string>
     <string name="verified">Verified</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="first_name">first name</string>
+    <string name="second_name">second name</string>
+    <string name="last_name">last name</string>
+    <string name="family_member">family member</string>
+    <string name="cylinders_qty">cylinders qty</string>
+    <string name="neighborhood_name">neighborhood name</string>
+    <string name="take_shot_document">take picture for document</string>
+    <string name="information">information</string>
+    <string name="address">Address : </string>
+    <string name="phone_number">phone number</string>
+    <string name="okay">okay</string>
+    <string name="see_document">سee document</string>
+    <string name="confirm">Confirm</string>
+    <string name="regret">Regret</string>
+    <string name="settings">Settings</string>
+    <string name="account">Account</string>
+    <string name="change_some_information_of_account">change some information of account</string>
+    <string name="notifications">Notifications</string>
+    <string name="change_some_informations_of_notificaions">change some informations of notificaions</string>
+    <string name="app_behavior">App behavior</string>
+    <string name="change_style_and_theme_of_app">change style and theme of app</string>
+    <string name="help">Help</string>
+    <string name="help_you_to_understand_the_app">help you to understand the app</string>
+    <string name="qty">Qty</string>
+    <string name="total">total : </string>
+    <string name="accept">Accept</string>
+    <string name="hide">hide</string>
+    <string name="show">show</string>
+    <string name="cylinders">cylinders : </string>
+    <string name="station">Station</string>
+    <string name="history">History</string>
+    <string name="cylinder_receive">Cylinder Receive</string>
+    <string name="add_citizen">Add citizen</string>
+    <string name="details">Details</string>
+    <string name="representative">Representative : </string>
+    <string name="name">Name : </string>
+    <string name="mobile">Mobile : </string>
+    <string name="agent">Agent : </string>
+    <string name="day_and_time">Day and Time :</string>
+    <string name="date">Date :</string>
 </resources>

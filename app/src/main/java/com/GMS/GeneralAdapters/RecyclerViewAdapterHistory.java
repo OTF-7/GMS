@@ -69,7 +69,7 @@ public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerVie
                 if( holder.mHistoryItemBindingBing.childContainer.getVisibility()==View.VISIBLE) {
                     TransitionManager.beginDelayedTransition( holder.mHistoryItemBindingBing.containerParent , new AutoTransition());
                     holder.mHistoryItemBindingBing.childContainer.setVisibility(View.GONE);
-                    holder.mHistoryItemBindingBing.ibShow.setImageResource(R.drawable.ic_dwon_arraw);
+                    holder.mHistoryItemBindingBing.ibShow.setImageResource(R.drawable.ic_down_arrow);
                 }
                 else
                 {
@@ -81,7 +81,7 @@ public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerVie
             }
         });
 
-        holder.mHistoryItemBindingBing.tvDetsils.setOnClickListener(new View.OnClickListener() {
+        holder.mHistoryItemBindingBing.tvDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSingleItemClickListener.onClick("hello" , "hi");
@@ -138,7 +138,7 @@ public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerVie
         public HistoryViewHolder(HistoryItemBinding mBinding) {
             super(mBinding.getRoot());
             this.mHistoryItemBindingBing=mBinding;
-            this.mHistoryItemBindingBing.tvDetsils.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+            this.mHistoryItemBindingBing.tvDetails.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         }
     }

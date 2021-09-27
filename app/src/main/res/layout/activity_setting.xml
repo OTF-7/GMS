@@ -5,27 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/top_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:theme="@style/AppTheme"
         android:background="@android:color/transparent"
-        >
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tool_bar_setting"
-        android:layout_width="match_parent"
-        app:title="Setting"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/top_bar_agent_shape"
-        app:titleTextColor="@color/white"
-        android:foregroundTint="@color/white"
-        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
-        />
+        android:theme="@style/AppTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar_setting"
+            style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/top_bar_agent_shape"
+            android:foregroundTint="@color/white"
+            app:title="@string/settings"
+            app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_account"
         android:layout_width="64dp"
@@ -38,24 +39,45 @@
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="2dp"
         app:flow_horizontalAlign="center"
-        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout"
         app:layout_collapseMode="none"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/account_name_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        app:helperTextTextColor="#FF0000"
+        app:layout_constraintBottom_toBottomOf="@id/iv_account"
+        app:layout_constraintEnd_toStartOf="@id/iv_edit"
+        app:layout_constraintStart_toEndOf="@id/iv_account"
+        app:layout_constraintTop_toTopOf="@id/iv_account">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_account_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_account_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="name of account"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/iv_account"
+        app:layout_constraintEnd_toStartOf="@id/iv_edit"
         app:layout_constraintStart_toEndOf="@id/iv_account"
         app:layout_constraintTop_toTopOf="@id/iv_account" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_qr"
+        android:id="@+id/iv_edit"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
@@ -91,6 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="16dp"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@id/constraint_notification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Account"
+            android:text="@string/account"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/iv_icon_account"
@@ -129,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="change some information of account"
+            android:text="@string/change_some_information_of_account"
             app:layout_constraintStart_toEndOf="@id/iv_icon_account"
             app:layout_constraintTop_toBottomOf="@id/tv_account" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -139,6 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@id/constraint_behavior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -166,7 +190,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Notifications"
+            android:text="@string/notifications"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/iv_icon_notfication"
@@ -177,7 +201,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="change some informations of notificaions"
+            android:text="@string/change_some_informations_of_notificaions"
             app:layout_constraintStart_toEndOf="@id/iv_icon_notfication"
             app:layout_constraintTop_toBottomOf="@id/tv_notificationa" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -187,6 +211,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraint_notification">
@@ -213,7 +238,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="App behavior"
+            android:text="@string/app_behavior"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/iv_icon_behavior"
@@ -224,7 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="change style and theme of app"
+            android:text="@string/change_style_and_theme_of_app"
             app:layout_constraintStart_toEndOf="@id/iv_icon_behavior"
             app:layout_constraintTop_toBottomOf="@id/tv_app_behavior" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -234,6 +259,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraint_behavior">
@@ -260,7 +286,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Help"
+            android:text="@string/help"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/iv_icon_help"
@@ -271,7 +297,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="help you to understand the app"
+            android:text="@string/help_you_to_understand_the_app"
             app:layout_constraintStart_toEndOf="@id/iv_icon_help"
             app:layout_constraintTop_toBottomOf="@id/tv_help" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -284,4 +310,5 @@
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

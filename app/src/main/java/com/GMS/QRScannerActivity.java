@@ -3,6 +3,7 @@ package com.GMS;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -40,6 +41,8 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
     private Dialog mDialog;
     private static String idCitizen;
     private static int Qty;
+    private String layoutName;
+    private Intent layoutsIntent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,9 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
         mBinding = ActivityQrscannerBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        layoutsIntent = getIntent();
+        layoutName = layoutsIntent.getStringExtra(IDOfLayout.ACTIVITY.toString());
         createDialog();
-
 
         mBinding.iBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +95,7 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
     public void handleResult(Result result) {
         idCitizen = result.getText();
         //Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
-        showDialog();
+
         // onBackPressed();
     }
 
@@ -137,15 +141,19 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
             return;
         }
         startQRScanner();
-
-
     }
 
     private void startQRScanner() {
         mBinding.zxingScannerView.setResultHandler(this);
         mBinding.zxingScannerView.startCamera();
         mBinding.zxingScannerView.setAutoFocus(true);
-        mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.QR_CODE));
+        if (layoutName.equals(IDOfLayout.AQELNEEDSCANFRAGNENT.toString())) {
+            Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
+            mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.QR_CODE));
+        } else if (layoutName.equals(IDOfLayout.REPNEEDSCAN.toString())) {
+            Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
+            mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.CODABAR));
+        }
 
     }
 

@@ -1,6 +1,7 @@
 package com.GMS.aqel.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -8,6 +9,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.GeneralClasses.CitizenItemClickListener;
 import com.GMS.aqel.helperClass.CitizenItemOfAqel;
 import com.GMS.databinding.CitizenItemRvBinding;
 
@@ -20,6 +22,7 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
 
     ArrayList<CitizenItemOfAqel> listsCitizen, listsFull;
     int typeOfPage;
+    CitizenItemClickListener mItemClickListener ;
     private Filter filterUser = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -49,10 +52,11 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
         }
     };
 
-    public RecyclerViewAqelAdapter(ArrayList<CitizenItemOfAqel> lstsCitizen, int typeOfPage) {
+    public RecyclerViewAqelAdapter(ArrayList<CitizenItemOfAqel> lstsCitizen, int typeOfPage , CitizenItemClickListener mItemClickListener) {
         this.listsCitizen = lstsCitizen;
         this.typeOfPage = typeOfPage;
         this.listsFull = new ArrayList<>(lstsCitizen);
+        this.mItemClickListener = mItemClickListener;
     }
 
     @NonNull
@@ -82,6 +86,12 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
         holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getCitizenId());
         holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getCountCylinder()));
         holder.mCitizenItemRvBinding.ivState.setImageResource(item.getIvStateResource());
+        holder.mCitizenItemRvBinding.citizenItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemClickListener.onClick(position , holder.mCitizenItemRvBinding.tvCitizenId.getText().toString());
+            }
+        });
     }
 
     class ViewHolderCitizen extends RecyclerView.ViewHolder {

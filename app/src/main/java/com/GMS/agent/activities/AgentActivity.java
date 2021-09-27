@@ -1,18 +1,28 @@
 package com.GMS.agent.activities;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +33,8 @@ import com.GMS.agent.adapters.ItemClickListener;
 import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
 import com.GMS.agent.helperClasses.CitizenItem;
 import com.GMS.databinding.ActivityAgentBinding;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -36,12 +48,14 @@ public class AgentActivity extends AppCompatActivity {
     private final ArrayList<CitizenItem> acceptedCitizenList = new ArrayList<>();
     private final int countOfAcceptedCitizens = 0;
     Color doneColor;
-    private static boolean searchAllaw = false;
+    private static boolean searchAllow = false;
     private ActivityAgentBinding mBinding;
     private RecyclerViewAdapterCitizen fullRVAdapter;
     private RecyclerViewAdapterCitizen acceptedRVAdapter;
     private ItemClickListener mItemClickListener;
     public static Drawable mAcceptedBackgroundImage;
+    private Dialog stationDialog;
+    private static final int CALL_PERMISSION = 122;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +75,11 @@ public class AgentActivity extends AppCompatActivity {
         mBinding.moreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mBinding.moreTextView.getText().equals("hide")) {
+                if (mBinding.moreTextView.getText().equals(getString(R.string.hide))) {
                     ViewGroup.LayoutParams params = mBinding.cardViewHeaderContainer.getLayoutParams();
-
+                    mBinding.moreTextView.setText(R.string.show);
                     params.height = mBinding.textViews.getHeight() * 2;
                     mBinding.cardViewHeaderContainer.setLayoutParams(params);
-                    mBinding.moreTextView.setText("more");
                     // view
                     ViewGroup.LayoutParams pView = mBinding.backgroundHeader.getLayoutParams();
                     double height = mBinding.textViews.getHeight() * 1;
@@ -76,8 +89,7 @@ public class AgentActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams params = mBinding.cardViewHeaderContainer.getLayoutParams();
                     params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     mBinding.cardViewHeaderContainer.setLayoutParams(params);
-                    mBinding.moreTextView.setText("hide");
-
+                    mBinding.moreTextView.setText(R.string.hide);
                     ViewGroup.LayoutParams pView = mBinding.backgroundHeader.getLayoutParams();
                     double height = mBinding.agentTopBar.toolBarAgent.getHeight() * 1.7;
                     pView.height = (int) height;
@@ -125,7 +137,7 @@ public class AgentActivity extends AppCompatActivity {
 
     private void intiAcceptedRVList() {
         if (acceptedCitizenList.size() != 0) {
-            searchAllaw = true;
+            searchAllow = true;
             mBinding.rvAcceptedCitizen.setVisibility(View.VISIBLE);
             mBinding.tvAcceptedCitizen.setVisibility(View.VISIBLE);
             acceptedRVAdapter = new RecyclerViewAdapterCitizen(acceptedCitizenList, getBaseContext(), mItemClickListener, ACCEPTED_LIST_ID);
@@ -134,7 +146,7 @@ public class AgentActivity extends AppCompatActivity {
             mBinding.rvAcceptedCitizen.setLayoutManager(layoutManager);
             mBinding.rvAcceptedCitizen.setAdapter(acceptedRVAdapter);
         } else {
-            searchAllaw = false;
+            searchAllow = false;
             mBinding.rvAcceptedCitizen.setVisibility(View.GONE);
             mBinding.tvAcceptedCitizen.setVisibility(View.GONE);
         }
@@ -178,7 +190,7 @@ public class AgentActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_agent_top_bar, menu);
         MenuItem searchItem = menu.findItem(R.id.search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
-
+        createDialog();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -187,15 +199,13 @@ public class AgentActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                if (!searchAllaw) {
+                if (!searchAllow) {
                     fullRVAdapter.getFilter().filter(newText);
                 } else {
                     fullRVAdapter.getFilter().filter(newText);
                     acceptedRVAdapter.getFilter().filter(newText);
 
                 }
-
 
                 return false;
             }
@@ -217,8 +227,67 @@ public class AgentActivity extends AppCompatActivity {
                 Intent intentHistory = new Intent(this.getBaseContext(), HistoryActivity.class);
                 startActivity(intentHistory);
                 break;
+            case R.id.station_item:
+                showDialog();
+                break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createDialog() {
+        stationDialog = new Dialog(mBinding.getRoot().getContext());
+        stationDialog.setContentView(R.layout.station_dialoge_details);
+        stationDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        Window window = stationDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations = R.style.DialogAnimation;
+        stationDialog.setCancelable(true);
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void showDialog() {
+        stationDialog.show();
+        stationDialog.findViewById(R.id.btn_okay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stationDialog.dismiss();
+            }
+        });
+        stationDialog.findViewById(R.id.tv_phone_call_station_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stationDialog.dismiss();
+                checkPermission();
+
+            }
+        });
+
+    }
+
+    private void checkPermission() {
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) mBinding.getRoot().getContext(), new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION);
+            return;
+        }
+        startCalling();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CALL_PERMISSION:
+                if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startCalling();
+                }
+        }
+    }
+
+    private void startCalling() {
+
+        TextView tvCallNumber = stationDialog.findViewById(R.id.tv_phone_call_station_dialog);
+        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tvCallNumber.getText().toString()));
+        startActivity(callIntent);
     }
 }

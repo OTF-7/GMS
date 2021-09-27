@@ -1,30 +1,26 @@
 package com.GMS.aqel.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.GMS.GeneralClasses.CitizenItemClickListener;
+import com.GMS.IDOfLayout;
 import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.aqel.adapters.ViewPager2AqelAdapter;
 import com.GMS.databinding.ActivityAqelBinding;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 
 public class AqelActivity extends AppCompatActivity {
 
     ActivityAqelBinding mBinding;
     ViewPager2AqelAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +54,7 @@ public class AqelActivity extends AppCompatActivity {
             }
 
             @Override
+
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
@@ -78,8 +75,11 @@ public class AqelActivity extends AppCompatActivity {
         mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
-                startActivity(intent);
+                if(mBinding.tabLayoutAqel.getSelectedTabPosition()==0) {
+                    Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
+                    intent.putExtra(IDOfLayout.ACTIVITY.toString() , IDOfLayout.AQELNEEDSCANFRAGNENT.toString());
+                    startActivity(intent);
+                }
             }
         });
     }

@@ -1,18 +1,21 @@
 package com.GMS.representative.adapters;
 
+import android.content.res.Resources;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.GMS.agent.helperClasses.CitizenItem;
+import com.GMS.R;
 import com.GMS.databinding.AdditionRequestItemBinding;
 import com.GMS.representative.helperClass.CitizenAdditionRequest;
+import com.GMS.representative.helperClass.RepresentativeClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,11 +25,14 @@ import java.util.Collection;
 public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<AdditionRequestRecyclerViewAdapter.AdditionRequestViewHolder> implements Filterable {
 
 
-    ArrayList<CitizenAdditionRequest> lsts = new ArrayList<>();
-     ArrayList<CitizenAdditionRequest> fullList = new ArrayList<>();
-    public AdditionRequestRecyclerViewAdapter(ArrayList<CitizenAdditionRequest> lsts) {
-        this.lsts = lsts;
-        this.fullList = new ArrayList<>(this.lsts);
+    ArrayList<CitizenAdditionRequest> lists = new ArrayList<>();
+    ArrayList<CitizenAdditionRequest> fullList = new ArrayList<>();
+    RepresentativeClickListener mRepresentativeClickListener;
+
+    public AdditionRequestRecyclerViewAdapter(ArrayList<CitizenAdditionRequest> lists, RepresentativeClickListener mRepresentativeClickListener) {
+        this.lists = lists;
+        this.fullList = new ArrayList<>(this.lists);
+        this.mRepresentativeClickListener = mRepresentativeClickListener;
     }
 
     @NonNull
@@ -39,22 +45,42 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull AdditionRequestViewHolder holder, int position) {
-        CitizenAdditionRequest item = lsts.get(position);
+        CitizenAdditionRequest item = lists.get(position);
         holder.mAdditionRequestItemBinding.tvCitizenName.setText(item.getCitizenName());
         holder.mAdditionRequestItemBinding.tvCitizenAddress.setText(item.getCitizenAddress());
         holder.mAdditionRequestItemBinding.tvCitizenHireDate.setText(item.getCitizenHireDate());
+        holder.mAdditionRequestItemBinding.tvSeeDocumentDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRepresentativeClickListener.onClick(position , holder.mAdditionRequestItemBinding.tvSeeDocumentDetail.getText().toString());
+            }
+        });
+        holder.mAdditionRequestItemBinding.tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRepresentativeClickListener.onClick(position , holder.mAdditionRequestItemBinding.tvConfirm.getText().toString());
+            }
+        });
+        holder.mAdditionRequestItemBinding.tvRegret.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRepresentativeClickListener.onClick(position , holder.mAdditionRequestItemBinding.tvRegret.getText().toString());
+            }
+        });
+
 
     }
 
     @Override
     public int getItemCount() {
-        return lsts.size();
+        return lists.size();
     }
 
     @Override
     public Filter getFilter() {
         return filterUser;
     }
+
     private final Filter filterUser = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
@@ -82,8 +108,8 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            lsts.clear();
-            lsts.addAll((Collection<? extends CitizenAdditionRequest>) filterResults.values);
+            lists.clear();
+            lists.addAll((Collection<? extends CitizenAdditionRequest>) filterResults.values);
             notifyDataSetChanged();
         }
     };
@@ -96,6 +122,9 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
             super(mAdditionRequestItemBinding.getRoot());
             this.mAdditionRequestItemBinding = mAdditionRequestItemBinding;
             this.mAdditionRequestItemBinding.tvSeeDocumentDetail.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+            this.mAdditionRequestItemBinding.tvCitizenName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            this.mAdditionRequestItemBinding.tvCitizenName.setSelected(true);
         }
     }
+
 }

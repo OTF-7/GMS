@@ -16,7 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.GMS.GeneralClasses.CitizenItemClickListener;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.aqel.activities.AddCitizenActivity;
@@ -33,6 +35,7 @@ public class VerifiedAqelFragment extends Fragment {
     FragmentVerifiedAqelBinding mBinding;
     RecyclerViewAqelAdapter adapter;
     public static final int FRAGMENT_ID=1;
+    CitizenItemClickListener mItemClickListener;
     public VerifiedAqelFragment() {
         // Required empty public constructor
     }
@@ -46,13 +49,19 @@ public class VerifiedAqelFragment extends Fragment {
 
         ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
         items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar Taha" , "45d55d45s55g" , 3 ,R.drawable.ic_qr_need_scan ));
-        items.add(new CitizenItemOfAqel("Abubaker Khalid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Mohammed Shihab" , "45d55d45s55g" ,  3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar swaid" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Khalid Someeri" , "45d55d45s55g" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Omar Taha" , "safdsfe" , 3 ,R.drawable.ic_qr_need_scan ));
+        items.add(new CitizenItemOfAqel("Abubaker Khalid" , "35135" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Mohammed Shihab" , "dgfd" ,  3, R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Omar swaid" , "48" , 3 , R.drawable.ic_qr_need_scan));
+        items.add(new CitizenItemOfAqel("Khalid Someeri" , "685651" , 3 , R.drawable.ic_qr_need_scan));
 
-        adapter = new RecyclerViewAqelAdapter(items , FRAGMENT_ID);
+        mItemClickListener = new CitizenItemClickListener() {
+            @Override
+            public void onClick(int position, String id) {
+                Toast.makeText(getActivity().getApplicationContext(), "id is : "+id ,Toast.LENGTH_SHORT).show();
+            }
+        };
+        adapter = new RecyclerViewAqelAdapter(items , FRAGMENT_ID , mItemClickListener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBinding.rvVerifiedFragment.setHasFixedSize(true);
         mBinding.rvVerifiedFragment.setLayoutManager(layoutManager);

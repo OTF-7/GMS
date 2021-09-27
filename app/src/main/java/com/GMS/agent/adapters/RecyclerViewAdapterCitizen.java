@@ -97,6 +97,8 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getCountCylinder()));
         if (items.get(position).isAcceptedState()) {
             holder.mCitizenItemRvBinding.ivCitizen.setBorderColor(Color.GREEN);
+        } else {
+            holder.mCitizenItemRvBinding.ivCitizen.setBorderColor(Color.RED);
         }
         holder.mCitizenItemRvBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override

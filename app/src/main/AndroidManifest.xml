@@ -7,6 +7,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -20,7 +21,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".aqel.activities.AqelNotificationsActivity"></activity>
+        <activity android:name=".HistoryActivity" >
+
+        </activity>
         <activity android:name=".AccountEditActivity" />
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".SettingActivity" />

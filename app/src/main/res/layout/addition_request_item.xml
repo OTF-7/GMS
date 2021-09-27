@@ -1,155 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="4dp"
+    android:elevation="0dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="4dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        android:elevation="12dp"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/citizen_picture"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:elevation="8dp"
+            android:src="@drawable/sign_in_image"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
+            app:layout_collapseMode="none"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_citizen_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:drawableStart="@drawable/ic_citizen_name"
+            android:drawablePadding="8dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="4dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="citizen name"
+            android:textColor="#000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_citizen_hire_date"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/citizen_picture"
+            app:layout_constraintTop_toTopOf="@id/citizen_picture" />
+
+        <TextView
+            android:id="@+id/tv_citizen_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:drawableStart="@drawable/ic_address"
+            android:drawablePadding="8dp"
+            android:text="citizen address"
+            android:textColor="@color/Charcoal"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/citizen_picture"
+            app:layout_constraintEnd_toStartOf="@+id/tv_cylinders_count"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/citizen_picture"
+            app:layout_constraintTop_toBottomOf="@id/tv_citizen_name" />
+
+        <TextView
+            android:id="@+id/tv_citizen_hire_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/ic_citizen_hire_date"
+            android:gravity="center"
+            android:text="12/12/2021"
+            android:textColor="@color/Charcoal"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_citizen_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_citizen_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_citizen_name" />
+
+        <TextView
+            android:id="@+id/tv_cylinders_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="4"
+            android:textColor="@color/Charcoal"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_citizen_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_citizen_address"
+            app:layout_constraintTop_toTopOf="@id/tv_citizen_address" />
+
+        <View
+            android:id="@+id/view_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_charcoal"
+            app:layout_constraintBottom_toTopOf="@id/child_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/child_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/citizen_picture"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:elevation="8dp"
-                android:src="@drawable/sign_in_image"
-                app:civ_border_color="#FFFFFF"
-                app:civ_border_width="2dp"
-                app:layout_collapseMode="none"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_citizen_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:drawableStart="@drawable/ic_citizen_name"
-                android:drawablePadding="8dp"
-                android:text="citizen name"
-                android:textColor="#000"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/tv_citizen_hire_date"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toEndOf="@+id/citizen_picture"
-                app:layout_constraintTop_toTopOf="@id/citizen_picture" />
-
-            <TextView
-                android:id="@+id/tv_citizen_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:drawableStart="@drawable/ic_address"
-                android:drawablePadding="8dp"
-                android:text="citizen address"
-                android:textColor="@color/Charcoal"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/citizen_picture"
-                app:layout_constraintEnd_toStartOf="@+id/tv_cylinders_count"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toEndOf="@+id/citizen_picture"
-                app:layout_constraintTop_toBottomOf="@id/tv_citizen_name" />
-
-            <TextView
-                android:id="@+id/tv_citizen_hire_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:drawableStart="@drawable/ic_citizen_hire_date"
-                android:gravity="center"
-                android:text="12/12/2021"
-                android:textColor="@color/Charcoal"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_citizen_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_citizen_name"
-                app:layout_constraintTop_toTopOf="@+id/tv_citizen_name" />
-
-            <TextView
-                android:id="@+id/tv_cylinders_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="4"
-                android:textColor="@color/Charcoal"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_citizen_address"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_citizen_address"
-                app:layout_constraintTop_toTopOf="@id/tv_citizen_address" />
-
-            <View
-                android:id="@+id/view_separator"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:background="@color/light_charcoal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/citizen_picture" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/citizen_picture">
 
             <TextView
                 android:id="@+id/tv_see_document_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="See document"
+                android:layout_marginEnd="16dp"
+                android:text="@string/see_document"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_separator" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginEnd="8dp"
                 android:drawableStart="@drawable/ic_confirm"
                 android:drawablePadding="4dp"
-                android:text="Confirm"
+                android:text="@string/confirm"
                 android:textColor="@color/green"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_see_document_detail"
                 app:layout_constraintEnd_toStartOf="@id/tv_see_document_detail"
-                app:layout_constraintTop_toBottomOf="@id/view_separator" />
+                app:layout_constraintTop_toTopOf="@id/tv_see_document_detail" />
 
             <TextView
                 android:id="@+id/tv_regret"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginEnd="8dp"
                 android:drawableStart="@drawable/ic_regret"
                 android:drawablePadding="4dp"
-                android:text="Regret"
+                android:text="@string/regret"
                 android:textColor="@color/English_vermillion"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_confirm"
                 app:layout_constraintEnd_toStartOf="@id/tv_confirm"
-                app:layout_constraintTop_toBottomOf="@id/view_separator" />
-
+                app:layout_constraintTop_toTopOf="@id/tv_confirm" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

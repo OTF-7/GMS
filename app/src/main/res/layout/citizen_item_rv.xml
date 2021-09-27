@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/citizen_item"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@color/transparent"
@@ -9,17 +10,18 @@
     android:focusable="true"
     android:padding="8dp">
 
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_citizen"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
         android:background="@color/transparent"
         android:elevation="0dp"
         android:padding="1dp"
         android:src="@drawable/sign_in_image"
         app:civ_border_color="#FFFFFF"
-        app:civ_border_width="2dp"
+        app:civ_border_width="1dp"
         app:flow_horizontalAlign="center"
         app:layout_collapseMode="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,15 +31,20 @@
 
     <TextView
         android:id="@+id/tv_citizen_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:gravity="start"
+        android:lines="1"
+        android:singleLine="true"
         android:text="Name : "
         android:textColor="#000"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_citizen_id"
+        app:layout_constraintEnd_toStartOf="@id/iv_state"
         app:layout_constraintStart_toEndOf="@id/iv_citizen"
         app:layout_constraintTop_toTopOf="@id/iv_citizen"
         app:layout_constraintVertical_chainStyle="packed" />
