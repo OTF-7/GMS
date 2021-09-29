@@ -36,6 +36,7 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         setSupportActionBar(mBinding.toolBarHistory);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
         mHistoryItems.add(new HistoryItem("Al-kornish", "12/10/2020", "Abubaker khalid", "General", 3650, 252));
