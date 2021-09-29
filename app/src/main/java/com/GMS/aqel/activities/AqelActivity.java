@@ -8,8 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.GMS.GeneralClasses.CitizenItemClickListener;
-import com.GMS.IDOfLayout;
+import com.GMS.Constant;
 import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.aqel.adapters.ViewPager2AqelAdapter;
@@ -77,7 +76,7 @@ public class AqelActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(mBinding.tabLayoutAqel.getSelectedTabPosition()==0) {
                     Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
-                    intent.putExtra(IDOfLayout.ACTIVITY.toString() , IDOfLayout.AQELNEEDSCANFRAGNENT.toString());
+                    intent.putExtra(Constant.ACTIVITY.toString() , Constant.AQELNEEDSCANFRAGNENT.toString());
                     startActivity(intent);
                 }
             }

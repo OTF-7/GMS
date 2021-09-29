@@ -52,7 +52,7 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
         setContentView(mBinding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         layoutsIntent = getIntent();
-        layoutName = layoutsIntent.getStringExtra(IDOfLayout.ACTIVITY.toString());
+        layoutName = layoutsIntent.getStringExtra(Constant.ACTIVITY.toString());
         createDialog();
 
         mBinding.iBtnCancel.setOnClickListener(new View.OnClickListener() {
@@ -147,10 +147,10 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
         mBinding.zxingScannerView.setResultHandler(this);
         mBinding.zxingScannerView.startCamera();
         mBinding.zxingScannerView.setAutoFocus(true);
-        if (layoutName.equals(IDOfLayout.AQELNEEDSCANFRAGNENT.toString())) {
+        if (layoutName.equals(Constant.AQELNEEDSCANFRAGNENT.toString())) {
             Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
             mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.QR_CODE));
-        } else if (layoutName.equals(IDOfLayout.REPNEEDSCAN.toString())) {
+        } else if (layoutName.equals(Constant.REPNEEDSCAN.toString())) {
             Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
             mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.CODABAR));
         }
