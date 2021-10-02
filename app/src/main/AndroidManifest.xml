@@ -21,8 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".aqel.activities.AqelNotificationsActivity"></activity>
-        <activity android:name=".HistoryActivity" >
+        <activity android:name=".ActionDetailsActivity"></activity>
+        <activity android:name=".aqel.activities.AqelNotificationsActivity" />
+        <activity android:name=".HistoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,9 +38,7 @@
         <activity android:name=".representative.activities.AdditionRequestsActivity" />
         <activity android:name=".agent.activities.AgentActivity" />
         <activity android:name=".manager.activities.ManagerActivity" />
-        <activity android:name=".login.activities.LoginActivity">
-
-        </activity>
+        <activity android:name=".login.activities.LoginActivity"></activity>
         <activity android:name=".representative.activities.RepresentativeActivity" />
         <activity android:name=".MainActivity" />
 
