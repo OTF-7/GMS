@@ -9,7 +9,6 @@ android {
     }
     defaultConfig {
         applicationId "com.GMS"
-
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
