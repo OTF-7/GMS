@@ -117,7 +117,7 @@ public class HistoryActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions((Activity) mBinding.getRoot().getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_EXTERNAL_STORAGE);
             return;
         }
-        Report.Pdf.create(mHistoryItems , getBaseContext()) ;
+        Report.Pdf.Actions.createActions(mHistoryItems , getBaseContext()); ;
     }
 
     @Override

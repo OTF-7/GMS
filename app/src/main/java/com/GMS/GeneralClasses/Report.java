@@ -48,69 +48,181 @@ public class Report {
 
     public static class Pdf
     {
-        public static void  create(ArrayList<HistoryItem> mHistoryItems, Context mContext) {
-            Report.pdfDocument = new PdfDocument();
-            Report.myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create();
-            PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
-            Date date = new Date();
-            myPaint.setStrokeWidth(1200);
-            titlePaint.setTextAlign(Paint.Align.CENTER);
-            titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            titlePaint.setTextSize(70);
-            canvas = myPage.getCanvas();
+        public static class Actions{
+            public static void  createActions(ArrayList<HistoryItem> mHistoryItems, Context mContext) {
+                Report.pdfDocument = new PdfDocument();
+                Report.myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create();
+                PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+                Date date = new Date();
+                myPaint.setStrokeWidth(1200);
+                titlePaint.setTextAlign(Paint.Align.CENTER);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                titlePaint.setTextSize(70);
+                canvas = myPage.getCanvas();
 
 
-            canvas.drawText("Gas Managements System", PAGE_WIDTH / 2, 150, titlePaint);
-            titlePaint.setTextSize(35f);
-            titlePaint.setTextAlign(Paint.Align.LEFT);
-            titlePaint.setStyle(Paint.Style.FILL);
-            titlePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-            canvas.drawText("نوع المستند : تقرير عن الحركات", 750, 250, titlePaint);
-            mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-s");
-            canvas.drawText(mSimpleDateFormat.format(date), 50, 1950, titlePaint);
-            // draw the header of table
-            drawCell();
-            // draw the title of the head of table
-            fillCell(0, "Qty", "Location", "Station", "Price", "Total");
-
-            // fill the data in the each raw
-            for (int i = 0; i < mHistoryItems.size(); i++) {
-                pointTableTopStart += 80;
-                pointTableBottomEnd += 80;
+                canvas.drawText("Gas Managements System", PAGE_WIDTH / 2, 150, titlePaint);
+                titlePaint.setTextSize(35f);
+                titlePaint.setTextAlign(Paint.Align.LEFT);
+                titlePaint.setStyle(Paint.Style.FILL);
+                titlePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
+                canvas.drawText("نوع المستند : تقرير عن الحركات", 750, 250, titlePaint);
+                mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-s");
+                canvas.drawText(mSimpleDateFormat.format(date), 50, 1950, titlePaint);
+                // draw the header of table
                 drawCell();
+                // draw the title of the head of table
+                fillCell(0, "Qty", "Location", "Station", "Price", "Total");
 
-                fillCell(1, String.valueOf(mHistoryItems.get(i).getQty())
-                        , mHistoryItems.get(i).getLocation()
-                        , mHistoryItems.get(i).getStation()
-                        , String.valueOf(mHistoryItems.get(i).getPrice())
-                        , String.valueOf(mHistoryItems.get(i).getPrice() * mHistoryItems.get(i).getQty()));
+                // fill the data in the each raw
+                for (int i = 0; i < mHistoryItems.size(); i++) {
+                    pointTableTopStart += 80;
+                    pointTableBottomEnd += 80;
+                    drawCell();
+
+                    fillCell(1, String.valueOf(mHistoryItems.get(i).getQty())
+                            , mHistoryItems.get(i).getLocation()
+                            , mHistoryItems.get(i).getStation()
+                            , String.valueOf(mHistoryItems.get(i).getPrice())
+                            , String.valueOf(mHistoryItems.get(i).getPrice() * mHistoryItems.get(i).getQty()));
+
+                }
+
+
+                //draw the separator line between the title in the head of table
+                canvas.drawLine(locationXLine, POINT_TABLE_TOP_START, locationXLine, pointTableBottomEnd, myPaint);
+                canvas.drawLine(stationXLine, POINT_TABLE_TOP_START, stationXLine, pointTableBottomEnd, myPaint);
+                canvas.drawLine(priceXLine, POINT_TABLE_TOP_START, priceXLine, pointTableBottomEnd, myPaint);
+                canvas.drawLine(totalXLine, POINT_TABLE_TOP_START, totalXLine, pointTableBottomEnd, myPaint);
+
+
+                pdfDocument.finishPage(myPage);
+                mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+                File file = new File(Environment.getExternalStorageDirectory(), "/" + mSimpleDateFormat.format(date) + ".pdf");
+                try {
+                    pdfDocument.writeTo(new FileOutputStream(file));
+                    pdfDocument.close();
+                    pdfDocument = null;
+                    myPageInfo = null;
+                    initMeasurements();
+                    Toast.makeText(mContext, "pdf has saved", Toast.LENGTH_SHORT).show();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            private static void drawCell() {
+
+                myPaint.setStyle(Paint.Style.STROKE);
+                myPaint.setStrokeWidth(2);
+                myPaint.setColor(Color.BLACK);
+
+                canvas.drawRect(20, pointTableTopStart, 1180, pointTableBottomEnd, myPaint);
+
+                titlePaint.setTextSize(35f);
+                titlePaint.setTextAlign(Paint.Align.LEFT);
+                titlePaint.setStyle(Paint.Style.FILL);
+                titlePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
+
+                myPaint.setTextSize(30f);
+                myPaint.setTextAlign(Paint.Align.LEFT);
+                myPaint.setStyle(Paint.Style.FILL);
 
             }
 
 
-            //draw the separator line between the title in the head of table
-            canvas.drawLine(locationXLine, POINT_TABLE_TOP_START, locationXLine, pointTableBottomEnd, myPaint);
-            canvas.drawLine(stationXLine, POINT_TABLE_TOP_START, stationXLine, pointTableBottomEnd, myPaint);
-            canvas.drawLine(priceXLine, POINT_TABLE_TOP_START, priceXLine, pointTableBottomEnd, myPaint);
-            canvas.drawLine(totalXLine, POINT_TABLE_TOP_START, totalXLine, pointTableBottomEnd, myPaint);
+            private static void fillCell(int typeCell, String Qty, String location, String station, String price, String Total) {
 
+                if (typeCell == 0) {
+                    canvas.drawText(Qty, QtyTextStartXPoint, topStartTextDraw, titlePaint);
+                    canvas.drawText(location, locationTextStartXPoint, topStartTextDraw, titlePaint);
+                    canvas.drawText(station, stationTextStartXPoint, topStartTextDraw, titlePaint);
+                    canvas.drawText(price, priceTextStartPoint, topStartTextDraw, titlePaint);
+                    canvas.drawText(Total, totalTextStartXPoint, topStartTextDraw, titlePaint);
+                } else {
+                    canvas.drawText(Qty, QtyTextStartXPoint, topStartTextDraw, myPaint);
+                    canvas.drawText(location, locationTextStartXPoint, topStartTextDraw, myPaint);
+                    canvas.drawText(station, stationTextStartXPoint, topStartTextDraw, myPaint);
+                    canvas.drawText(price, priceTextStartPoint, topStartTextDraw, myPaint);
+                    canvas.drawText(Total, totalTextStartXPoint, topStartTextDraw, myPaint);
 
-            pdfDocument.finishPage(myPage);
-            mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-            File file = new File(Environment.getExternalStorageDirectory(), "/" + mSimpleDateFormat.format(date) + ".pdf");
-            try {
-                pdfDocument.writeTo(new FileOutputStream(file));
-                pdfDocument.close();
-                pdfDocument = null;
-                myPageInfo = null;
-                initMeasurements();
-                Toast.makeText(mContext, "pdf has saved", Toast.LENGTH_SHORT).show();
+                }
+                topStartTextDraw += 80;
+            }
 
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            private static void initMeasurements() {
+                topStartTextDraw = TOP_START_TEXT_DRAW;
+                pointTableTopStart = POINT_TABLE_TOP_START;
+                pointTableBottomEnd = POINT_TABLE_BOTTOM_END;
             }
         }
+        public static class ActionDetails{
+            public static void  createDetails(ArrayList<ActionDetailsCitizen> items, Context mContext) {
+                Report.pdfDocument = new PdfDocument();
+                Report.myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create();
+                PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+                Date date = new Date();
+                myPaint.setStrokeWidth(1200);
+                titlePaint.setTextAlign(Paint.Align.CENTER);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                titlePaint.setTextSize(70);
+                canvas = myPage.getCanvas();
 
+
+                canvas.drawText("Gas Managements System", PAGE_WIDTH / 2, 150, titlePaint);
+                titlePaint.setTextSize(35f);
+                titlePaint.setTextAlign(Paint.Align.LEFT);
+                titlePaint.setStyle(Paint.Style.FILL);
+                titlePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
+                canvas.drawText("نوع المستند : تقرير عن الحركات", 750, 250, titlePaint);
+                mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-s");
+                canvas.drawText(mSimpleDateFormat.format(date), 50, 1950, titlePaint);
+                // draw the header of table
+                drawCell();
+                // draw the title of the head of table
+                fillCell(0, "status", "Citizen Name", "aqel name", "Qty", "Total");
+
+                // fill the data in the each raw
+                for (int i = 0; i < items.size(); i++) {
+                    pointTableTopStart += 80;
+                    pointTableBottomEnd += 80;
+                    drawCell();
+
+                    fillCell(1,items.get(i).getStatus()
+                            , items.get(i).getCitizenName()
+                            , items.get(i).getAqelName()
+                            , String.valueOf(items.get(i).getQty())
+                            , "total");
+
+                }
+
+
+                //draw the separator line between the title in the head of table
+                canvas.drawLine(locationXLine, POINT_TABLE_TOP_START, locationXLine, pointTableBottomEnd, myPaint);
+                canvas.drawLine(stationXLine, POINT_TABLE_TOP_START, stationXLine, pointTableBottomEnd, myPaint);
+                canvas.drawLine(priceXLine, POINT_TABLE_TOP_START, priceXLine, pointTableBottomEnd, myPaint);
+                canvas.drawLine(totalXLine, POINT_TABLE_TOP_START, totalXLine, pointTableBottomEnd, myPaint);
+
+
+                pdfDocument.finishPage(myPage);
+                mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+                File file = new File(Environment.getExternalStorageDirectory(), "/" + mSimpleDateFormat.format(date) + ".pdf");
+                try {
+                    pdfDocument.writeTo(new FileOutputStream(file));
+                    pdfDocument.close();
+                    pdfDocument = null;
+                    myPageInfo = null;
+                    initMeasurements();
+                    Toast.makeText(mContext, "pdf has saved", Toast.LENGTH_SHORT).show();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+
+        }
         private static void drawCell() {
 
             myPaint.setStyle(Paint.Style.STROKE);
@@ -155,6 +267,7 @@ public class Report {
             pointTableTopStart = POINT_TABLE_TOP_START;
             pointTableBottomEnd = POINT_TABLE_BOTTOM_END;
         }
-    }
+        }
+
 
 }
