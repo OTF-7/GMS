@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,9 @@
             android:background="@drawable/shape_top_action_bar"
             app:menu="@menu/top_action_bar_menu"
             app:navigationIcon="@drawable/ic_menu"
+            android:foregroundTint="@color/white"
             app:title="Actions"
+            app:subtitleTextColor="@color/Floral_White"
             app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>

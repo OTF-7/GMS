@@ -2,26 +2,27 @@ package com.GMS;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.GMS.GeneralAdapters.RecyclerViewAdapterHistory;
 import com.GMS.GeneralClasses.HistoryItem;
 import com.GMS.GeneralClasses.Report;
 import com.GMS.GeneralClasses.SingleItemClickListener;
 import com.GMS.databinding.ActivityHistoryBinding;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -54,8 +55,8 @@ public class HistoryActivity extends AppCompatActivity {
 
                 Toast.makeText(getBaseContext(), "go to the details activity", Toast.LENGTH_SHORT).show();
                 // here you write the code which take us to the details activity
-                Intent ADAIntent = new Intent(getBaseContext(), ActionDetailsActivity.class);
-                startActivity(ADAIntent);
+               /* Intent ADAIntent = new Intent(getBaseContext(), ActionDetailsActivity.class);
+                startActivity(ADAIntent);*/
             }
         };
         initRV();
