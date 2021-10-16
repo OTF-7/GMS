@@ -2,6 +2,7 @@ package com.GMS;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -55,8 +56,8 @@ public class HistoryActivity extends AppCompatActivity {
 
                 Toast.makeText(getBaseContext(), "go to the details activity", Toast.LENGTH_SHORT).show();
                 // here you write the code which take us to the details activity
-               /* Intent ADAIntent = new Intent(getBaseContext(), ActionDetailsActivity.class);
-                startActivity(ADAIntent);*/
+               Intent ADAIntent = new Intent(getBaseContext(), ActionDetailsActivity.class);
+                startActivity(ADAIntent);
             }
         };
         initRV();

@@ -254,6 +254,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!--
             <TextView
                 android:id="@+id/tv_accepted_citizen"
                 android:layout_width="wrap_content"
@@ -266,7 +267,6 @@
                 android:text="accepted citizens"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rv_citizen" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_accepted_citizen"
                 android:layout_width="match_parent"
@@ -274,8 +274,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_accepted_citizen" />
+       -->
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

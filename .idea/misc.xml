@@ -3,13 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/OmarTaha/Abdulrahman_folder/GMS/app/src/main/res/drawable/action_lable_active_shape.xml" value="0.13229166666666667" />
-        <entry key="..\:/Users/OmarTaha/Abdulrahman_folder/GMS/app/src/main/res/drawable/ic_confirm.xml" value="0.13229166666666667" />
-        <entry key="..\:/Users/OmarTaha/Abdulrahman_folder/GMS/app/src/main/res/layout/activity_add_citizen.xml" value="0.16" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/ic_status_done.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/actions_recyclerview_item.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_account_edit.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_action_details.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_add_citizen.xml" value="0.17777777777777778" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_agent.xml" value="0.19692307692307692" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_aqel_notifications.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_cyclinders_recieve.xml" value="0.2" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_cylinders_receive.xml" value="0.2" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_history.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/citizen_item_rv.xml" value="0.19692307692307692" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/details_item.xml" value="0.25" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/history_item.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/menu_history.xml" value="0.19692307692307692" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/search_menu.xml" value="0.18981481481481483" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

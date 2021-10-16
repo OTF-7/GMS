@@ -106,6 +106,7 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
             return filterResults;
         }
 
+
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             lists.clear();

@@ -18,6 +18,9 @@ import androidx.core.app.ActivityCompat;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityAddCitizenBinding;
+import com.GMS.firebaseFireStore.Collection;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +30,8 @@ public class AddCitizenActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION = 101;
     private static final int IMAGE_CAPTURE = 102;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference  mCollectionReference = db.collection(Collection.ADDITION_REQUESTS.toString());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

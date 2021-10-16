@@ -1,5 +1,7 @@
 package com.GMS.agent.helperClasses;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class CitizenItem {
 
     private final String citizenName;

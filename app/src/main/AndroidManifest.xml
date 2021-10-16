@@ -23,6 +23,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".aqel.activities.AqelNotificationsActivity" />
         <activity android:name=".HistoryActivity" />
+        <activity android:name=".ActionDetailsActivity" />
         <activity android:name=".AccountEditActivity" />
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".SettingActivity" />
@@ -30,6 +31,7 @@
         <activity android:name=".aqel.activities.AqelActivity" />
         <activity android:name=".representative.activities.AdditionRequestsActivity" />
         <activity android:name=".agent.activities.AgentActivity" />
+        <activity android:name=".agent.activities.CylindersReceiveActivity" />
         <activity android:name=".manager.activities.ManagerActivity" />
         <activity android:name=".login.activities.LoginActivity">
             <intent-filter>
@@ -39,9 +41,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".representative.activities.RepresentativeActivity" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

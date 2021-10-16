@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.agent.activities.AgentActivity;
+import com.GMS.agent.activities.CylindersReceiveActivity;
 import com.GMS.agent.helperClasses.CitizenItem;
 import com.GMS.databinding.CitizenItemRvBinding;
 
@@ -108,14 +109,13 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
                     int mPosition = holder.getAdapterPosition();
                     items.get(position).setAcceptedState(true);
                     mItemClickListener.onClick(position, items.get(position).isAcceptedState());
-                    selectedPosition = position;
+                    //selectedPosition = position;
                     notifyDataSetChanged();
-                } else if (idList == AgentActivity.ACCEPTED_LIST_ID) {
+                } else if (idList == CylindersReceiveActivity.CYLINDER_RECEIVE_LIST) {
                     // code for deny thr citizen
                     items.get(position).setAcceptedState(false);
                     mItemClickListener.onClick(position, items.get(position).isAcceptedState());
-                    selectedPosition = position;
-
+                   // selectedPosition = position;
                     notifyDataSetChanged();
                 }
             }

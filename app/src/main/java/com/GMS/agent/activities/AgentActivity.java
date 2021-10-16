@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -48,7 +47,7 @@ public class AgentActivity extends AppCompatActivity {
     private final ArrayList<CitizenItem> acceptedCitizenList = new ArrayList<>();
     private final int countOfAcceptedCitizens = 0;
     Color doneColor;
-    private static boolean searchAllow = false;
+    private static final boolean searchAllow = false;
     private ActivityAgentBinding mBinding;
     private RecyclerViewAdapterCitizen fullRVAdapter;
     private RecyclerViewAdapterCitizen acceptedRVAdapter;
@@ -109,32 +108,41 @@ public class AgentActivity extends AppCompatActivity {
         mItemClickListener = new ItemClickListener() {
             @Override
             public void onClick(int position, boolean state) {
+                /*
                 if (state) {
                     isCylinderAccepted(position);
                 } else {
                     isCylinderDenied(position);
                 }
+
+                 */
             }
+
+
         };
         intiFullRVList();
-        intiAcceptedRVList();
+        // intiAcceptedRVList();
 
 
     }
 
     private void intiFullRVList() {
-        if (fullCitizenList.size() != 0) {
-            mBinding.rvCitizen.setVisibility(View.VISIBLE);
-            fullRVAdapter = new RecyclerViewAdapterCitizen(fullCitizenList, getBaseContext(), mItemClickListener, FULL_LIST_ID);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
-            mBinding.rvCitizen.setHasFixedSize(true);
-            mBinding.rvCitizen.setLayoutManager(layoutManager);
-            mBinding.rvCitizen.setAdapter(fullRVAdapter);
+        //if (fullCitizenList.size() != 0) {
+        mBinding.rvCitizen.setVisibility(View.VISIBLE);
+        fullRVAdapter = new RecyclerViewAdapterCitizen(fullCitizenList, getBaseContext(), mItemClickListener, FULL_LIST_ID);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+        mBinding.rvCitizen.setHasFixedSize(true);
+        mBinding.rvCitizen.setLayoutManager(layoutManager);
+        mBinding.rvCitizen.setAdapter(fullRVAdapter);
+            /*
         } else {
             mBinding.rvCitizen.setVisibility(View.GONE);
         }
+
+             */
     }
 
+    /*
     private void intiAcceptedRVList() {
         if (acceptedCitizenList.size() != 0) {
             searchAllow = true;
@@ -152,6 +160,9 @@ public class AgentActivity extends AppCompatActivity {
         }
     }
 
+
+     */
+    /*
     private void isCylinderAccepted(int position) {
         CitizenItem item = fullCitizenList.get(position);
         acceptedCitizenList.add(item);
@@ -161,7 +172,8 @@ public class AgentActivity extends AppCompatActivity {
         intiAcceptedRVList();
         Toast.makeText(getBaseContext(), String.valueOf(countOfAcceptedCitizens), Toast.LENGTH_SHORT).show();
     }
-
+     */
+/*
     private void isCylinderDenied(int position) {
         CitizenItem item = acceptedCitizenList.get(position);
         fullCitizenList.add(item);
@@ -172,6 +184,8 @@ public class AgentActivity extends AppCompatActivity {
         Toast.makeText(getBaseContext(), String.valueOf(countOfAcceptedCitizens), Toast.LENGTH_SHORT).show();
 
     }
+
+ */
 
     @Override
     protected void onStart() {
@@ -199,13 +213,16 @@ public class AgentActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (!searchAllow) {
-                    fullRVAdapter.getFilter().filter(newText);
+                //if (!searchAllow) {
+                fullRVAdapter.getFilter().filter(newText);
+                    /*
                 } else {
                     fullRVAdapter.getFilter().filter(newText);
                     acceptedRVAdapter.getFilter().filter(newText);
 
                 }
+
+                     */
 
                 return false;
             }
@@ -230,6 +247,9 @@ public class AgentActivity extends AppCompatActivity {
             case R.id.station_item:
                 showDialog();
                 break;
+            case R.id.cylinder_recieve_item:
+                Intent intentCylindersReceive = new Intent(this.getBaseContext(), CylindersReceiveActivity.class);
+                startActivity(intentCylindersReceive);
 
         }
         return super.onOptionsItemSelected(item);
