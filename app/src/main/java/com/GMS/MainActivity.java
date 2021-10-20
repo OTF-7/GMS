@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.GMS.databinding.ActivityMainBinding;
-import com.GMS.firebaseFireStore.Collection;
 import com.GMS.login.adapters.LoginViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {

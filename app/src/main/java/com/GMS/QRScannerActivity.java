@@ -21,6 +21,7 @@ import com.GMS.databinding.ActivityQrscannerBinding;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
@@ -94,9 +95,10 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
     @Override
     public void handleResult(Result result) {
         idCitizen = result.getText();
-        //Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
+     Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
 
-        // onBackPressed();
+         //onBackPressed();
+        startQRScanner();
     }
 
     @Override
@@ -152,7 +154,7 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
             mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.QR_CODE));
         } else if (layoutName.equals(Constant.REPNEEDSCAN.toString())) {
             Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
-            mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.CODABAR));
+            mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.CODE_128));
         }
 
     }
