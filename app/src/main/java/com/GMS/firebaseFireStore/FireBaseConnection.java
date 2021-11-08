@@ -22,6 +22,7 @@ public  class FireBaseConnection {
     protected CollectionReference  usersCollection = db.collection(CollectionName.USERS.name());
 
 
+
     public class Addition
     {
         ArrayList<CitizenItemOfAqel> items = new ArrayList<>();

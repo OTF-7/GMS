@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/ic_status_done.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/accept_qr_scanner_dialoge.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/actions_recyclerview_item.xml" value="0.1859375" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_account_edit.xml" value="0.1859375" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_action_details.xml" value="0.1859375" />
@@ -13,9 +14,11 @@
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_cyclinders_recieve.xml" value="0.2" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_cylinders_receive.xml" value="0.2" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_history.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/add_dialoge.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/citizen_item_rv.xml" value="0.19692307692307692" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/details_item.xml" value="0.25" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/history_item.xml" value="0.1859375" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/recieving_dialog.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/menu_history.xml" value="0.19692307692307692" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/search_menu.xml" value="0.18981481481481483" />
       </map>

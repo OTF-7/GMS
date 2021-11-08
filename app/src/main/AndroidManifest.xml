@@ -28,7 +28,7 @@
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".aqel.activities.AddCitizenActivity" />
-        <activity android:name=".aqel.activities.AqelActivity" />
+        <activity android:name=".aqel.activities.AqelActivity"/>
         <activity android:name=".representative.activities.AdditionRequestsActivity" />
         <activity android:name=".agent.activities.AgentActivity" />
         <activity android:name=".agent.activities.CylindersReceiveActivity" />

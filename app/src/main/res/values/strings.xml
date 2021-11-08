@@ -63,4 +63,5 @@
     <string name="agent">Agent : </string>
     <string name="day_and_time">Day and Time :</string>
     <string name="date">Date :</string>
+    <string name="receiving">Have you token all the money</string>
 </resources>
