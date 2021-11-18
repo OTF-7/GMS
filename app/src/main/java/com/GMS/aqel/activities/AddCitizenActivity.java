@@ -1,37 +1,75 @@
 package com.GMS.aqel.activities;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityAddCitizenBinding;
+import com.GMS.firebaseFireStore.CitizenCollection;
 import com.GMS.firebaseFireStore.CollectionName;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddCitizenActivity extends AppCompatActivity {
 
     ActivityAddCitizenBinding mBinding;
     private static final int CAMERA_PERMISSION = 101;
+    private static final int PICK_IMAGE_REQUEST = 100;
     private static final int IMAGE_CAPTURE = 102;
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    CollectionReference  mCollectionReference = db.collection(CollectionName.ADDITION_REQUESTS.toString());
+    private Uri mImageUri;
+    private Dialog loadingDialog;
+    private static boolean fromGallery = false;
+    private static boolean fromCamera = false;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    StorageReference fileRef;
+    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mCollectionReference = db.collection(CollectionName.ADDITION_REQUESTS.toString());
+    private StorageReference mStorageRef;
+    private StorageTask mUploadTask;
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +80,18 @@ public class AddCitizenActivity extends AppCompatActivity {
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mBinding.toolBarAddCitizen);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mStorageRef = FirebaseStorage.getInstance().getReference(CollectionName.StorageFolder.CITIZENPICSOFDOCUMENT.name());
 
         String[] array = getResources().getStringArray(R.array.items_array);
         ArrayAdapter mAdapter = new ArrayAdapter(getBaseContext(), R.layout.spinner_item, array);
         mBinding.actvNeighborhoodName.setAdapter(mAdapter);
 
+        mBinding.tvChooseFromGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser();
+            }
+        });
         mBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,13 +99,27 @@ public class AddCitizenActivity extends AppCompatActivity {
                  * to get the value of edit text by below line
                  ** mBinding.citizenFirstNameLayout.getEditText().getText().toString()
                  */
-                Toast.makeText(getBaseContext(), "success", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(), "success", Toast.LENGTH_SHORT).show();
+
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    Toast.makeText(getBaseContext(), " upload in progress", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (checkFields() && fromGallery && mImageUri != null)
+                        uploadCitizenDetails();
+                    else if (fromCamera && checkFields()) {
+                        uploadCitizenDetails();
+                    }
+
+                    //Toast.makeText(getBaseContext(), "all the Fields os required", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                // finish();
+                showDialog();
             }
         });
         mBinding.tvTakePicture.setOnClickListener(new View.OnClickListener() {
@@ -107,9 +166,22 @@ public class AddCitizenActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED) {
             if (requestCode == IMAGE_CAPTURE) {
+                fromCamera = true;
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 mBinding.ivDocumentPicture.setImageBitmap(bitmap);
             }
+        }
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            fromGallery = true;
+            Toast.makeText(getBaseContext(), mImageUri.toString(), Toast.LENGTH_SHORT).show();
+            Picasso.with(this).load(mImageUri).into(mBinding.ivDocumentPicture);
+            Toast.makeText(getBaseContext(), "you have chosen a picture", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(getBaseContext(), "you have not choose a picture", Toast.LENGTH_SHORT).show();
+
         }
 
 
@@ -131,4 +203,279 @@ public class AddCitizenActivity extends AppCompatActivity {
         super.onDestroy();
         mBinding = null;
     }
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void uploadCitizenDetails() {
+
+        if (mImageUri != null && fromGallery) {
+            createDialog();
+            showDialog();
+            Toast.makeText(getBaseContext(), "if", Toast.LENGTH_SHORT).show();
+            fileRef = mStorageRef.child(getNameOFPic());
+            mUploadTask = fileRef.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //   Toast.makeText(getBaseContext() , "have saved image" ,Toast.LENGTH_SHORT).show();
+                }
+            })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            ((TextView) loadingDialog.findViewById(R.id.tv_value)).setText((int) progress + "%");
+
+                            ((ProgressBar) loadingDialog.findViewById(R.id.progress_loading)).setProgress((int) progress);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            setDialogError();
+                        }
+                    });
+
+            Task<Uri> urlTask = mUploadTask.continueWithTask(new Continuation() {
+                @Override
+                public Object then(@NonNull Task task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return fileRef.getDownloadUrl();
+
+                }
+            })
+                    .addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if (task.isSuccessful()) {
+                                // Toast.makeText(getBaseContext() , "on Complete" ,Toast.LENGTH_SHORT).show();
+                                Map<String, Object> additionDetails = new HashMap<>();
+                                additionDetails.put(CollectionName.Fields.aqelAddition.name(), "Abdulrahman");
+                                additionDetails.put(CollectionName.Fields.hireDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())));
+                                additionDetails.put(CollectionName.Fields.representativeCertain.name(), " ");
+                                additionDetails.put(CollectionName.Fields.dateCertain.name(), " ");
+                                Uri uri = (Uri) task.getResult();
+                                CitizenCollection citizenDetails = new CitizenCollection(
+                                        mBinding.citizenFirstNameLayout.getEditText().getText().toString() + " "
+                                                + mBinding.citizenSecondNameLayout.getEditText().getText().toString() + " "
+                                                + mBinding.citizenLastNameLayout.getEditText().getText().toString(),
+                                        additionDetails, uri.toString(),
+                                        mBinding.neighborhoodNameLayout.getEditText().getText().toString(),
+                                        Integer.valueOf(mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString()),
+                                        Integer.valueOf(mBinding.citizenNumberOfCylindersLayout.getEditText().getText().toString())
+                                        , false
+                                );
+                                mCollectionRef.add(citizenDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+
+
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
+                                            }
+                                        }, 3000);
+                                        loadingDialog.dismiss();
+                                        // Toast.makeText(getBaseContext() ,"have Added" , Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }).
+                                        addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                setDialogError();
+                                                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                            }
+                        }
+                    });
+
+
+        } else if (fromCamera) {
+            createDialog();
+            showDialog();
+            mBinding.ivDocumentPicture.setDrawingCacheEnabled(true);
+            mBinding.ivDocumentPicture.buildDrawingCache();
+            Bitmap bitmap = ((BitmapDrawable) mBinding.ivDocumentPicture.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+            fileRef = mStorageRef.child(System.currentTimeMillis() + "." + "jpeg");
+            mUploadTask = fileRef.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //   Toast.makeText(getBaseContext() , "have saved image" ,Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    ((TextView) loadingDialog.findViewById(R.id.tv_value)).setText((int) progress + "%");
+                    ((ProgressBar) loadingDialog.findViewById(R.id.progress_loading)).setProgress((int) progress);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    setDialogError();
+                }
+            });
+            Task<Uri> urlTask = mUploadTask.continueWithTask(new Continuation() {
+                @Override
+                public Object then(@NonNull Task task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return fileRef.getDownloadUrl();
+
+                }
+            }).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        // Toast.makeText(getBaseContext() , "on Complete" ,Toast.LENGTH_SHORT).show();
+                        Map<String, Object> additionDetails = new HashMap<>();
+                        additionDetails.put(CollectionName.Fields.aqelAddition.name(), "Abdulrahman");
+                        additionDetails.put(CollectionName.Fields.hireDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())));
+                        additionDetails.put(CollectionName.Fields.representativeCertain.name(), " ");
+                        additionDetails.put(CollectionName.Fields.dateCertain.name(), " ");
+                        Uri uri = (Uri) task.getResult();
+                        CitizenCollection citizenDetails = new CitizenCollection(
+                                mBinding.citizenFirstNameLayout.getEditText().getText().toString() + " "
+                                        + mBinding.citizenSecondNameLayout.getEditText().getText().toString() + " "
+                                        + mBinding.citizenLastNameLayout.getEditText().getText().toString(),
+                                additionDetails, uri.toString(),
+                                mBinding.neighborhoodNameLayout.getEditText().getText().toString(),
+                                Integer.valueOf(mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString()),
+                                Integer.valueOf(mBinding.citizenNumberOfCylindersLayout.getEditText().getText().toString())
+                                , false
+                        );
+                        mCollectionRef.add(citizenDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+
+
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
+                                    }
+                                }, 3000);
+                                loadingDialog.dismiss();
+                                // Toast.makeText(getBaseContext() ,"have Added" , Toast.LENGTH_SHORT).show();
+
+                            }
+                        }).
+                                addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        setDialogError();
+                                        Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                    }
+                }
+            });
+
+        }
+    }
+
+    private String getNameOFPic() {
+        String name = String.valueOf(System.currentTimeMillis());
+        name += ".";
+        name += getFileExtension(mImageUri);
+
+        return name;
+
+    }
+
+    private Boolean checkFields() {
+        int number = 0;
+        if (mBinding.citizenFirstNameLayout.getEditText().getText().toString().trim().isEmpty()) {
+            mBinding.citizenFirstNameLayout.setError(" First name is required");
+            mBinding.citizenFirstNameLayout.requestFocus();
+        } else {
+            number++;
+        }
+        if (mBinding.citizenSecondNameLayout.getEditText().getText().toString().trim().isEmpty()) {
+            mBinding.citizenSecondNameLayout.setError(" Second name is required");
+            mBinding.citizenSecondNameLayout.requestFocus();
+        } else {
+            number++;
+        }
+        if (mBinding.citizenLastNameLayout.getEditText().getText().toString().trim().isEmpty()) {
+            mBinding.citizenLastNameLayout.setError(" Last name is required");
+            mBinding.citizenLastNameLayout.requestFocus();
+        } else {
+            number++;
+        }
+        if (mBinding.neighborhoodNameLayout.getEditText().getText().toString().trim().isEmpty()) {
+            mBinding.neighborhoodNameLayout.setError(" Neighborhood name is required");
+            mBinding.neighborhoodNameLayout.requestFocus();
+        } else {
+            number++;
+        }
+        if (mBinding.citizenNumberOfCylindersLayout.getEditText().getText().toString().trim().isEmpty()) {
+            mBinding.citizenNumberOfCylindersLayout.setError(" Number Of Cylinders  is required");
+            mBinding.citizenNumberOfCylindersLayout.requestFocus();
+        } else {
+            number++;
+        }
+        if (mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString().trim().isEmpty()) {
+            mBinding.citizenNumberOfFamilyMembersLayout.setError(" family member  is required");
+            mBinding.citizenNumberOfFamilyMembersLayout.requestFocus();
+        } else {
+            number++;
+        }
+
+        return number == 6;
+    }
+
+    private void createDialog() {
+        loadingDialog = new Dialog(mBinding.getRoot().getContext());
+        loadingDialog.setContentView(R.layout.loading_dialog);
+        loadingDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        Window window = loadingDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations = R.style.FadeDialogAnimation;
+        loadingDialog.setCancelable(false);
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void showDialog() {
+
+        loadingDialog.show();
+
+    }
+
+    private void setDialogError() {
+        ((ProgressBar) loadingDialog.findViewById(R.id.progress_loading)).setVisibility(View.GONE);
+        ((TextView) loadingDialog.findViewById(R.id.tv_value)).setVisibility(View.GONE);
+        ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setVisibility(View.GONE);
+
+        ((TextView) loadingDialog.findViewById(R.id.tv_error)).setVisibility(View.VISIBLE);
+        ((Button) loadingDialog.findViewById(R.id.btn_okay)).setVisibility(View.VISIBLE);
+        ((Button) loadingDialog.findViewById(R.id.btn_okay)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadingDialog.dismiss();
+            }
+        });
+
+    }
+
 }

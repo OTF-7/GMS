@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
 import com.GMS.databinding.AdditionRequestItemBinding;
+import com.GMS.firebaseFireStore.CitizenCollection;
+import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.representative.helperClass.CitizenAdditionRequest;
 import com.GMS.representative.helperClass.RepresentativeClickListener;
 
@@ -25,11 +27,11 @@ import java.util.Collection;
 public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<AdditionRequestRecyclerViewAdapter.AdditionRequestViewHolder> implements Filterable {
 
 
-    ArrayList<CitizenAdditionRequest> lists = new ArrayList<>();
-    ArrayList<CitizenAdditionRequest> fullList = new ArrayList<>();
+    ArrayList<CitizenCollection> lists = new ArrayList<>();
+    ArrayList<CitizenCollection> fullList = new ArrayList<>();
     RepresentativeClickListener mRepresentativeClickListener;
 
-    public AdditionRequestRecyclerViewAdapter(ArrayList<CitizenAdditionRequest> lists, RepresentativeClickListener mRepresentativeClickListener) {
+    public AdditionRequestRecyclerViewAdapter(ArrayList<CitizenCollection> lists, RepresentativeClickListener mRepresentativeClickListener) {
         this.lists = lists;
         this.fullList = new ArrayList<>(this.lists);
         this.mRepresentativeClickListener = mRepresentativeClickListener;
@@ -45,10 +47,10 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull AdditionRequestViewHolder holder, int position) {
-        CitizenAdditionRequest item = lists.get(position);
-        holder.mAdditionRequestItemBinding.tvCitizenName.setText(item.getCitizenName());
-        holder.mAdditionRequestItemBinding.tvCitizenAddress.setText(item.getCitizenAddress());
-        holder.mAdditionRequestItemBinding.tvCitizenHireDate.setText(item.getCitizenHireDate());
+        CitizenCollection item = lists.get(position);
+        holder.mAdditionRequestItemBinding.tvCitizenName.setText(item.getFullName());
+        holder.mAdditionRequestItemBinding.tvCitizenAddress.setText(item.getNeighborhood());
+        holder.mAdditionRequestItemBinding.tvCitizenHireDate.setText((CharSequence) item.getAdditionDetails().get(CollectionName.Fields.hireDate.name().toString()));
         holder.mAdditionRequestItemBinding.tvSeeDocumentDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,14 +88,14 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
         protected FilterResults performFiltering(CharSequence charSequence) {
 
             String searchText = charSequence.toString().toLowerCase();
-            ArrayList<CitizenAdditionRequest> tempLst = new ArrayList<>();
+            ArrayList<CitizenCollection> tempLst = new ArrayList<>();
 
             if (searchText.isEmpty()) {
                 tempLst.addAll(fullList);
             } else {
-                for (CitizenAdditionRequest item : fullList) {
+                for (CitizenCollection item : fullList) {
 
-                    if (item.getCitizenName().toLowerCase().contains(searchText)) {
+                    if (item.getFullName().toLowerCase().contains(searchText)) {
 
                         tempLst.add(item);
                     }
@@ -110,7 +112,7 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             lists.clear();
-            lists.addAll((Collection<? extends CitizenAdditionRequest>) filterResults.values);
+            lists.addAll((Collection<? extends CitizenCollection>) filterResults.values);
             notifyDataSetChanged();
         }
     };

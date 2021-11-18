@@ -33,6 +33,7 @@ public  class FireBaseConnection {
             state =false;
             // empty constructor
         }
+        /*
         public boolean additionRequestAdd(CitizenCollection mDocument)
         {
 
@@ -61,6 +62,8 @@ public  class FireBaseConnection {
 
            return state;
         }
+
+         */
 
         public boolean addUser(UserCollection mUserCollection)
         {

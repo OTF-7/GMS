@@ -1,48 +1,54 @@
 package com.GMS.firebaseFireStore;
 
-import android.graphics.Bitmap;
-
 import com.google.firebase.firestore.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CitizenCollection {
 
-    private String id ;
-    private String name ;
+    private String documentId;
+    private String fullName ;
+    private Map<String ,Object> additionDetails ;
+    private String documentUrl ;
     private String neighborhood ;
-    private int familyMember;
+    private int familyMember ;
     private int numberOfCylinders;
-    private String hireDate ;
-    private String aqelAddition ;
-    private String repConfirmation ;
-    private String dateOfConfirmation ;
-    private Bitmap document ;
-    private boolean stateOfConfirmation;
+    private boolean state ;
 
-    public CitizenCollection(String name, String neighborhood, int numberOfFamily, int countOfCylinder, String hireDate, String aqelAddition, String repConfirmation, String dateOfConfirmation, Bitmap document, boolean stateOfConfirmation) {
-        this.name = name;
-        this.neighborhood = neighborhood;
-        this.familyMember = numberOfFamily;
-        this.numberOfCylinders = countOfCylinder;
-        this.hireDate = hireDate;
-        this.aqelAddition = aqelAddition;
-        this.repConfirmation = repConfirmation;
-        this.dateOfConfirmation = dateOfConfirmation;
-        this.document = document;
-        this.stateOfConfirmation = stateOfConfirmation;
+    public CitizenCollection() {
     }
 
+    public CitizenCollection(String fullName, Map<String, Object> additionDetails, String documentUrl, String neighborhood, int familyMember, int numberOfCylinders, boolean state) {
+        this.fullName = fullName;
+        this.additionDetails = additionDetails;
+        this.documentUrl = documentUrl;
+        this.neighborhood = neighborhood;
+        this.familyMember = familyMember;
+        this.numberOfCylinders = numberOfCylinders;
+        this.state = state;
+    }
 
     @Exclude
-    public String getId() {
-        return id;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
-    public String getName() {
-        return name;
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public HashMap<String, Object> getAdditionDetails() {
+        return (HashMap<String, Object>) additionDetails;
+    }
+
+    public String getDocumentUrl() {
+        return documentUrl;
     }
 
     public String getNeighborhood() {
@@ -57,27 +63,16 @@ public class CitizenCollection {
         return numberOfCylinders;
     }
 
-    public String getHireDate() {
-        return hireDate;
+    public boolean isState() {
+        return state;
     }
 
-    public String getAqelAddition() {
-        return aqelAddition;
+    public void setState(boolean state) {
+        this.state = state;
     }
 
-    public String getRepConfirmation() {
-        return repConfirmation;
-    }
-
-    public String getDateOfConfirmation() {
-        return dateOfConfirmation;
-    }
-
-    public Bitmap getDocument() {
-        return document;
-    }
-
-    public boolean isStateOfConfirmation() {
-        return stateOfConfirmation;
+    public void setAdditionDetails(Map<String, Object> additionDetails) {
+        this.additionDetails = additionDetails;
     }
 }
+

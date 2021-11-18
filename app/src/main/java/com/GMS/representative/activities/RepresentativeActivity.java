@@ -21,9 +21,15 @@ import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.databinding.ActivityRepresentativeBinding;
+import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.representative.adapters.MainAdapter;
 import com.GMS.representative.adapters.ViewPager2Adapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class RepresentativeActivity extends AppCompatActivity {
 
@@ -31,9 +37,12 @@ public class RepresentativeActivity extends AppCompatActivity {
     MenuItem mMenuItemNotification;
     TextView tvNotificationCounter;
     ImageView ivNotificationIcon;
-    public static int pendingNotification = 99;
+    public static int pendingNotification = 0;
     MainAdapter mAdapter;
     ViewPager2Adapter vpAdapter;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+
     ActivityRepresentativeBinding mBinding;
 
     @Override
@@ -86,9 +95,9 @@ public class RepresentativeActivity extends AppCompatActivity {
         mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mBinding.tabLayoutRepresentative.getSelectedTabPosition()==0) {
+                if (mBinding.tabLayoutRepresentative.getSelectedTabPosition() == 0) {
                     Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
-                    intent.putExtra(Constant.ACTIVITY.toString() , Constant.REPNEEDSCAN.toString());
+                    intent.putExtra(Constant.ACTIVITY.toString(), Constant.REPNEEDSCAN.toString());
                     startActivity(intent);
                 }
             }
@@ -110,7 +119,7 @@ public class RepresentativeActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_representative_top_bar, menu);
         mMenuItemNotification = menu.findItem(R.id.notification_addition);
-        checkNotification();
+        //checkNotification();
 
         return true;
     }
@@ -118,29 +127,28 @@ public class RepresentativeActivity extends AppCompatActivity {
     private void checkNotification() {
 
 
-        if (pendingNotification <=0) {
-            mMenuItemNotification.setActionView(null);
-        } else {
-            mMenuItemNotification.setActionView(R.layout.notification_layout);
-            View view = mMenuItemNotification.getActionView();
-            tvNotificationCounter = view.findViewById(R.id.notification_counter);
-            ivNotificationIcon = view.findViewById(R.id.iv_notification_icon);
-            ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openAdditionRequestActivity();
-                }
-            });
-            Drawable mDrawable = getDrawable(R.drawable.notification_counter_shape);
-            view.findViewById(R.id.card_view).setBackground(mDrawable);
-            tvNotificationCounter.setText(String.valueOf(pendingNotification));
-        }
+        // if (pendingNotification <=0) {
+        // mMenuItemNotification.setActionView(null);
+        // } else {
+        mMenuItemNotification.setActionView(R.layout.notification_layout);
+        View view = mMenuItemNotification.getActionView();
+        tvNotificationCounter = view.findViewById(R.id.notification_counter);
+        ivNotificationIcon = view.findViewById(R.id.iv_notification_icon);
+        ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAdditionRequestActivity();
+            }
+        });
+        Drawable mDrawable = getDrawable(R.drawable.notification_counter_shape);
+        view.findViewById(R.id.card_view).setBackground(mDrawable);
+        tvNotificationCounter.setText(String.valueOf(pendingNotification));
+        //}
     }
 
     private void openAdditionRequestActivity() {
         Intent intent = new Intent(this, AdditionRequestsActivity.class);
-        intent.putExtra("pendingNotification", pendingNotification);
-        startActivityForResult(intent, ADDITION_REQUEST_REQ_CODE);
+        startActivity(intent);
     }
 
     @Override
@@ -150,8 +158,8 @@ public class RepresentativeActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.setting_item:
-                  Intent intent = new Intent(mBinding.getRoot().getContext() , SettingActivity.class);
-                  startActivity(intent);
+                Intent intent = new Intent(mBinding.getRoot().getContext(), SettingActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.notification_addition:
@@ -165,15 +173,34 @@ public class RepresentativeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        /*
         if (requestCode == ADDITION_REQUEST_REQ_CODE) {
             pendingNotification = data.getIntExtra("pendingNotification", pendingNotification);
             checkNotification();
         }
+
+         */
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mBinding=null;
+        mBinding = null;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mCollectionRef.whereEqualTo(CollectionName.Fields.state.name(), false).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+                pendingNotification = queryDocumentSnapshots.size();
+                checkNotification();
+            }
+        });
     }
 }

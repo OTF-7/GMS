@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     tools:context=".representative.activities.AdditionRequestsActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/top_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
@@ -32,6 +33,7 @@
             app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_addition_requests"
         android:layout_width="match_parent"
@@ -41,6 +43,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout"/>
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout" />
 
+    <ProgressBar
+        android:id="@+id/progress_while_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout" />
+
+    <TextView
+        android:id="@+id/info_requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="There is no any request"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

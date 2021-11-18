@@ -63,5 +63,8 @@
     <string name="agent">Agent : </string>
     <string name="day_and_time">Day and Time :</string>
     <string name="date">Date :</string>
-    <string name="receiving">Have you token all the money</string>
+    <string name="receiving" translatable="false">Have you token all the money</string>
+    <string name="loading" translatable="false">Loading...</string>
+    <string name="error" translatable="false">Error !</string>
+    <string name="done" translatable="false">done</string>
 </resources>

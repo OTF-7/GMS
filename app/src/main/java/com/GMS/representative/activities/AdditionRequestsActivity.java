@@ -1,8 +1,11 @@
 package com.GMS.representative.activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -21,22 +25,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityAdditionRequestsBinding;
+import com.GMS.firebaseFireStore.CitizenCollection;
+import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.representative.adapters.AdditionRequestRecyclerViewAdapter;
-import com.GMS.representative.helperClass.CitizenAdditionRequest;
 import com.GMS.representative.helperClass.RepresentativeClickListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AdditionRequestsActivity extends AppCompatActivity {
 
     ActivityAdditionRequestsBinding mBinding;
     AdditionRequestRecyclerViewAdapter adapter;
-    private final ArrayList<CitizenAdditionRequest> items = new ArrayList<>();
+    private final ArrayList<CitizenCollection> citizenCollectionItems = new ArrayList<>();
     private TextView tvCitizenName, tvNeighborhood;
     private ImageView ivDocument;
     private RepresentativeClickListener mRepresentativeClickListener;
     private Dialog mDialog;
-    private static int pendingNotification = 0;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private static final int pendingNotification = 0;
     Intent intent = new Intent();
 
     @Override
@@ -49,8 +66,7 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         notificationsCount();
         intent = getIntent();
-        pendingNotification = intent.getIntExtra("pendingNotification", 0);
-
+        /*
         items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
         items.add(new CitizenAdditionRequest("Omar Taha", "Alornish", "20/20/2021"));
         items.add(new CitizenAdditionRequest("Saad Ahmed", "Alornish", "20/20/2021"));
@@ -67,21 +83,9 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
         items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
 
-        mRepresentativeClickListener = new RepresentativeClickListener() {
-            @Override
-            public void onClick(int position, String tvItem) {
-                if (tvItem == getString(R.string.see_document)) {
-                    createDialog(position);
-                    showDialog();
-                } else if (tvItem == getString(R.string.confirm)) {
-                    confirmAdditionRequest();
-                } else if (tvItem == getString(R.string.regret)) {
-                    regretAdditionRequest(position);
-                }
-            }
 
-        };
-        initRV();
+         */
+
 
     }
 
@@ -126,13 +130,15 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // this function make intitialzation of recyclerview and addapter *look(updates)*
+    // this function make initialization of recyclerview and addapter *look(updates)*
     private void initRV() {
-        adapter = new AdditionRequestRecyclerViewAdapter(items, mRepresentativeClickListener);
+        adapter = new AdditionRequestRecyclerViewAdapter(citizenCollectionItems, mRepresentativeClickListener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
         mBinding.rvAdditionRequests.setHasFixedSize(true);
         mBinding.rvAdditionRequests.setLayoutManager(layoutManager);
         mBinding.rvAdditionRequests.setAdapter(adapter);
+        mBinding.infoRequests.setVisibility(View.INVISIBLE);
+        mBinding.progressWhileLoading.setVisibility(View.INVISIBLE);
     }
 
     private void createDialog(int position) {
@@ -147,11 +153,16 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         tvCitizenName = mDialog.findViewById(R.id.tv_citizen_name_dialog);
         tvNeighborhood = mDialog.findViewById(R.id.tv_neighborhood_dialog);
         ivDocument = mDialog.findViewById(R.id.iv_document);
-
         // set the values for views
-        tvCitizenName.setText(items.get(position).getCitizenName());
-        tvNeighborhood.setText(items.get(position).getCitizenAddress());
+        tvCitizenName.setText(citizenCollectionItems.get(position).getFullName());
+        tvNeighborhood.setText(citizenCollectionItems.get(position).getNeighborhood());
         ivDocument.setImageResource(R.drawable.ic_document);
+        Picasso.with(mDialog.getContext())
+                .load(citizenCollectionItems.get(position).getDocumentUrl())
+                .fit()
+                .placeholder(R.mipmap.ic_launcher)
+                .centerCrop()
+                .into(ivDocument);
     }
 
     private void showDialog() {
@@ -165,17 +176,32 @@ public class AdditionRequestsActivity extends AppCompatActivity {
 
     }
 
-    private void confirmAdditionRequest() {
-        --pendingNotification;
-        Toast.makeText(getBaseContext(), "confirm", Toast.LENGTH_SHORT).show();
+    private void confirmAdditionRequest(int position) {
+
+        CitizenCollection citizenCollection = citizenCollectionItems.get(position);
+        citizenCollection.setState(true);
+        //  citizenCollection.setAdditionDetails((Map<String, Object>) citizenCollection.getAdditionDetails().put(CollectionName.Fields.dateCertain.name(),String.valueOf(new java.sql.Date(System.currentTimeMillis()))));
+        // citizenCollection.setAdditionDetails((Map<String, Object>) citizenCollection.getAdditionDetails().put(CollectionName.Fields.dateCertain.name(),String.valueOf(new java.sql.Date(System.currentTimeMillis()))));
+        HashMap<String, Object> confirmation = citizenCollection.getAdditionDetails();
+        confirmation.put(CollectionName.Fields.dateCertain.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())));
+        confirmation.put(CollectionName.Fields.representativeCertain.name(), "Abdulrahman khalid M");
+        citizenCollection.setAdditionDetails(confirmation);
+        confirmation = null;
+        mCollectionRef.document(citizenCollection.getDocumentId()).set(citizenCollection, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getBaseContext(), "Confirmed", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void regretAdditionRequest(int position) {
         // code to remove from database NOsql then remove from the lists which call items
-        items.remove(position);
-        --pendingNotification;
+        //citizenCollectionItems.remove(position);
+        // --pendingNotification;
         // to initialize the RecyclerView with the list after delete from the database... avoidance matters
-        initRV();
+        // initRV();
     }
 
     private void notificationsCount() {
@@ -183,4 +209,47 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         setResult(RepresentativeActivity.ADDITION_REQUEST_REQ_CODE, intent);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mCollectionRef.whereEqualTo(CollectionName.Fields.state.name(), false)
+                .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                        if (e != null) {
+                            Log.e(TAG, e.toString());
+                        }
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            mBinding.progressWhileLoading.setVisibility(View.INVISIBLE);
+                            mBinding.infoRequests.setVisibility(View.VISIBLE);
+                        } else {
+                            citizenCollectionItems.clear();
+                            adapter = null;
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
+                                citizenDocument.setDocumentId(documentSnapshot.getId());
+                                citizenCollectionItems.add(citizenDocument);
+                            }
+                            mRepresentativeClickListener = new RepresentativeClickListener() {
+                                @Override
+                                public void onClick(int position, String tvItem) {
+                                    if (tvItem == getString(R.string.see_document)) {
+                                        createDialog(position);
+                                        showDialog();
+                                    } else if (tvItem == getString(R.string.confirm)) {
+                                        confirmAdditionRequest(position);
+                                    } else if (tvItem == getString(R.string.regret)) {
+                                        regretAdditionRequest(position);
+                                    }
+                                }
+
+                            };
+                            initRV();
+                        }
+                    }
+                });
+
+
+    }
 }

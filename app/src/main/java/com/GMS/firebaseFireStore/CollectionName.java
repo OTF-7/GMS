@@ -16,6 +16,10 @@ public enum CollectionName {
     DAILY_ACTIONS,
     STATION_PURCHASING ,
     ADDITION_REQUESTS;
+    public enum StorageFolder
+    {
+        CITIZENPICSOFDOCUMENT
+    }
 
     public enum Fields {
         id,
@@ -30,7 +34,7 @@ public enum CollectionName {
         password,
         socialAccounts,
         typeOfJob,
-
+        state ,
 
         // citizen document ;
 
@@ -46,7 +50,8 @@ public enum CollectionName {
 
         numberOfDelivered, purchasingPrice, purchasedQuantity, latitude,
         longitude,
-
+   representativeCertain ,
+        dateCertain ,
         aqelVerified,
         repVerified,
         delivered,
