@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.view.Window;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityAddCitizenBinding;
+import com.GMS.firebaseFireStore.ActionCollection;
 import com.GMS.firebaseFireStore.CitizenCollection;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.google.android.gms.tasks.Continuation;
@@ -40,11 +41,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -66,6 +73,8 @@ public class AddCitizenActivity extends AppCompatActivity {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     StorageReference fileRef;
     private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
+
     private final CollectionReference mCollectionReference = db.collection(CollectionName.ADDITION_REQUESTS.toString());
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
@@ -274,8 +283,50 @@ public class AddCitizenActivity extends AppCompatActivity {
                                         mBinding.neighborhoodNameLayout.getEditText().getText().toString(),
                                         Integer.valueOf(mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString()),
                                         Integer.valueOf(mBinding.citizenNumberOfCylindersLayout.getEditText().getText().toString())
-                                        , false
+                                        , false, false
                                 );
+                                final String[] id = new String[1];
+                                mNeighborhood.whereEqualTo("name", mBinding.neighborhoodNameLayout.getEditText().getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                                id[0] = documentSnapshot.getId();
+                                                db.collection(CollectionName.NEIGHBORHOODS.name()).document(id[0]).collection(CollectionName.CITIZENS.name())
+                                                        .add(citizenDetails)
+                                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+                                                            @Override
+                                                            public void onSuccess(DocumentReference documentReference) {
+                                                                handler.postDelayed(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
+                                                                    }
+                                                                }, 3000);
+                                                                loadingDialog.dismiss();
+                                                            }
+                                                        })
+
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                setDialogError();
+                                                                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                            }
+                                                        });
+
+
+                                                break;
+                                            }
+                                        }
+                                    }
+                                });
+
+
+
+                                 /*
                                 mCollectionRef.add(citizenDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
@@ -299,6 +350,8 @@ public class AddCitizenActivity extends AppCompatActivity {
                                                 Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
+
+                                  */
 
                             }
                         }
@@ -361,7 +414,7 @@ public class AddCitizenActivity extends AppCompatActivity {
                                 mBinding.neighborhoodNameLayout.getEditText().getText().toString(),
                                 Integer.valueOf(mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString()),
                                 Integer.valueOf(mBinding.citizenNumberOfCylindersLayout.getEditText().getText().toString())
-                                , false
+                                , false, false
                         );
                         mCollectionRef.add(citizenDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
@@ -463,13 +516,13 @@ public class AddCitizenActivity extends AppCompatActivity {
     }
 
     private void setDialogError() {
-        ((ProgressBar) loadingDialog.findViewById(R.id.progress_loading)).setVisibility(View.GONE);
-        ((TextView) loadingDialog.findViewById(R.id.tv_value)).setVisibility(View.GONE);
-        ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setVisibility(View.GONE);
+        loadingDialog.findViewById(R.id.progress_loading).setVisibility(View.GONE);
+        loadingDialog.findViewById(R.id.tv_value).setVisibility(View.GONE);
+        loadingDialog.findViewById(R.id.tv_loading).setVisibility(View.GONE);
 
-        ((TextView) loadingDialog.findViewById(R.id.tv_error)).setVisibility(View.VISIBLE);
-        ((Button) loadingDialog.findViewById(R.id.btn_okay)).setVisibility(View.VISIBLE);
-        ((Button) loadingDialog.findViewById(R.id.btn_okay)).setOnClickListener(new View.OnClickListener() {
+        loadingDialog.findViewById(R.id.tv_error).setVisibility(View.VISIBLE);
+        loadingDialog.findViewById(R.id.btn_okay).setVisibility(View.VISIBLE);
+        loadingDialog.findViewById(R.id.btn_okay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingDialog.dismiss();
@@ -478,4 +531,21 @@ public class AddCitizenActivity extends AppCompatActivity {
 
     }
 
+    private void generateQR() {
+        QRCodeWriter writer = new QRCodeWriter();
+        try {
+            BitMatrix bitMatrix = writer.encode("hello", BarcodeFormat.QR_CODE, 400, 400);
+            Bitmap bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.RGB_565);
+            for (int i = 0; i < 400; i++) {
+                for (int j = 0; j < 400; j++) {
+                    bitmap.setPixel(i, j, bitMatrix.get(i, j) ? Color.BLACK : Color.WHITE);
+                }
+            }
+            mBinding.ivDocumentPicture.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
+

@@ -31,16 +31,20 @@ import com.GMS.representative.adapters.AdditionRequestRecyclerViewAdapter;
 import com.GMS.representative.helperClass.RepresentativeClickListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Transaction;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class AdditionRequestsActivity extends AppCompatActivity {
 
@@ -53,6 +57,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     private Dialog mDialog;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
+    String  id ;
     private static final int pendingNotification = 0;
     Intent intent = new Intent();
 
@@ -137,8 +143,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         mBinding.rvAdditionRequests.setHasFixedSize(true);
         mBinding.rvAdditionRequests.setLayoutManager(layoutManager);
         mBinding.rvAdditionRequests.setAdapter(adapter);
-        mBinding.infoRequests.setVisibility(View.INVISIBLE);
-        mBinding.progressWhileLoading.setVisibility(View.INVISIBLE);
+        mBinding.infoRequests.setVisibility(View.GONE);
+        mBinding.progressWhileLoading.setVisibility(View.GONE);
     }
 
     private void createDialog(int position) {
@@ -187,6 +193,27 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         confirmation.put(CollectionName.Fields.representativeCertain.name(), "Abdulrahman khalid M");
         citizenCollection.setAdditionDetails(confirmation);
         confirmation = null;
+        Toast.makeText(getBaseContext(), id, Toast.LENGTH_SHORT).show();
+        mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).document(citizenCollection.getDocumentId()).set(citizenCollection, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        executeNumOfFamilyTransaction();
+                        Toast.makeText(getBaseContext(), "Confirmed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void regretAdditionRequest(int position) {
+        CitizenCollection citizenCollection = citizenCollectionItems.get(position);
+        citizenCollection.setRegret(true);
+        //  citizenCollection.setAdditionDetails((Map<String, Object>) citizenCollection.getAdditionDetails().put(CollectionName.Fields.dateCertain.name(),String.valueOf(new java.sql.Date(System.currentTimeMillis()))));
+        // citizenCollection.setAdditionDetails((Map<String, Object>) citizenCollection.getAdditionDetails().put(CollectionName.Fields.dateCertain.name(),String.valueOf(new java.sql.Date(System.currentTimeMillis()))));
+        HashMap<String, Object> regret = citizenCollection.getAdditionDetails();
+        regret.put(CollectionName.Fields.dateCertain.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())));
+        regret.put(CollectionName.Fields.representativeCertain.name(), "Abdulrahman khalid M");
+        citizenCollection.setAdditionDetails(regret);
+        regret = null;
         mCollectionRef.document(citizenCollection.getDocumentId()).set(citizenCollection, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -194,14 +221,6 @@ public class AdditionRequestsActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Confirmed", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void regretAdditionRequest(int position) {
-        // code to remove from database NOsql then remove from the lists which call items
-        //citizenCollectionItems.remove(position);
-        // --pendingNotification;
-        // to initialize the RecyclerView with the list after delete from the database... avoidance matters
-        // initRV();
     }
 
     private void notificationsCount() {
@@ -212,6 +231,7 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        /*
         mCollectionRef.whereEqualTo(CollectionName.Fields.state.name(), false)
                 .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
                     @Override
@@ -220,8 +240,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
                         if (e != null) {
                             Log.e(TAG, e.toString());
                         }
-                        if (queryDocumentSnapshots.isEmpty()) {
-                            mBinding.progressWhileLoading.setVisibility(View.INVISIBLE);
+                        if (queryDocumentSnapshots.size()==0) {
+                            mBinding.progressWhileLoading.setVisibility(View.GONE);
                             mBinding.infoRequests.setVisibility(View.VISIBLE);
                         } else {
                             citizenCollectionItems.clear();
@@ -249,7 +269,78 @@ public class AdditionRequestsActivity extends AppCompatActivity {
                         }
                     }
                 });
+         */
+       mCollectionRefNeighborhood.whereEqualTo(CollectionName.Fields.name.name(), "Mousa Street")
+               .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+           @Override
+           public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+               if(!queryDocumentSnapshots.isEmpty())
+               {
+                   for(QueryDocumentSnapshot q :queryDocumentSnapshots )
+                   {
+                       id= q.getId().toString();
+                       break;
+                   }
+                   mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).whereEqualTo(CollectionName.Fields.state.name(), false)
+                           .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                               @Override
+                               public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                   if (e != null) {
+                                       Log.e(TAG, e.toString());
+                                   }
+                        if (queryDocumentSnapshots.isEmpty()) {
+                                   mBinding.progressWhileLoading.setVisibility(View.GONE);
+                                   mBinding.infoRequests.setVisibility(View.VISIBLE);
+                                   mBinding.rvAdditionRequests.setVisibility(View.GONE);
+                               } else {
+                            mBinding.rvAdditionRequests.setVisibility(View.VISIBLE);
+                                   citizenCollectionItems.clear();
+                                   adapter = null;
+                                   for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                       CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
+                                       citizenDocument.setDocumentId(documentSnapshot.getId());
+                                       citizenCollectionItems.add(citizenDocument);
+                                   }
+                                   mRepresentativeClickListener = new RepresentativeClickListener() {
+                                       @Override
+                                       public void onClick(int position, String tvItem) {
+                                           if (tvItem == getString(R.string.see_document)) {
+                                               createDialog(position);
+                                               showDialog();
+                                           } else if (tvItem == getString(R.string.confirm)) {
+                                               confirmAdditionRequest(position);
+                                           } else if (tvItem == getString(R.string.regret)) {
+                                               regretAdditionRequest(position);
+                                           }
+                                       }
+
+                                   };
+                                   initRV();
+                               }
+                               }
+                           });
+               }
+           }
+       });
 
 
+
+
+    }
+
+    private  void executeNumOfFamilyTransaction()
+    {
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentReference docRef = mCollectionRefNeighborhood.document(id);
+                DocumentSnapshot docSnap = transaction.get(docRef);
+                long numberOfFamilies = docSnap.getLong(CollectionName.Fields.numberOfFamilies.name().toString())+1;
+                transaction.update(docRef ,CollectionName.Fields.numberOfFamilies.name().toString() ,numberOfFamilies);
+                return null;
+            }
+        });
     }
 }

@@ -51,6 +51,12 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
         holder.mAdditionRequestItemBinding.tvCitizenName.setText(item.getFullName());
         holder.mAdditionRequestItemBinding.tvCitizenAddress.setText(item.getNeighborhood());
         holder.mAdditionRequestItemBinding.tvCitizenHireDate.setText((CharSequence) item.getAdditionDetails().get(CollectionName.Fields.hireDate.name().toString()));
+
+        if(item.isRegret())
+        {
+            holder.mAdditionRequestItemBinding.parentAdditionItem.setBackgroundColor((int) R.color.light);
+
+        }
         holder.mAdditionRequestItemBinding.tvSeeDocumentDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +72,7 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
         holder.mAdditionRequestItemBinding.tvRegret.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 mRepresentativeClickListener.onClick(position , holder.mAdditionRequestItemBinding.tvRegret.getText().toString());
             }
         });

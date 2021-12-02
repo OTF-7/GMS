@@ -22,8 +22,6 @@ public class NeighborhoodCollection {
     private String aqelName;
     private Map<String, Object> location;
     private  int numberOfFamilies;
-    private String latitude;
-    private String longitude;
     private String userName;
     private String password;
     private String hireDate;
@@ -35,15 +33,7 @@ public class NeighborhoodCollection {
         this.aqelDetails = aqelDetails;
         this.location = location;
         this.numberOfFamilies = numberOfFamilies;
-        /*
-        this.aqelDetails.put(Collection.Fields.name.name(), aqelName);
-        this.aqelDetails.put(Collection.Fields.userName.name(), userName);
-        this.aqelDetails.put(Collection.Fields.password.name(), password);
-        this.aqelDetails.put(Collection.Fields.hireDate.name(), hireDate);
-        this.aqelDetails.put(Collection.Fields.socialAccounts.name(), socialAccounts);
-        this.location.put(Collection.Fields.latitude.name(), latitude);
-        this.location.put(Collection.Fields.longitude.name(), longitude);
-         */
+
     }
 
     public void setId(String id) {

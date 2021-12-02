@@ -1,5 +1,6 @@
 package com.GMS.aqel.adapters;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.GeneralClasses.CitizenItemClickListener;
+import com.GMS.R;
 import com.GMS.aqel.helperClass.CitizenItemOfAqel;
 import com.GMS.databinding.CitizenItemRvBinding;
+import com.GMS.firebaseFireStore.CitizenActionDetails;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,20 +23,20 @@ import java.util.Collection;
 
 public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAqelAdapter.ViewHolderCitizen> implements Filterable {
 
-    ArrayList<CitizenItemOfAqel> listsCitizen, listsFull;
+    ArrayList<CitizenActionDetails> listsCitizen, listsFull;
     int typeOfPage;
     CitizenItemClickListener mItemClickListener ;
     private Filter filterUser = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             String searchText = constraint.toString().toLowerCase();
-            ArrayList<CitizenItemOfAqel> tempLst = new ArrayList<>();
+            ArrayList<CitizenActionDetails> tempLst = new ArrayList<>();
 
             if (searchText.isEmpty())
                 tempLst.addAll(listsFull);
             else {
-                for (CitizenItemOfAqel item : listsFull) {
-                    if (item.getCitizenName().toLowerCase().contains(searchText)) {
+                for (CitizenActionDetails item : listsFull) {
+                    if (item.getName().toLowerCase().contains(searchText)) {
                         tempLst.add(item);
                     }
                 }
@@ -47,12 +50,12 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
             listsCitizen.clear();
-            listsCitizen.addAll((Collection<? extends CitizenItemOfAqel>) results.values);
+            listsCitizen.addAll((Collection<? extends CitizenActionDetails>) results.values);
             notifyDataSetChanged();
         }
     };
 
-    public RecyclerViewAqelAdapter(ArrayList<CitizenItemOfAqel> lstsCitizen, int typeOfPage , CitizenItemClickListener mItemClickListener) {
+    public RecyclerViewAqelAdapter(ArrayList<CitizenActionDetails> lstsCitizen, int typeOfPage , CitizenItemClickListener mItemClickListener) {
         this.listsCitizen = lstsCitizen;
         this.typeOfPage = typeOfPage;
         this.listsFull = new ArrayList<>(lstsCitizen);
@@ -80,16 +83,16 @@ public class RecyclerViewAqelAdapter extends RecyclerView.Adapter<RecyclerViewAq
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolderCitizen holder, int position) {
 
-        CitizenItemOfAqel item = listsCitizen.get(position);
+        CitizenActionDetails item = listsCitizen.get(position);
 
-        holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getCitizenName());
-        holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getCitizenId());
-        holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getCountCylinder()));
-        holder.mCitizenItemRvBinding.ivState.setImageResource(item.getIvStateResource());
+        holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getName());
+        holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getIdInParent());
+        holder.mCitizenItemRvBinding.ivState.setImageResource(R.drawable.ic_need_scan);
+        holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getQuantityRequired()));
         holder.mCitizenItemRvBinding.citizenItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mItemClickListener.onClick(position , holder.mCitizenItemRvBinding.tvCitizenId.getText().toString());
+                mItemClickListener.onClick(position);
             }
         });
     }

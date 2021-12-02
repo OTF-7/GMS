@@ -6,27 +6,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CitizenActionDetails {
-    /*
-     ** EACH CITIZEN_ACTION_DETAILS DOCUMENT CONTAINS THESE :
-     *  {
-     *  ID , NAME , DELIVERED_QUANTITY ,TOTAL ,
-     *  DELIVERED_STATE { AQEL_VERIFIED , REP_VERIFIED , DELIVERED , RECEIVED }
-     * , DELIVERING_DATE , RECEIVING_DATE
-     * }
-     *
-     */
 
-    private String id ;
-    private String name ;
-    private int deliveredQuantity ;
-    private double total ;
-    private Map<String  ,Object> deliveredState = new HashMap<>();
-    private boolean aqelVerified , repVerified , delivered , received ;
-    private String deliveringDate ;
-    private String receivingDate ;
 
-    public CitizenActionDetails(String name, int deliveredQuantity, double total, String deliveringDate, String receivingDate , Map<String  ,Object> deliveredState) {
+    private String documentId;
+    private  String idInParent;
+    private  String name;
+    private  int deliveredQuantity;
+    private  long quantityRequired;
+    private  double total;
+    private Map<String, Object> deliveredState = new HashMap<>();
+   // private boolean aqelVerified, repVerified, delivered, received;
+    private  String deliveringDate;
+    private  String receivingDate;
+
+    public CitizenActionDetails() {
+     }
+
+
+    public CitizenActionDetails(String idInParent, String name, int deliveredQuantity, double total, String deliveringDate, String receivingDate, Map<String, Object> deliveredState ,long quantityRequired) {
+        this.idInParent = idInParent;
         this.name = name;
+        this.quantityRequired= quantityRequired;
         this.deliveredQuantity = deliveredQuantity;
         this.total = total;
         this.deliveredState = deliveredState;
@@ -40,13 +40,14 @@ public class CitizenActionDetails {
         this.receivingDate = receivingDate;
     }
 
-    public void setId(String id) {
-        this.id = id;
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     @Exclude
-    public String getId() {
-        return id;
+    public String getDocumentId() {
+        return documentId;
     }
 
     public String getName() {
@@ -71,6 +72,26 @@ public class CitizenActionDetails {
 
     public String getReceivingDate() {
         return receivingDate;
+    }
+
+    public String getIdInParent() {
+        return idInParent;
+    }
+
+    public void setDeliveredQuantity(int deliveredQuantity) {
+        this.deliveredQuantity = deliveredQuantity;
+    }
+
+    public void setDeliveredState(Map<String, Object> deliveredState) {
+        this.deliveredState = deliveredState;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public long getQuantityRequired() {
+        return quantityRequired;
     }
 }
 

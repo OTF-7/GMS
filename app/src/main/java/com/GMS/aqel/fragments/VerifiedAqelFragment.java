@@ -1,5 +1,7 @@
 package com.GMS.aqel.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +28,15 @@ import com.GMS.aqel.activities.AddCitizenActivity;
 import com.GMS.aqel.adapters.RecyclerViewAqelAdapter;
 import com.GMS.aqel.helperClass.CitizenItemOfAqel;
 import com.GMS.databinding.FragmentVerifiedAqelBinding;
+import com.GMS.firebaseFireStore.CitizenActionDetails;
+import com.GMS.firebaseFireStore.CollectionName;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +47,17 @@ public class VerifiedAqelFragment extends Fragment {
     FragmentVerifiedAqelBinding mBinding;
     RecyclerViewAqelAdapter adapter;
     public static final int FRAGMENT_ID=1;
+    ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
     CitizenItemClickListener mItemClickListener;
+    long sellingPrice ;
+    private static int Qty;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
+    private final CollectionReference mCollectionRefAction = db.collection(CollectionName.ACTIONS.name());
+    private final CollectionReference mCollectionRefActionDetails = db.collection(CollectionName.ACTION_DETAILS.name());
+    String idAction;
+    private String id;
     public VerifiedAqelFragment() {
         // Required empty public constructor
     }
@@ -45,8 +67,8 @@ public class VerifiedAqelFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentVerifiedAqelBinding.inflate(inflater , container , false);
-
-
+getAction();
+        /*
         ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
         items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_qr_need_scan));
         items.add(new CitizenItemOfAqel("Omar Taha" , "safdsfe" , 3 ,R.drawable.ic_qr_need_scan ));
@@ -54,21 +76,24 @@ public class VerifiedAqelFragment extends Fragment {
         items.add(new CitizenItemOfAqel("Mohammed Shihab" , "dgfd" ,  3, R.drawable.ic_qr_need_scan));
         items.add(new CitizenItemOfAqel("Omar swaid" , "48" , 3 , R.drawable.ic_qr_need_scan));
         items.add(new CitizenItemOfAqel("Khalid Someeri" , "685651" , 3 , R.drawable.ic_qr_need_scan));
-
+*/
         mItemClickListener = new CitizenItemClickListener() {
             @Override
-            public void onClick(int position, String id) {
-                Toast.makeText(getActivity().getApplicationContext(), "id is : "+id ,Toast.LENGTH_SHORT).show();
-            }
+            public void onClick(int position) {
+                }
         };
-        adapter = new RecyclerViewAqelAdapter(items , FRAGMENT_ID , mItemClickListener);
+
+        return mBinding.getRoot();
+
+    }
+    private void initRV()
+    {
+        mBinding.progressWhileLoading.setVisibility(View.GONE);
+        adapter = new RecyclerViewAqelAdapter(detailsItems , FRAGMENT_ID , mItemClickListener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBinding.rvVerifiedFragment.setHasFixedSize(true);
         mBinding.rvVerifiedFragment.setLayoutManager(layoutManager);
         mBinding.rvVerifiedFragment.setAdapter(adapter);
-
-
-        return mBinding.getRoot();
 
     }
 
@@ -117,5 +142,58 @@ public class VerifiedAqelFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void getAction() {
+
+        mCollectionRefAction.whereEqualTo(CollectionName.Fields.actionDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())))
+                .whereEqualTo(CollectionName.Fields.neighborhoodDetails.name() + "." + CollectionName.Fields.name.name(), "Mousa Street")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                        idAction = q.getId();
+                        sellingPrice = q.getLong(CollectionName.Fields.sellingPrice.name().toString());
+                        break;
+                    }
+                    getActionDetails();
+
+                } else {
+                    mBinding.progressWhileLoading.setVisibility(View.GONE);
+                    Toast.makeText(getContext().getApplicationContext(), "no Action today", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+    private void getActionDetails() {
+        mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
+                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified, true)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.e(TAG, e.toString());
+                        }
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            adapter= null ;
+                            detailsItems.clear();
+                            mBinding.progressWhileLoading.setVisibility(View.GONE);
+                            Toast.makeText(getContext().getApplicationContext(), "no Items", Toast.LENGTH_SHORT).show();
+                        } else {
+                            adapter = null ;
+                            detailsItems.clear();
+                            for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+
+                                CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
+                                actionDetails.setDocumentId(q.getId());
+                                detailsItems.add(actionDetails);
+                                Toast.makeText(getContext().getApplicationContext(), q.getId(), Toast.LENGTH_SHORT).show();
+
+                            }
+                            initRV();
+                        }
+                    }
+                });
     }
 }

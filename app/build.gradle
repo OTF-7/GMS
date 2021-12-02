@@ -72,4 +72,7 @@ dependencies {
     //using for convert and load image
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
+    //
+    implementation 'com.google.zxing:core:3.2.1'
+
 }

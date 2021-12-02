@@ -1,9 +1,12 @@
 package com.GMS.aqel.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,22 +34,48 @@ import com.GMS.aqel.activities.AqelNotificationsActivity;
 import com.GMS.aqel.adapters.RecyclerViewAqelAdapter;
 import com.GMS.aqel.helperClass.CitizenItemOfAqel;
 import com.GMS.databinding.FragmentNeedScanAqelBinding;
+import com.GMS.firebaseFireStore.CitizenActionDetails;
+import com.GMS.firebaseFireStore.CollectionName;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NeedScanAqelFragment extends Fragment {
 
     public static final int FRAGMENT_ID = 1;
     FragmentNeedScanAqelBinding mBinding;
     RecyclerViewAqelAdapter adapter;
+    ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
+
+    ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
     CitizenItemClickListener mItemClickListener;
     private Dialog mDialog;
     private TextInputEditText textInputEditTextQTY;
     private TextView tvTotal;
+    String idAction;
+
+    long sellingPrice ;
     private static int Qty;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
+    private final CollectionReference mCollectionRefAction = db.collection(CollectionName.ACTIONS.name());
+    private final CollectionReference mCollectionRefActionDetails = db.collection(CollectionName.ACTION_DETAILS.name());
+
+    private String id;
     // this for dealing with Runnable an clean it
     Handler mHandler = new Handler();
 
@@ -61,7 +90,11 @@ public class NeedScanAqelFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentNeedScanAqelBinding.inflate(inflater, container, false);
         createDialog();
-        ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
+       //addActionDetails();
+        getAction();
+
+
+        /*
         items.add(new CitizenItemOfAqel("Abdulrahman Khalid", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
         items.add(new CitizenItemOfAqel("Omar Taha", "45sd6fs", 3, R.drawable.ic_qr_need_scan));
         items.add(new CitizenItemOfAqel("Abubaker Khalid", "esfdds", 3, R.drawable.ic_qr_need_scan));
@@ -69,18 +102,16 @@ public class NeedScanAqelFragment extends Fragment {
         items.add(new CitizenItemOfAqel("Omar swaid", "asdfa", 3, R.drawable.ic_qr_need_scan));
         items.add(new CitizenItemOfAqel("Hasan Someeri", "fasfs", 3, R.drawable.ic_qr_need_scan));
 
+
+         */
         mItemClickListener = new CitizenItemClickListener() {
             @Override
-            public void onClick(int position, String id) {
-                showDialog();
+            public void onClick(int position) {
+                showDialog( position);
                 Toast.makeText(getActivity().getApplicationContext(), "id  is : " + id, Toast.LENGTH_SHORT).show();
             }
         };
-        adapter = new RecyclerViewAqelAdapter(items, FRAGMENT_ID, mItemClickListener);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mBinding.rvNeedScanFragment.setHasFixedSize(true);
-        mBinding.rvNeedScanFragment.setLayoutManager(layoutManager);
-        mBinding.rvNeedScanFragment.setAdapter(adapter);
+
         return mBinding.getRoot();
     }
 
@@ -144,7 +175,7 @@ public class NeedScanAqelFragment extends Fragment {
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
     }
 
-    private void showDialog() {
+    private void showDialog(int position) {
         mDialog.show();
         mRunnable.run();
         mDialog.findViewById(R.id.close_icon).setOnClickListener(new View.OnClickListener() {
@@ -157,20 +188,36 @@ public class NeedScanAqelFragment extends Fragment {
         mDialog.findViewById(R.id.btn_accept).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acceptData();
+                acceptData(position);
 
             }
         });
     }
 
-    private void acceptData() {
+    private void acceptData(int position) {
         if (textInputEditTextQTY.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "no Quantity", Toast.LENGTH_SHORT).show();
         } else {
+            Qty =Integer.valueOf(textInputEditTextQTY.getText().toString().trim().toString());
+            CitizenActionDetails citizenActionDetails = detailsItems.get(position);
+            citizenActionDetails.setDeliveredQuantity((int) Qty);
+            citizenActionDetails.setTotal((int)(sellingPrice*Qty));
+            Map<String ,Object> updateState = citizenActionDetails.getDeliveredState();
+            updateState.put(CollectionName.Fields.aqelVerified.name(), true);
+            citizenActionDetails.setDeliveredState(updateState);
             Qty = Integer.valueOf(textInputEditTextQTY.getText().toString());
             mHandler.removeCallbacks(mRunnable);
             mDialog.dismiss();
-            Toast.makeText(getActivity(), String.valueOf(Qty), Toast.LENGTH_SHORT).show();
+            mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
+                    .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails , SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(getActivity(), "Verified", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+           // Toast.makeText(getActivity(), String.valueOf(Qty*sellingPrice), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -181,9 +228,172 @@ public class NeedScanAqelFragment extends Fragment {
             if (textInputEditTextQTY.getText().toString().trim().equals("")) {
                 tvTotal.setText(getString(R.string.total) + " " + 0);
             } else {
-                tvTotal.setText(getString(R.string.total) + " " + Integer.valueOf(textInputEditTextQTY.getText().toString()) * 5);
+                tvTotal.setText(getString(R.string.total) + " " + Integer.valueOf(textInputEditTextQTY.getText().toString()) * sellingPrice);
             }
             mHandler.postDelayed(this, 500);
         }
     };
+
+    private void initRV() {
+        mBinding.progressWhileLoading.setVisibility(View.GONE);
+        adapter = new RecyclerViewAqelAdapter(detailsItems, FRAGMENT_ID, mItemClickListener);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mBinding.rvNeedScanFragment.setHasFixedSize(true);
+        mBinding.rvNeedScanFragment.setLayoutManager(layoutManager);
+        mBinding.rvNeedScanFragment.setAdapter(adapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mCollectionRefNeighborhood.whereEqualTo("name", "Mousa Street").get().addOnSuccessListener(
+                new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            mBinding.progressWhileLoading.setVisibility(View.GONE);
+                        } else {
+                            for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                                id = q.getId();
+                                break;
+                            }
+                            mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    if (!queryDocumentSnapshots.isEmpty()) {
+                                        Toast.makeText(getActivity().getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                                            // add citizen to action Details
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+        );
+
+    }
+
+    private void getAction() {
+
+        mCollectionRefAction.whereEqualTo(CollectionName.Fields.actionDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())))
+                .whereEqualTo(CollectionName.Fields.neighborhoodDetails.name() + "." + CollectionName.Fields.name.name(), "Mousa Street")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                        idAction = q.getId();
+                        sellingPrice = q.getLong(CollectionName.Fields.sellingPrice.name().toString());
+                        break;
+                    }
+                    getActionDetails();
+
+                } else {
+                    mBinding.progressWhileLoading.setVisibility(View.GONE);
+                    Toast.makeText(getContext().getApplicationContext(), "no Action today", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
+    private void getActionDetails() {
+        mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
+                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified, false)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.e(TAG, e.toString());
+                        }
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            adapter = null ;
+                            detailsItems.clear();
+                            initRV();
+                            mBinding.progressWhileLoading.setVisibility(View.GONE);
+                            Toast.makeText(getContext().getApplicationContext(), "no Items", Toast.LENGTH_SHORT).show();
+                        } else {
+                            adapter = null ;
+                            detailsItems.clear();
+                            for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+
+                                CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
+                                actionDetails.setDocumentId(q.getId());
+                                detailsItems.add(actionDetails);
+                                Toast.makeText(getContext().getApplicationContext(), q.getId(), Toast.LENGTH_SHORT).show();
+
+                            }
+                            initRV();
+                        }
+                    }
+                });
+    }
+
+    private void addActionDetails() {
+        Toast.makeText(getContext().getApplicationContext(), "addDetails", Toast.LENGTH_SHORT).show();
+        mCollectionRefNeighborhood.whereEqualTo(CollectionName.Fields.name.name(),
+                "Mousa Street").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            String id;
+            String actionId;
+
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                        id = q.getId();
+                        break;
+                    }
+                    mCollectionRefAction.whereEqualTo(CollectionName.Fields.actionDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis()))).get().addOnSuccessListener(
+                            new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                                        actionId = q.getId();
+                                        break;
+                                    }
+                                    mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).whereEqualTo(CollectionName.Fields.state.name(), true).get()
+                                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                                    if (!queryDocumentSnapshots.isEmpty()) {
+
+                                                        Map<String, Object> deliveredState = new HashMap<>();
+                                                        deliveredState.put(CollectionName.Fields.aqelVerified.name(), false);
+                                                        deliveredState.put(CollectionName.Fields.repVerified.name(), false);
+                                                        deliveredState.put(CollectionName.Fields.delivered.name(), false);
+                                                        deliveredState.put(CollectionName.Fields.received.name(), false);
+
+                                                        for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                                                            detailsItems.add(new CitizenActionDetails(q.getId(),
+                                                                    q.getString(CollectionName.Fields.fullName.name())
+                                                                    , 0, 0.0, String.valueOf(new java.sql.Date(System.currentTimeMillis())),
+                                                                    ""
+                                                                    , deliveredState, q.getLong(CollectionName.Fields.numberOfCylinders.name())));
+                                                        }
+                                                        for (CitizenActionDetails c : detailsItems) {
+                                                            mCollectionRefAction.document(actionId).collection(CollectionName.ACTION_DETAILS.name().toString()).add(c)
+                                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                        @Override
+                                                                        public void onSuccess(DocumentReference documentReference) {
+                                                                            Toast.makeText(getContext().getApplicationContext(), "will done", Toast.LENGTH_SHORT).show();
+
+                                                                        }
+                                                                    });
+                                                        }
+                                                    }
+                                                }
+                                            });
+
+                                }
+                            }
+                    );
+                }
+            }
+        });
+
+    }
 }

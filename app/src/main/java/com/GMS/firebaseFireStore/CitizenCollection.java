@@ -15,11 +15,11 @@ public class CitizenCollection {
     private int familyMember ;
     private int numberOfCylinders;
     private boolean state ;
-
+    private boolean regret ;
     public CitizenCollection() {
     }
 
-    public CitizenCollection(String fullName, Map<String, Object> additionDetails, String documentUrl, String neighborhood, int familyMember, int numberOfCylinders, boolean state) {
+    public CitizenCollection(String fullName, Map<String, Object> additionDetails, String documentUrl, String neighborhood, int familyMember, int numberOfCylinders, boolean state ,boolean regret) {
         this.fullName = fullName;
         this.additionDetails = additionDetails;
         this.documentUrl = documentUrl;
@@ -27,6 +27,7 @@ public class CitizenCollection {
         this.familyMember = familyMember;
         this.numberOfCylinders = numberOfCylinders;
         this.state = state;
+        this.regret=regret;
     }
 
     @Exclude
@@ -71,8 +72,17 @@ public class CitizenCollection {
         this.state = state;
     }
 
+    public boolean isRegret() {
+        return regret;
+    }
+
+    public void setRegret(boolean regret) {
+        this.regret = regret;
+    }
+
     public void setAdditionDetails(Map<String, Object> additionDetails) {
         this.additionDetails = additionDetails;
     }
+
 }
 

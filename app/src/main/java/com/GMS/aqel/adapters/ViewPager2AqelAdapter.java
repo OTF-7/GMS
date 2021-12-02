@@ -11,7 +11,7 @@ import com.GMS.aqel.fragments.VerifiedAqelFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ViewPager2AqelAdapter extends FragmentStateAdapter {
+public class  ViewPager2AqelAdapter extends FragmentStateAdapter {
     public ViewPager2AqelAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }

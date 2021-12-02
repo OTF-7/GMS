@@ -14,6 +14,7 @@ public enum CollectionName {
     ACTION_DETAILS,
     CITIZEN_ACTION_DETAILS,
     DAILY_ACTIONS,
+
     STATION_PURCHASING ,
     ADDITION_REQUESTS;
     public enum StorageFolder
@@ -35,17 +36,20 @@ public enum CollectionName {
         socialAccounts,
         typeOfJob,
         state ,
+        regret ,
 
         // citizen document ;
 
         familyMember,
         numberOfCylinders,
-
+        numberOfFamilies,
         aqelAddition,
+        stationName ,
         repConfirmation,
         dateOfConfirmation,
         document,
         stateOfConfirmation,
+        details ,
 
 
         numberOfDelivered, purchasingPrice, purchasedQuantity, latitude,
@@ -61,8 +65,14 @@ public enum CollectionName {
         deliveredQuantity,
         total,
         agentName,
-        purchasingDate
-
+        purchasingDate ,
+        facebook ,
+        google ,
+        actionDate ,
+        fullName ,
+        deliveredState ,
+        neighborhoodDetails  ,
+        sellingPrice ,
         /*
          *NOTICE THIS NOTE BELOW FOR MORE INFO FOR CONTENT OF EACH DOCUMENT
          ** EACH EMPLOYEE DOCUMENT CONTAINS THESE :

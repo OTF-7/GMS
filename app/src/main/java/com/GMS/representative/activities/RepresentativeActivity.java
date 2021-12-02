@@ -24,11 +24,13 @@ import com.GMS.databinding.ActivityRepresentativeBinding;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.representative.adapters.MainAdapter;
 import com.GMS.representative.adapters.ViewPager2Adapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class RepresentativeActivity extends AppCompatActivity {
@@ -42,6 +44,7 @@ public class RepresentativeActivity extends AppCompatActivity {
     ViewPager2Adapter vpAdapter;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
 
     ActivityRepresentativeBinding mBinding;
 
@@ -192,6 +195,7 @@ public class RepresentativeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        /*
         mCollectionRef.whereEqualTo(CollectionName.Fields.state.name(), false).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -200,6 +204,34 @@ public class RepresentativeActivity extends AppCompatActivity {
                 }
                 pendingNotification = queryDocumentSnapshots.size();
                 checkNotification();
+            }
+        });
+
+         */
+        mCollectionRefNeighborhood.whereEqualTo(CollectionName.Fields.name.name(), "Mousa Street")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+           String [] id = new String[1];
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty())
+                {
+                    for(QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                        id[0] = q.getId();
+                        break;
+                    }
+                    mCollectionRefNeighborhood.document(id[0]).collection(CollectionName.CITIZENS.name()).whereEqualTo(CollectionName.Fields.state.name(), false).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                return;
+                            }
+                            pendingNotification = queryDocumentSnapshots.size();
+                            checkNotification();
+                        }
+                    });
+
+
+                }
             }
         });
     }
