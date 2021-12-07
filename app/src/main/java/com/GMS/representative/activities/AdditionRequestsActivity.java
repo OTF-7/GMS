@@ -44,10 +44,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class AdditionRequestsActivity extends AppCompatActivity {
 
+    private static final String TAG_ADDITION_REQUEST_RECYCLE ="TAG_ADDITION_REQUEST_RECYCLE" ;
     ActivityAdditionRequestsBinding mBinding;
     AdditionRequestRecyclerViewAdapter adapter;
     private final ArrayList<CitizenCollection> citizenCollectionItems = new ArrayList<>();
@@ -61,6 +61,7 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     String  id ;
     private static final int pendingNotification = 0;
     Intent intent = new Intent();
+    private final String TAG_ADDITION_REQUEST_COMING_DATA="TAG_ADDITION_REQUEST_COMING_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,25 +73,6 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         notificationsCount();
         intent = getIntent();
-        /*
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Omar Taha", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Saad Ahmed", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Fouaz Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Saeed Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("salah Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Abubaker", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-        items.add(new CitizenAdditionRequest("Abdulrahman Khalid", "Alornish", "20/20/2021"));
-
-
-         */
 
 
     }
@@ -138,13 +120,19 @@ public class AdditionRequestsActivity extends AppCompatActivity {
 
     // this function make initialization of recyclerview and addapter *look(updates)*
     private void initRV() {
-        adapter = new AdditionRequestRecyclerViewAdapter(citizenCollectionItems, mRepresentativeClickListener);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
-        mBinding.rvAdditionRequests.setHasFixedSize(true);
-        mBinding.rvAdditionRequests.setLayoutManager(layoutManager);
-        mBinding.rvAdditionRequests.setAdapter(adapter);
-        mBinding.infoRequests.setVisibility(View.GONE);
-        mBinding.progressWhileLoading.setVisibility(View.GONE);
+        try {
+            adapter = new AdditionRequestRecyclerViewAdapter(citizenCollectionItems, mRepresentativeClickListener);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+            mBinding.rvAdditionRequests.setHasFixedSize(true);
+            mBinding.rvAdditionRequests.setLayoutManager(layoutManager);
+            mBinding.rvAdditionRequests.setAdapter(adapter);
+            mBinding.infoRequests.setVisibility(View.GONE);
+            mBinding.progressWhileLoading.setVisibility(View.GONE);
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG_ADDITION_REQUEST_RECYCLE,ex.getMessage());
+        }
     }
 
     private void createDialog(int position) {
@@ -289,19 +277,27 @@ public class AdditionRequestsActivity extends AppCompatActivity {
                                    if (e != null) {
                                        Log.e(TAG, e.toString());
                                    }
+
                         if (queryDocumentSnapshots.isEmpty()) {
                                    mBinding.progressWhileLoading.setVisibility(View.GONE);
                                    mBinding.infoRequests.setVisibility(View.VISIBLE);
                                    mBinding.rvAdditionRequests.setVisibility(View.GONE);
                                } else {
-                            mBinding.rvAdditionRequests.setVisibility(View.VISIBLE);
-                                   citizenCollectionItems.clear();
-                                   adapter = null;
-                                   for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                       CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
-                                       citizenDocument.setDocumentId(documentSnapshot.getId());
-                                       citizenCollectionItems.add(citizenDocument);
-                                   }
+                            try {
+
+                                mBinding.rvAdditionRequests.setVisibility(View.VISIBLE);
+                                citizenCollectionItems.clear();
+                                adapter = null;
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
+                                    citizenDocument.setDocumentId(documentSnapshot.getId());
+                                    citizenCollectionItems.add(citizenDocument);
+                                }
+                            }catch (Exception ex)
+                            {
+                                Log.e(TAG_ADDITION_REQUEST_COMING_DATA , ex.getMessage().toString());
+                                Toast.makeText(getBaseContext() ,ex.getMessage().toString() , Toast.LENGTH_SHORT).show();
+                            }
                                    mRepresentativeClickListener = new RepresentativeClickListener() {
                                        @Override
                                        public void onClick(int position, String tvItem) {

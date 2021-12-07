@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/accpted_image_background_shape.xml" value="0.18796296296296297" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/action_lable_active_shape.xml" value="0.18796296296296297" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/cancel_icon.xml" value="0.18796296296296297" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/circle_progress.xml" value="0.2203125" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/ic_status_done.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/accept_qr_scanner_dialoge.xml" value="0.20416666666666666" />

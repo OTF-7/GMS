@@ -3,6 +3,7 @@ package com.GMS.representative.activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ public class RepresentativeActivity extends AppCompatActivity {
     private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
 
     ActivityRepresentativeBinding mBinding;
+    private final String REP_ACTIVITY_NOTIFICATION="REP_ACTIVITY_NOTIFICATION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,23 +132,30 @@ public class RepresentativeActivity extends AppCompatActivity {
     private void checkNotification() {
 
 
-        // if (pendingNotification <=0) {
-        // mMenuItemNotification.setActionView(null);
-        // } else {
-        mMenuItemNotification.setActionView(R.layout.notification_layout);
-        View view = mMenuItemNotification.getActionView();
-        tvNotificationCounter = view.findViewById(R.id.notification_counter);
-        ivNotificationIcon = view.findViewById(R.id.iv_notification_icon);
-        ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openAdditionRequestActivity();
+        try {
+
+            if (pendingNotification <= 0) {
+                mMenuItemNotification.setActionView(null);
+            } else {
+                mMenuItemNotification.setActionView(R.layout.notification_layout);
+                View view = mMenuItemNotification.getActionView();
+                tvNotificationCounter = view.findViewById(R.id.notification_counter);
+                ivNotificationIcon = view.findViewById(R.id.iv_notification_icon);
+                ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openAdditionRequestActivity();
+                    }
+                });
+                Drawable mDrawable = getDrawable(R.drawable.notification_counter_shape);
+                view.findViewById(R.id.card_view).setBackground(mDrawable);
+                tvNotificationCounter.setText(String.valueOf(pendingNotification));
             }
-        });
-        Drawable mDrawable = getDrawable(R.drawable.notification_counter_shape);
-        view.findViewById(R.id.card_view).setBackground(mDrawable);
-        tvNotificationCounter.setText(String.valueOf(pendingNotification));
-        //}
+        }
+        catch (Exception ex)
+        {
+            Log.e(REP_ACTIVITY_NOTIFICATION , ex.getMessage());
+        }
     }
 
     private void openAdditionRequestActivity() {

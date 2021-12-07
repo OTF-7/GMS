@@ -30,7 +30,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityAddCitizenBinding;
-import com.GMS.firebaseFireStore.ActionCollection;
 import com.GMS.firebaseFireStore.CitizenCollection;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.google.android.gms.tasks.Continuation;
@@ -285,44 +284,7 @@ public class AddCitizenActivity extends AppCompatActivity {
                                         Integer.valueOf(mBinding.citizenNumberOfCylindersLayout.getEditText().getText().toString())
                                         , false, false
                                 );
-                                final String[] id = new String[1];
-                                mNeighborhood.whereEqualTo("name", mBinding.neighborhoodNameLayout.getEditText().getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                        if (!queryDocumentSnapshots.isEmpty()) {
-                                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                                id[0] = documentSnapshot.getId();
-                                                db.collection(CollectionName.NEIGHBORHOODS.name()).document(id[0]).collection(CollectionName.CITIZENS.name())
-                                                        .add(citizenDetails)
-                                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-
-                                                            @Override
-                                                            public void onSuccess(DocumentReference documentReference) {
-                                                                handler.postDelayed(new Runnable() {
-                                                                    @Override
-                                                                    public void run() {
-                                                                        ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
-                                                                    }
-                                                                }, 3000);
-                                                                loadingDialog.dismiss();
-                                                            }
-                                                        })
-
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                setDialogError();
-                                                                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                            }
-                                                        });
-
-
-                                                break;
-                                            }
-                                        }
-                                    }
-                                });
+                                uploadDataDetails(citizenDetails);
 
 
 
@@ -416,6 +378,8 @@ public class AddCitizenActivity extends AppCompatActivity {
                                 Integer.valueOf(mBinding.citizenNumberOfCylindersLayout.getEditText().getText().toString())
                                 , false, false
                         );
+                        uploadDataDetails(citizenDetails);
+                        /*
                         mCollectionRef.add(citizenDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
@@ -440,11 +404,58 @@ public class AddCitizenActivity extends AppCompatActivity {
                                     }
                                 });
 
+
+                         */
                     }
                 }
             });
 
         }
+    }
+    private void uploadDataDetails(CitizenCollection citizenDetails)
+    {
+        fromCamera=false;
+        fromGallery=false;
+        final String[] id = new String[1];
+        mNeighborhood.whereEqualTo("name", mBinding.neighborhoodNameLayout.getEditText().getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        id[0] = documentSnapshot.getId();
+
+                        db.collection(CollectionName.NEIGHBORHOODS.name()).document(id[0]).collection(CollectionName.CITIZENS.name())
+                                .add(citizenDetails)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
+                                            }
+                                        }, 3000);
+                                        loadingDialog.dismiss();
+                                    }
+                                })
+
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        setDialogError();
+                                        Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+
+
+                        break;
+                    }
+                }
+            }
+        });
+
     }
 
     private String getNameOFPic() {

@@ -261,7 +261,7 @@ public class NeedScanAqelFragment extends Fragment {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     if (!queryDocumentSnapshots.isEmpty()) {
-                                        Toast.makeText(getActivity().getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mBinding.getRoot().getContext(), id, Toast.LENGTH_SHORT).show();
                                     } else {
                                         for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
                                             // add citizen to action Details
