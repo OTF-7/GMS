@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -103,11 +104,6 @@ public class AddCitizenActivity extends AppCompatActivity {
         mBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                 * to get the value of edit text by below line
-                 ** mBinding.citizenFirstNameLayout.getEditText().getText().toString()
-                 */
-                //Toast.makeText(getBaseContext(), "success", Toast.LENGTH_SHORT).show();
 
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
                     Toast.makeText(getBaseContext(), " upload in progress", Toast.LENGTH_SHORT).show();
@@ -118,9 +114,22 @@ public class AddCitizenActivity extends AppCompatActivity {
                     else if (fromCamera && checkFields()) {
                         uploadCitizenDetails();
                     }
+                    else if ((!fromCamera || !fromGallery) &&!checkFields())
+                    {
+                        Snackbar snackbar = Snackbar
+                                .make(mBinding.getRoot(), getString(R.string.fill_all_fields), Snackbar.LENGTH_LONG);
+                        snackbar.show();
 
-                    //Toast.makeText(getBaseContext(), "all the Fields os required", Toast.LENGTH_SHORT).show();
-                }
+
+                    }
+                    else
+                    {
+                        Snackbar snackbar = Snackbar
+                                .make(mBinding.getRoot(), getString(R.string.chose_image), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+
+                   }
             }
         });
         mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +187,10 @@ public class AddCitizenActivity extends AppCompatActivity {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 mBinding.ivDocumentPicture.setImageBitmap(bitmap);
             }
+            else
+            {
+                fromCamera=false;
+            }
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
@@ -188,8 +201,7 @@ public class AddCitizenActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "you have chosen a picture", Toast.LENGTH_SHORT).show();
 
         } else {
-            Toast.makeText(getBaseContext(), "you have not choose a picture", Toast.LENGTH_SHORT).show();
-
+            fromGallery=false;
         }
 
 
@@ -288,39 +300,14 @@ public class AddCitizenActivity extends AppCompatActivity {
 
 
 
-                                 /*
-                                mCollectionRef.add(citizenDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-
-
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
-                                            }
-                                        }, 3000);
-                                        loadingDialog.dismiss();
-                                        // Toast.makeText(getBaseContext() ,"have Added" , Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }).
-                                        addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                setDialogError();
-                                                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-
-                                  */
 
                             }
                         }
                     });
 
 
-        } else if (fromCamera) {
+        }
+        else if (fromCamera) {
             createDialog();
             showDialog();
             mBinding.ivDocumentPicture.setDrawingCacheEnabled(true);
@@ -379,52 +366,22 @@ public class AddCitizenActivity extends AppCompatActivity {
                                 , false, false
                         );
                         uploadDataDetails(citizenDetails);
-                        /*
-                        mCollectionRef.add(citizenDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
 
-
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
-                                    }
-                                }, 3000);
-                                loadingDialog.dismiss();
-                                // Toast.makeText(getBaseContext() ,"have Added" , Toast.LENGTH_SHORT).show();
-
-                            }
-                        }).
-                                addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        setDialogError();
-                                        Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-
-                         */
                     }
                 }
             });
 
         }
+
+
     }
     private void uploadDataDetails(CitizenCollection citizenDetails)
     {
-        fromCamera=false;
-        fromGallery=false;
-        final String[] id = new String[1];
         mNeighborhood.whereEqualTo("name", mBinding.neighborhoodNameLayout.getEditText().getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        id[0] = documentSnapshot.getId();
-
-                        db.collection(CollectionName.NEIGHBORHOODS.name()).document(id[0]).collection(CollectionName.CITIZENS.name())
+                        db.collection(CollectionName.NEIGHBORHOODS.name()).document(queryDocumentSnapshots.getDocuments().get(0).getId().toString()).collection(CollectionName.CITIZENS.name())
                                 .add(citizenDetails)
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 
@@ -436,7 +393,7 @@ public class AddCitizenActivity extends AppCompatActivity {
                                                 ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
                                             }
                                         }, 3000);
-                                        loadingDialog.dismiss();
+
                                     }
                                 })
 
@@ -447,11 +404,16 @@ public class AddCitizenActivity extends AppCompatActivity {
                                         Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
                                     }
-                                });
+                                }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                loadingDialog.dismiss();
+                                initializeFields();
+                            }
+                        });
 
 
-                        break;
-                    }
+
                 }
             }
         });
@@ -515,7 +477,7 @@ public class AddCitizenActivity extends AppCompatActivity {
         loadingDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         Window window = loadingDialog.getWindow();
         window.setGravity(Gravity.CENTER);
-        window.getAttributes().windowAnimations = R.style.FadeDialogAnimation;
+      //  window.getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         loadingDialog.setCancelable(false);
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
     }
@@ -557,6 +519,19 @@ public class AddCitizenActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+    private void initializeFields()
+    {
+
+        mBinding.ivDocumentPicture.setImageResource(R.drawable.ic_document);
+        mBinding.citizenFirstNameLayout.getEditText().setText(null);
+        mBinding.citizenSecondNameLayout.getEditText().setText(null);
+        mBinding.citizenLastNameLayout.getEditText().setText(null);
+        mBinding.neighborhoodNameLayout.getEditText().setText(null);
+        mBinding.citizenNumberOfCylindersLayout.getEditText().setText(null);
+        mBinding.citizenNumberOfFamilyMembersLayout.getEditText().setText(null);
+        fromCamera=false;
+        fromGallery=false;
     }
 }
 

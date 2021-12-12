@@ -24,6 +24,7 @@ allprojects {
             maven {
                 name = "GitHubPackages"
                 url "https://maven.google.com"
+
                 url = uri("https://maven.pkg.github.com/Cuberto/liquid-swipe-android")
                 credentials {
                     /** Create github.properties in root project folder file with
@@ -32,6 +33,7 @@ allprojects {
                     username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
                     password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
                 }
+
             }
         }
 

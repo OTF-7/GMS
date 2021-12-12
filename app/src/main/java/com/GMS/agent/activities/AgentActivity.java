@@ -1,5 +1,7 @@
 package com.GMS.agent.activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -9,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -25,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.GeneralClasses.CitizenItemClickListener;
 import com.GMS.HistoryActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
@@ -32,6 +38,16 @@ import com.GMS.agent.adapters.ItemClickListener;
 import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
 import com.GMS.agent.helperClasses.CitizenItem;
 import com.GMS.databinding.ActivityAgentBinding;
+import com.GMS.firebaseFireStore.CitizenActionDetails;
+import com.GMS.firebaseFireStore.CollectionName;
+import com.GMS.representative.adapters.RecyclerViewRepAdapterCitizen;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,21 +56,23 @@ import java.util.ArrayList;
 public class AgentActivity extends AppCompatActivity {
 
     //MainAdapter adapter;
-    public final static int FULL_LIST_ID = 1;
-    public final static int ACCEPTED_LIST_ID = 2;
-    private final int size = -1;
-    private final ArrayList<CitizenItem> fullCitizenList = new ArrayList<>();
-    private final ArrayList<CitizenItem> acceptedCitizenList = new ArrayList<>();
-    private final int countOfAcceptedCitizens = 0;
-    Color doneColor;
-    private static final boolean searchAllow = false;
+
+    RecyclerViewAdapterCitizen adapter;
+
     private ActivityAgentBinding mBinding;
-    private RecyclerViewAdapterCitizen fullRVAdapter;
-    private RecyclerViewAdapterCitizen acceptedRVAdapter;
-    private ItemClickListener mItemClickListener;
+
     public static Drawable mAcceptedBackgroundImage;
     private Dialog stationDialog;
     private static final int CALL_PERMISSION = 122;
+    String idAction;
+    long sellingPrice ;
+    CitizenItemClickListener mItemClickListener;
+    ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
+    private final CollectionReference mCollectionRefAction = db.collection(CollectionName.ACTIONS.name());
+    private final CollectionReference mCollectionRefActionDetails = db.collection(CollectionName.ACTION_DETAILS.name());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,94 +116,30 @@ public class AgentActivity extends AppCompatActivity {
             }
         });
 
-
-        fullCitizenList.add(new CitizenItem("Abdulrahman Khalid", "45ssad5", 3, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Abubaker Khalid", "32dsaa2", 4, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Omar Taha", "48000", 1, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Mohammed Shihab", "ahjtr5", 2, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("Omar Swaid", "abcde1", 5, 0, 3700.0, false));
-        fullCitizenList.add(new CitizenItem("hasan Someeri", "32514ad", 3, 0, 3700.0, false));
-        mItemClickListener = new ItemClickListener() {
+        mItemClickListener = new CitizenItemClickListener() {
             @Override
-            public void onClick(int position, boolean state) {
-                /*
-                if (state) {
-                    isCylinderAccepted(position);
-                } else {
-                    isCylinderDenied(position);
-                }
+            public void onClick(int position) {
 
-                 */
             }
-
-
         };
-        intiFullRVList();
-        // intiAcceptedRVList();
+
+     getAction();
+
+
 
 
     }
-
-    private void intiFullRVList() {
-        //if (fullCitizenList.size() != 0) {
-        mBinding.rvCitizen.setVisibility(View.VISIBLE);
-        fullRVAdapter = new RecyclerViewAdapterCitizen(fullCitizenList, getBaseContext(), mItemClickListener, FULL_LIST_ID);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+    public  void initRV()
+    {
+        mBinding.progressWhileLoading.setVisibility(View.GONE);
+        adapter = new RecyclerViewAdapterCitizen(detailsItems ,getBaseContext() ,mItemClickListener);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mBinding.rvCitizen.setHasFixedSize(true);
         mBinding.rvCitizen.setLayoutManager(layoutManager);
-        mBinding.rvCitizen.setAdapter(fullRVAdapter);
-            /*
-        } else {
-            mBinding.rvCitizen.setVisibility(View.GONE);
-        }
-
-             */
-    }
-
-    /*
-    private void intiAcceptedRVList() {
-        if (acceptedCitizenList.size() != 0) {
-            searchAllow = true;
-            mBinding.rvAcceptedCitizen.setVisibility(View.VISIBLE);
-            mBinding.tvAcceptedCitizen.setVisibility(View.VISIBLE);
-            acceptedRVAdapter = new RecyclerViewAdapterCitizen(acceptedCitizenList, getBaseContext(), mItemClickListener, ACCEPTED_LIST_ID);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
-            mBinding.rvAcceptedCitizen.setHasFixedSize(true);
-            mBinding.rvAcceptedCitizen.setLayoutManager(layoutManager);
-            mBinding.rvAcceptedCitizen.setAdapter(acceptedRVAdapter);
-        } else {
-            searchAllow = false;
-            mBinding.rvAcceptedCitizen.setVisibility(View.GONE);
-            mBinding.tvAcceptedCitizen.setVisibility(View.GONE);
-        }
-    }
-
-
-     */
-    /*
-    private void isCylinderAccepted(int position) {
-        CitizenItem item = fullCitizenList.get(position);
-        acceptedCitizenList.add(item);
-        fullCitizenList.remove(position);
-        mBinding.rvCitizen.setAdapter(null);
-        intiFullRVList();
-        intiAcceptedRVList();
-        Toast.makeText(getBaseContext(), String.valueOf(countOfAcceptedCitizens), Toast.LENGTH_SHORT).show();
-    }
-     */
-/*
-    private void isCylinderDenied(int position) {
-        CitizenItem item = acceptedCitizenList.get(position);
-        fullCitizenList.add(item);
-        acceptedCitizenList.remove(position);
-        mBinding.rvAcceptedCitizen.setAdapter(null);
-        intiFullRVList();
-        intiAcceptedRVList();
-        Toast.makeText(getBaseContext(), String.valueOf(countOfAcceptedCitizens), Toast.LENGTH_SHORT).show();
+        mBinding.rvCitizen.setAdapter(adapter);
 
     }
 
- */
 
     @Override
     protected void onStart() {
@@ -213,16 +167,7 @@ public class AgentActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //if (!searchAllow) {
-                fullRVAdapter.getFilter().filter(newText);
-                    /*
-                } else {
-                    fullRVAdapter.getFilter().filter(newText);
-                    acceptedRVAdapter.getFilter().filter(newText);
-
-                }
-
-                     */
+                adapter.getFilter().filter(newText);
 
                 return false;
             }
@@ -309,5 +254,57 @@ public class AgentActivity extends AppCompatActivity {
         TextView tvCallNumber = stationDialog.findViewById(R.id.tv_phone_call_station_dialog);
         Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tvCallNumber.getText().toString()));
         startActivity(callIntent);
+    }
+    private void getAction() {
+
+        mCollectionRefAction.whereEqualTo(CollectionName.Fields.actionDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())))
+                .whereEqualTo(CollectionName.Fields.neighborhoodDetails.name() + "." + CollectionName.Fields.name.name(), "Mousa Street")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
+                    sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
+
+                    getActionDetails();
+
+                } else {
+                    mBinding.progressWhileLoading.setVisibility(View.GONE);
+                    Toast.makeText(getBaseContext(), "no Action today", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
+    private void getActionDetails() {
+        mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
+                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified, true)
+                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified, true)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.e(TAG, e.toString());
+                        }
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            adapter = null ;
+                            detailsItems.clear();
+                            initRV();
+                            mBinding.progressWhileLoading.setVisibility(View.GONE);
+                            Toast.makeText(getBaseContext(), "no Items", Toast.LENGTH_SHORT).show();
+                        } else {
+                            adapter = null ;
+                            detailsItems.clear();
+                            for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+
+                                CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
+                                actionDetails.setDocumentId(q.getId());
+                                detailsItems.add(actionDetails);
+                            }
+                            initRV();
+                        }
+                    }
+                });
     }
 }

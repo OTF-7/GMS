@@ -51,9 +51,9 @@ public class CylindersReceiveActivity extends AppCompatActivity {
 
         };
         mBinding.progressLoading.setVisibility(View.GONE);
-        initRV();
+       // initRV();
     }
-
+/*
     private void initRV() {
         RecyclerView.LayoutManager mLayoutManaager = new LinearLayoutManager(getBaseContext());
         adapterCitizen = new RecyclerViewAdapterCitizen(items, getBaseContext(), mItemClickListener, CYLINDER_RECEIVE_LIST);
@@ -62,6 +62,8 @@ public class CylindersReceiveActivity extends AppCompatActivity {
         mBinding.rvCylindersReceive.setHasFixedSize(true);
     }
 
+
+ */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);

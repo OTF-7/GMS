@@ -67,16 +67,7 @@ public class VerifiedAqelFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentVerifiedAqelBinding.inflate(inflater , container , false);
-getAction();
-        /*
-        ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid" , "45d55d45s55g" , 3  , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar Taha" , "safdsfe" , 3 ,R.drawable.ic_qr_need_scan ));
-        items.add(new CitizenItemOfAqel("Abubaker Khalid" , "35135" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Mohammed Shihab" , "dgfd" ,  3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar swaid" , "48" , 3 , R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Khalid Someeri" , "685651" , 3 , R.drawable.ic_qr_need_scan));
-*/
+       getAction();
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
@@ -151,11 +142,9 @@ getAction();
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
-                    for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                        idAction = q.getId();
-                        sellingPrice = q.getLong(CollectionName.Fields.sellingPrice.name().toString());
-                        break;
-                    }
+                        idAction = queryDocumentSnapshots.getDocuments().get(0).getId();
+                        sellingPrice= queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
+
                     getActionDetails();
 
                 } else {

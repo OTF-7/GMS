@@ -57,4 +57,6 @@
     <string name="agent">الوكيل : </string>
     <string name="day_and_time">اليوم و الوقت : </string>
     <string name="date">التاريخ : </string>
+    <string name="chose_image">من فضلك ارفق صورة للوثيقة</string>
+    <string name="fill_all_fields">من فضلك املاء كافة الحقول</string>
 </resources>

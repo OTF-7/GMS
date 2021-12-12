@@ -24,12 +24,19 @@
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/citizen_item_rv.xml" value="0.19692307692307692" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/date_identify_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/details_item.xml" value="0.25" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/employees_recyclerview_item.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/fragment_actions.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/fragment_employees.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/fragment_need_scan_aqel.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/fragment_need_scan_rep.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/fragment_verified_aqel.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/fragment_verified_rep.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/history_item.xml" value="0.1859375" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/loading_dialog.xml" value="0.22" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/recieving_dialog.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/see_document_dialog.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/top_bar_aqel.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/verified_item_representative.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/menu_history.xml" value="0.19692307692307692" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/search_menu.xml" value="0.18981481481481483" />
       </map>

@@ -11,10 +11,12 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.GeneralClasses.CitizenItemClickListener;
 import com.GMS.agent.activities.AgentActivity;
 import com.GMS.agent.activities.CylindersReceiveActivity;
 import com.GMS.agent.helperClasses.CitizenItem;
 import com.GMS.databinding.CitizenItemRvBinding;
+import com.GMS.firebaseFireStore.CitizenActionDetails;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,21 +25,21 @@ import java.util.Collection;
 
 public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerViewAdapterCitizen.ViewHolderCitizen> implements Filterable {
 
-    private final ArrayList<CitizenItem> items;
-    private final ArrayList<CitizenItem> lstsFull;
+    private final ArrayList<CitizenActionDetails> items;
+    private final ArrayList<CitizenActionDetails> lstsFull;
     private final Filter filterUser = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             String searchText = constraint.toString().toLowerCase();
 
-            ArrayList<CitizenItem> tempLst = new ArrayList<>();
+            ArrayList<CitizenActionDetails> tempLst = new ArrayList<>();
 
             if (searchText.isEmpty()) {
                 tempLst.addAll(lstsFull);
             } else {
-                for (CitizenItem item : lstsFull) {
+                for (CitizenActionDetails item : lstsFull) {
 
-                    if (item.getCitizenName().toLowerCase().contains(searchText) || item.getCitizenId().toLowerCase().contains(searchText)) {
+                    if (item.getName().toLowerCase().contains(searchText) || item.getIdInParent().toLowerCase().contains(searchText)) {
 
                         tempLst.add(item);
                     }
@@ -52,28 +54,29 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
             items.clear();
-            items.addAll((Collection<? extends CitizenItem>) results.values);
+            items.addAll((Collection<? extends CitizenActionDetails>) results.values);
             notifyDataSetChanged();
         }
     };
     private Context mContext;
     private int countOfAcceptedCitizen;
-    private ItemClickListener mItemClickListener;
+    private CitizenItemClickListener mItemClickListener;
     private int selectedPosition = -1;
     private int idList;
 
-    public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items) {
+    public RecyclerViewAdapterCitizen(ArrayList<CitizenActionDetails> items, Context baseContext, CitizenItemClickListener mItemClickListener) {
         this.items = items;
         lstsFull = new ArrayList<>(items);
+        this.mItemClickListener= mItemClickListener;
     }
 
-    public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items, Context context) {
+    public RecyclerViewAdapterCitizen(ArrayList<CitizenActionDetails> items, Context context) {
         this.items = items;
         mContext = context;
         lstsFull = new ArrayList<>(items);
     }
 
-    public RecyclerViewAdapterCitizen(ArrayList<CitizenItem> items, Context context, ItemClickListener itemClickListener, int idList) {
+    public RecyclerViewAdapterCitizen(ArrayList<CitizenActionDetails> items, Context context, CitizenItemClickListener itemClickListener, int idList) {
         this.items = items;
         this.idList = idList;
         mContext = context;
@@ -89,39 +92,21 @@ public class RecyclerViewAdapterCitizen extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ViewHolderCitizen holder, int position) {
-        CitizenItem item = items.get(position);
-        holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getCitizenName());
-        holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getCitizenId());
-        holder.mCitizenItemRvBinding.ivState.setImageResource(item.getIvStateResource());
-        holder.mCitizenItemRvBinding.tvPrice.setText("RY " + item.getCountCylinder() * item.getPrice());
-        holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getCountCylinder()));
-        if (items.get(position).isAcceptedState()) {
-            holder.mCitizenItemRvBinding.ivCitizen.setBorderColor(Color.GREEN);
-        } else {
-            holder.mCitizenItemRvBinding.ivCitizen.setBorderColor(Color.RED);
-        }
+    public void onBindViewHolder(@NonNull ViewHolderCitizen holder, int position) {
+        CitizenActionDetails item = items.get(position);
+        holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getName());
+        holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getIdInParent());
+        holder.mCitizenItemRvBinding.tvPrice.setText("RY " + item.getTotal());
+        holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getDeliveredQuantity()));
         holder.mCitizenItemRvBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (idList == AgentActivity.FULL_LIST_ID) {
-                    //code for accept the citizen
-                    int mPosition = holder.getAdapterPosition();
-                    items.get(position).setAcceptedState(true);
-                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
-                    //selectedPosition = position;
-                    notifyDataSetChanged();
-                } else if (idList == CylindersReceiveActivity.CYLINDER_RECEIVE_LIST) {
-                    // code for deny thr citizen
-                    items.get(position).setAcceptedState(false);
-                    mItemClickListener.onClick(position, items.get(position).isAcceptedState());
-                   // selectedPosition = position;
-                    notifyDataSetChanged();
-                }
+                mItemClickListener.onClick(position);
             }
         });
-
     }
+
+
 
     @Override
     public int getItemCount() {

@@ -45,7 +45,7 @@ public class  AqelActivity extends AppCompatActivity {
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mBinding.toolBar.toolBarAqel);
         setTitle("Aqel");
-
+       //addAction();
         FragmentManager fm = getSupportFragmentManager();
         adapter = new ViewPager2AqelAdapter(fm, getLifecycle());
         mBinding.mainViewPager.setAdapter(adapter);

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -47,6 +49,8 @@ import java.util.HashMap;
 
 public class AdditionRequestsActivity extends AppCompatActivity {
 
+     private ScaleGestureDetector scaleGestureDetector ;
+     float scaleFactor=1.0f;
     private static final String TAG_ADDITION_REQUEST_RECYCLE ="TAG_ADDITION_REQUEST_RECYCLE" ;
     ActivityAdditionRequestsBinding mBinding;
     AdditionRequestRecyclerViewAdapter adapter;
@@ -74,8 +78,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         notificationsCount();
         intent = getIntent();
 
-
     }
+
 
     @Override
     protected void onDestroy() {
@@ -157,6 +161,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
                 .placeholder(R.mipmap.ic_launcher)
                 .centerCrop()
                 .into(ivDocument);
+        //scaleGestureDetector = new ScaleGestureDetector( mDialog.getContext(), new ScaleListener());
+
     }
 
     private void showDialog() {
@@ -181,7 +187,6 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         confirmation.put(CollectionName.Fields.representativeCertain.name(), "Abdulrahman khalid M");
         citizenCollection.setAdditionDetails(confirmation);
         confirmation = null;
-        Toast.makeText(getBaseContext(), id, Toast.LENGTH_SHORT).show();
         mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).document(citizenCollection.getDocumentId()).set(citizenCollection, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -219,45 +224,7 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        /*
-        mCollectionRef.whereEqualTo(CollectionName.Fields.state.name(), false)
-                .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
-                        if (e != null) {
-                            Log.e(TAG, e.toString());
-                        }
-                        if (queryDocumentSnapshots.size()==0) {
-                            mBinding.progressWhileLoading.setVisibility(View.GONE);
-                            mBinding.infoRequests.setVisibility(View.VISIBLE);
-                        } else {
-                            citizenCollectionItems.clear();
-                            adapter = null;
-                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
-                                citizenDocument.setDocumentId(documentSnapshot.getId());
-                                citizenCollectionItems.add(citizenDocument);
-                            }
-                            mRepresentativeClickListener = new RepresentativeClickListener() {
-                                @Override
-                                public void onClick(int position, String tvItem) {
-                                    if (tvItem == getString(R.string.see_document)) {
-                                        createDialog(position);
-                                        showDialog();
-                                    } else if (tvItem == getString(R.string.confirm)) {
-                                        confirmAdditionRequest(position);
-                                    } else if (tvItem == getString(R.string.regret)) {
-                                        regretAdditionRequest(position);
-                                    }
-                                }
-
-                            };
-                            initRV();
-                        }
-                    }
-                });
-         */
        mCollectionRefNeighborhood.whereEqualTo(CollectionName.Fields.name.name(), "Mousa Street")
                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
@@ -265,11 +232,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                if(!queryDocumentSnapshots.isEmpty())
                {
-                   for(QueryDocumentSnapshot q :queryDocumentSnapshots )
-                   {
-                       id= q.getId().toString();
-                       break;
-                   }
+                       id=queryDocumentSnapshots.getDocuments().get(0).getId().toString();
+
                    mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).whereEqualTo(CollectionName.Fields.state.name(), false)
                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                @Override
@@ -339,4 +303,25 @@ public class AdditionRequestsActivity extends AppCompatActivity {
             }
         });
     }
+    /* // not working
+    public class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scaleFactor *= detector.getScaleFactor();
+             scaleFactor = Math.max(0.1f ,Math.min(scaleFactor ,10.f));
+             ivDocument.setScaleX(scaleFactor);
+             ivDocument.setScaleY(scaleFactor);
+
+            return true;
+
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        scaleGestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+     */
 }

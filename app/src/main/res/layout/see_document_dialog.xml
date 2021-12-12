@@ -49,6 +49,7 @@
         android:id="@+id/iv_document"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

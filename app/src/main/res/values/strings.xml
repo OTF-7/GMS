@@ -67,4 +67,7 @@
     <string name="loading" translatable="false">Loading...</string>
     <string name="error" translatable="false">Error !</string>
     <string name="done" translatable="false">done</string>
+    <string name="chose_image">please, check a document picture</string>
+    <string name="fill_all_fields">please, fill all fields then send</string>
+
 </resources>

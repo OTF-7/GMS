@@ -64,7 +64,7 @@ public class NeedScanAqelFragment extends Fragment {
     CitizenItemClickListener mItemClickListener;
     private Dialog mDialog;
     private TextInputEditText textInputEditTextQTY;
-    private TextView tvTotal;
+    private TextView tvTotal , tvRequiredQty;
     String idAction;
 
     long sellingPrice ;
@@ -90,26 +90,17 @@ public class NeedScanAqelFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentNeedScanAqelBinding.inflate(inflater, container, false);
         createDialog();
-       //addActionDetails();
+      // addActionDetails();
         getAction();
 
 
-        /*
-        items.add(new CitizenItemOfAqel("Abdulrahman Khalid", "45d55d45s55g", 3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar Taha", "45sd6fs", 3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Abubaker Khalid", "esfdds", 3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Mohammed Shihab", "afdes", 3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Omar swaid", "asdfa", 3, R.drawable.ic_qr_need_scan));
-        items.add(new CitizenItemOfAqel("Hasan Someeri", "fasfs", 3, R.drawable.ic_qr_need_scan));
 
-
-         */
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
+                tvRequiredQty.setText(String.valueOf(detailsItems.get(position).getQuantityRequired()));
                 showDialog( position);
-                Toast.makeText(getActivity().getApplicationContext(), "id  is : " + id, Toast.LENGTH_SHORT).show();
-            }
+                  }
         };
 
         return mBinding.getRoot();
@@ -172,6 +163,7 @@ public class NeedScanAqelFragment extends Fragment {
         mDialog.setCancelable(true);
         textInputEditTextQTY = mDialog.findViewById(R.id.quantity_text_input);
         tvTotal = mDialog.findViewById(R.id.tv_price);
+        tvRequiredQty = mDialog.findViewById(R.id.tv_required_Qty);
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
     }
 
@@ -197,7 +189,12 @@ public class NeedScanAqelFragment extends Fragment {
     private void acceptData(int position) {
         if (textInputEditTextQTY.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "no Quantity", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else if (Integer.valueOf(textInputEditTextQTY.getText().toString().trim().toString())>detailsItems.get(position).getQuantityRequired()) {
+        Toast.makeText(getActivity() , "qty is so much" , Toast.LENGTH_SHORT).show();
+        }
+            else
+        {
             Qty =Integer.valueOf(textInputEditTextQTY.getText().toString().trim().toString());
             CitizenActionDetails citizenActionDetails = detailsItems.get(position);
             citizenActionDetails.setDeliveredQuantity((int) Qty);
@@ -284,11 +281,9 @@ public class NeedScanAqelFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
-                    for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                        idAction = q.getId();
-                        sellingPrice = q.getLong(CollectionName.Fields.sellingPrice.name().toString());
-                        break;
-                    }
+                        idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
+                        sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
+
                     getActionDetails();
 
                 } else {
@@ -323,9 +318,7 @@ public class NeedScanAqelFragment extends Fragment {
                                 CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
                                 actionDetails.setDocumentId(q.getId());
                                 detailsItems.add(actionDetails);
-                                Toast.makeText(getContext().getApplicationContext(), q.getId(), Toast.LENGTH_SHORT).show();
-
-                            }
+                                 }
                             initRV();
                         }
                     }
@@ -379,7 +372,7 @@ public class NeedScanAqelFragment extends Fragment {
                                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                         @Override
                                                                         public void onSuccess(DocumentReference documentReference) {
-                                                                            Toast.makeText(getContext().getApplicationContext(), "will done", Toast.LENGTH_SHORT).show();
+                                                                            Toast.makeText(getContext().getApplicationContext(), "data have gotten", Toast.LENGTH_SHORT).show();
 
                                                                         }
                                                                     });
