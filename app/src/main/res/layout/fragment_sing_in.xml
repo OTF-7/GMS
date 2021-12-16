@@ -19,13 +19,13 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/username_field"
+            android:id="@+id/signin_userName_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="UserName"
+            android:hint="UserName\\ Email"
             android:padding="4dp"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
@@ -46,7 +46,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_field"
+            android:id="@+id/signin_password_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -55,10 +55,10 @@
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
-            app:layout_constraintEnd_toEndOf="@+id/username_field"
+            app:layout_constraintEnd_toEndOf="@+id/signin_userName_field"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/username_field"
-            app:layout_constraintTop_toBottomOf="@+id/username_field"
+            app:layout_constraintStart_toStartOf="@+id/signin_userName_field"
+            app:layout_constraintTop_toBottomOf="@+id/signin_userName_field"
             app:startIconContentDescription="user icon"
             app:startIconDrawable="@drawable/ic_baseline_vpn_key_24">
 
@@ -80,9 +80,9 @@
             android:soundEffectsEnabled="true"
             android:text="Sign in"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/password_field"
-            app:layout_constraintStart_toStartOf="@+id/password_field"
-            app:layout_constraintTop_toBottomOf="@+id/password_field" />
+            app:layout_constraintEnd_toEndOf="@+id/signin_password_field"
+            app:layout_constraintStart_toStartOf="@+id/signin_password_field"
+            app:layout_constraintTop_toBottomOf="@+id/signin_password_field" />
 
         <Button
             android:id="@+id/forgot_password_button"
@@ -94,7 +94,7 @@
             android:text="Forgot password?"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/password_field"
+            app:layout_constraintStart_toStartOf="@+id/signin_password_field"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
 
         <TextView
@@ -141,6 +141,7 @@
             android:soundEffectsEnabled="true"
             app:borderWidth="0dp"
             app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/facebook_sign_in_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/facebook_sign_in_button"
@@ -149,7 +150,7 @@
             app:tint="@null" />
 
         <TextView
-            android:id="@+id/finger_print_text"
+            android:id="@+id/loginWith_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -169,9 +170,9 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_margin="16dp"
-            app:layout_constraintEnd_toEndOf="@id/finger_print_text"
-            app:layout_constraintStart_toStartOf="@id/finger_print_text"
-            app:layout_constraintTop_toBottomOf="@id/finger_print_text"
+            app:layout_constraintEnd_toEndOf="@id/loginWith_text"
+            app:layout_constraintStart_toStartOf="@id/loginWith_text"
+            app:layout_constraintTop_toBottomOf="@id/loginWith_text"
             app:lottie_rawRes="@raw/fingerprint" />
 
         <TextView
@@ -184,14 +185,14 @@
             android:text="You don't hava an account?"
             android:textColor="@color/colorAccent"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/create_account_button"
+            app:layout_constraintEnd_toStartOf="@+id/gotoSignUp_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/finger_print_animation" />
 
         <Button
-            android:id="@+id/create_account_button"
+            android:id="@+id/gotoSignUp_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

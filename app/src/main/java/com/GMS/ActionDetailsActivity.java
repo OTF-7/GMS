@@ -1,5 +1,12 @@
 package com.GMS;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -7,16 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.GMS.GeneralAdapters.RecyclerViewAdapterDetailsHistory;
-import com.GMS.GeneralAdapters.RecyclerViewAdapterHistory;
 import com.GMS.GeneralClasses.ActionDetailsCitizen;
 import com.GMS.GeneralClasses.Report;
 import com.GMS.databinding.ActivityActionDetailsBinding;
@@ -37,7 +35,6 @@ public class ActionDetailsActivity extends AppCompatActivity {
         setSupportActionBar(mBinding.toolBarDetails);
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
         items.add(new ActionDetailsCitizen("done","Abdulrahman khalid" , 4 ,"Abubaker Khalid" ,"Omar Taha"));
         items.add(new ActionDetailsCitizen("done","Abdulrahman khalid" , 4 ,"Abubaker Khalid" ,"Omar Taha"));
         items.add(new ActionDetailsCitizen("done","Abdulrahman khalid" , 4 ,"Abubaker Khalid" ,"Omar Taha"));
@@ -50,7 +47,7 @@ public class ActionDetailsActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.menu_history, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_ic);
+        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

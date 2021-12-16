@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".login.activities.CreatedAccountActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/createdAccountAnimation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/checkbox_animation"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/completedAccountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="Your account has completed"
+            android:textColor="@color/Light_See_Green"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/createdAccountAnimation"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/createdAccountAnimation"
+            app:layout_constraintTop_toBottomOf="@+id/createdAccountAnimation" />
+
+        <TextView
+            android:id="@+id/completedAccountExtraText"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:text="We will send your information to the manager and after revewing it he will send a verification link to your email"
+            android:textColor="@color/Gunmetal"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/completedAccountText"
+            app:layout_constraintTop_toBottomOf="@+id/completedAccountText" />
+
+        <TextView
+            android:id="@+id/completedAccountCautionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="Note: You should click the link before signing in"
+            android:textColor="@color/English_vermillion"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/completedAccountText"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toStartOf="@+id/completedAccountText"
+            app:layout_constraintTop_toBottomOf="@+id/completedAccountExtraText" />
+
+        <Button
+            android:id="@+id/createdAccountOkButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/Light_See_Green"
+            android:padding="12dp"
+            android:soundEffectsEnabled="true"
+            android:text="OK"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/completedAccountExtraText"
+            app:layout_constraintStart_toStartOf="@+id/completedAccountExtraText"
+            app:layout_constraintTop_toBottomOf="@id/completedAccountCautionText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

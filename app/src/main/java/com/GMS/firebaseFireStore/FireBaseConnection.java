@@ -10,27 +10,23 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public  class FireBaseConnection {
+public class FireBaseConnection {
 
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Collections
     protected CollectionReference citizenCollection = db.collection(CollectionName.CITIZENS.name());
-    protected   CollectionReference actionCollection = db.collection(CollectionName.ACTIONS.name());
-    protected CollectionReference  usersCollection = db.collection(CollectionName.USERS.name());
+    protected CollectionReference actionCollection = db.collection(CollectionName.ACTIONS.name());
+    protected CollectionReference usersCollection = db.collection(CollectionName.USERS.name());
 
 
-
-    public class Addition
-    {
+    public class Addition {
         ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
-        private boolean state ;
-        CollectionReference mActionDetails ;
-        Addition()
-        {
-            state =false;
+        CollectionReference mActionDetails;
+        private boolean state;
+
+        Addition() {
+            state = false;
             // empty constructor
         }
         /*
@@ -65,9 +61,8 @@ public  class FireBaseConnection {
 
          */
 
-        public boolean addUser(UserCollection mUserCollection)
-        {
-            usersCollection.add(mUserCollection).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        public boolean addUser(EmployeesCollection mEmployeesCollection) {
+            usersCollection.add(mEmployeesCollection).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     state = true;
@@ -75,14 +70,13 @@ public  class FireBaseConnection {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    state =false;
+                    state = false;
                 }
-            }) ;
+            });
             return false;
         }
 
-        public boolean addAction(ActionCollection mActionCollection)
-        {
+        public boolean addAction(ActionCollection mActionCollection) {
             actionCollection.add(mActionCollection).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
@@ -91,7 +85,7 @@ public  class FireBaseConnection {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    state=false;
+                    state = false;
                 }
             });
             return state;

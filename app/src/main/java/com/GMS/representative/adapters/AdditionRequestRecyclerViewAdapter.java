@@ -1,6 +1,5 @@
 package com.GMS.representative.adapters;
 
-import android.content.res.Resources;
 import android.graphics.Paint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.GMS.R;
 import com.GMS.databinding.AdditionRequestItemBinding;
 import com.GMS.firebaseFireStore.CitizenCollection;
 import com.GMS.firebaseFireStore.CollectionName;
-import com.GMS.representative.helperClass.CitizenAdditionRequest;
 import com.GMS.representative.helperClass.RepresentativeClickListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +53,6 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
         if(item.isRegret())
         {
             holder.mAdditionRequestItemBinding.parentAdditionItem.setBackgroundColor((int) R.color.light);
-
         }
         holder.mAdditionRequestItemBinding.tvSeeDocumentDetail.setOnClickListener(new View.OnClickListener() {
             @Override

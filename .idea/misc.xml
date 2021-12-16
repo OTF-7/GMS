@@ -3,9 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/accpted_image_background_shape.xml" value="0.18796296296296297" />
-        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/action_lable_active_shape.xml" value="0.18796296296296297" />
-        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/cancel_icon.xml" value="0.18796296296296297" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/circle_progress.xml" value="0.2203125" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/drawable/ic_status_done.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/accept_qr_scanner_dialoge.xml" value="0.20416666666666666" />
@@ -20,7 +17,6 @@
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_cylinders_receive.xml" value="0.2" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/activity_history.xml" value="0.1859375" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/add_dialoge.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/addition_request_item.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/citizen_item_rv.xml" value="0.19692307692307692" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/date_identify_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/details_item.xml" value="0.25" />
@@ -39,10 +35,21 @@
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/layout/verified_item_representative.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/menu_history.xml" value="0.19692307692307692" />
         <entry key="..\:/Users/Mohammed shihab/ABDULRAHMAN_FOLDER/GMS/app/src/main/res/menu/search_menu.xml" value="0.18981481481481483" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/layout/activity_cylinders_receive.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/layout/activity_employees_signup_requests.xml" value="0.23282051282051283" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/layout/activity_manager.xml" value="0.22962962962962963" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/layout/fragment_sign_up_requests.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/layout/item_signup_request.xml" value="0.4" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/layout/signup_request_item.xml" value="0.23282051282051283" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/menu/menu_addition_requsts_top_bar.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/menu/menu_agent_top_bar.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/menu/menu_aqel_top_bar.xml" value="0.23282051282051283" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/menu/menu_manager_topbar.xml" value="0.264" />
+        <entry key="..\:/Users/OmarTaha/AndroidStudioProjects/GMS/app/src/main/res/menu/top_action_bar_menu.xml" value="0.11979166666666667" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

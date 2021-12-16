@@ -16,4 +16,9 @@
         android:id="@+id/setting_item"
         android:title="@string/settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ic_log_out"
+        android:title="logout"
+        app:showAsAction="never" />
 </menu>

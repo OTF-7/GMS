@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
 
-        android:id="@+id/search_ic"
+        android:id="@+id/agent_search_ic"
         android:title="search"
         app:showAsAction="always|collapseActionView"
         android:icon="@drawable/search_icon"

@@ -85,10 +85,10 @@ public class StationsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mBinding = FragmentStationsBinding.inflate(getLayoutInflater());
+        mBinding = FragmentStationsBinding.inflate(inflater, container, false);
         mStationsList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         fillStations();

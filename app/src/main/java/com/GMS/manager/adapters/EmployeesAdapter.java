@@ -1,5 +1,6 @@
 package com.GMS.manager.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -42,16 +43,18 @@ public class EmployeesAdapter extends RecyclerView.Adapter<EmployeesAdapter.Empl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-
             mEmployeesList.clear();
             mEmployeesList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
-
+    private static final String TAG = "Employees Adapter";
     public EmployeesAdapter(List<Employees> employeesList) {
         this.mEmployeesList = employeesList;
         this.mFullEmployeesList = new ArrayList<>(employeesList);
+        Log.d(TAG, "EmployeesAdapter: " + employeesList.size());
+        Log.d(TAG, "EmployeesAdapter: " + mEmployeesList.size());
+        Log.d(TAG, "EmployeesAdapter: " + mFullEmployeesList.size());
     }
 
     @NonNull
@@ -69,12 +72,16 @@ public class EmployeesAdapter extends RecyclerView.Adapter<EmployeesAdapter.Empl
         holder.mItemBinding.employeeIcon.setImageResource(mEmployeesList.get(position).getEmployeeIcon());
         holder.mItemBinding.employeeType.setCompoundDrawablesWithIntrinsicBounds(0, mEmployeesList.get(position).getEmployeeTypeIcon(),
                 0, 0);
-        holder.mItemBinding.employeeState.setCompoundDrawablesWithIntrinsicBounds(mEmployeesList.get(position).getEmployeeStateIcon(),
-                0, 0, 0);
+        Log.d(TAG, "onBindViewHolder: " + mEmployeesList.get(position).getEmployeeName()
+                + mEmployeesList.get(position).getEmployeeType()
+                + mEmployeesList.get(position).getEmployeeCurrentState()
+                + mEmployeesList.get(position).getEmployeeIcon()
+                + mEmployeesList.get(position).getEmployeeTypeIcon());
     }
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount: " + mEmployeesList.size());
         return mEmployeesList.size();
     }
 

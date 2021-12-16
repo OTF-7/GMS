@@ -25,7 +25,6 @@ import com.GMS.databinding.FragmentVerifiedRepBinding;
 import com.GMS.firebaseFireStore.CitizenActionDetails;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.representative.adapters.RecyclerViewRepAdapterCitizen;
-import com.GMS.representative.helperClass.CitizenItemOfRep;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -93,7 +92,7 @@ public class VerifiedRepFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_item_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_ic);
+        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

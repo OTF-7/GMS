@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.Window;
@@ -91,7 +90,7 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_addition_requsts_top_bar, menu);
-        MenuItem item = menu.findItem(R.id.search_ic);
+        MenuItem item = menu.findItem(R.id.agent_search_ic);
         SearchView mSearchView = (SearchView) item.getActionView();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -180,7 +179,7 @@ public class AdditionRequestsActivity extends AppCompatActivity {
 
         CitizenCollection citizenCollection = citizenCollectionItems.get(position);
         citizenCollection.setState(true);
-        //  citizenCollection.setAdditionDetails((Map<String, Object>) citizenCollection.getAdditionDetails().put(CollectionName.Fields.dateCertain.name(),String.valueOf(new java.sql.Date(System.currentTimeMillis()))));
+        // citizenCollection.setAdditionDetails((Map<String, Object>) citizenCollection.getAdditionDetails().put(CollectionName.Fields.dateCertain.name(),String.valueOf(new java.sql.Date(System.currentTimeMillis()))));
         // citizenCollection.setAdditionDetails((Map<String, Object>) citizenCollection.getAdditionDetails().put(CollectionName.Fields.dateCertain.name(),String.valueOf(new java.sql.Date(System.currentTimeMillis()))));
         HashMap<String, Object> confirmation = citizenCollection.getAdditionDetails();
         confirmation.put(CollectionName.Fields.dateCertain.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())));
@@ -233,7 +232,6 @@ public class AdditionRequestsActivity extends AppCompatActivity {
                if(!queryDocumentSnapshots.isEmpty())
                {
                        id=queryDocumentSnapshots.getDocuments().get(0).getId().toString();
-
                    mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).whereEqualTo(CollectionName.Fields.state.name(), false)
                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                @Override

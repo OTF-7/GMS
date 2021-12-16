@@ -9,8 +9,26 @@
         <item name="actionOverflowButtonStyle">@style/IconOverFlow</item>
     </style>
 
-    // for color of items and icons into top bar
+    <!--For Login screen-->
+    <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--text color-->
+        <item name="android:textColor">@color/black</item>
+        <!--primary color-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--primary variant-->
+        <item name="colorPrimaryVariant">@color/Gunmetal</item>
+        <!--color accent-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--status bar color-->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <!--edittext color-->
+        <item name="android:editTextColor">@color/black</item>
+        <!--window background color-->
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 
+
+    <!--for color of items and icons into top bar-->
     <style name="IconOverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
     </style>

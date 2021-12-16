@@ -6,7 +6,7 @@
 
     <item
 
-        android:id="@+id/search_ic"
+        android:id="@+id/menu_agent_search_ic"
         android:title="search"
         app:showAsAction="always|collapseActionView"
         android:icon="@drawable/search_icon"

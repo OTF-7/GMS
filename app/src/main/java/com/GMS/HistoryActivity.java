@@ -69,7 +69,7 @@ public class HistoryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_history, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_ic);
+        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

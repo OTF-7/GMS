@@ -1,13 +1,18 @@
 package com.GMS.manager.fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +22,22 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.Constant;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.aqel.activities.AddCitizenActivity;
 import com.GMS.databinding.FragmentEmployeesBinding;
 import com.GMS.manager.adapters.EmployeesAdapter;
 import com.GMS.manager.models.Employees;
+import com.GMS.representative.activities.AdditionRequestsActivity;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,23 +45,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeesFragment extends Fragment {
+    private static final String TAG = EmployeesFragment.class.toString();
+    public static int pendingNotification = 0;
     FragmentEmployeesBinding mEmployeesBinding;
     EmployeesAdapter employeesAdapter;
     List<Employees> mEmployeesList;
+    Employees employee;
+    MenuItem mMenuItemNotification;
+    TextView tvNotificationCounter;
+    ImageView ivNotificationIcon;
+    private FirebaseFirestore mFirestore;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        mEmployeesBinding = FragmentEmployeesBinding.inflate(getLayoutInflater());
+        mEmployeesBinding = FragmentEmployeesBinding.inflate(inflater, container, false);
         mEmployeesList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        fillEmployees();
         employeesAdapter = new EmployeesAdapter(mEmployeesList);
-        mEmployeesBinding.employeesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+        mEmployeesBinding.employeesRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(),
                 DividerItemDecoration.VERTICAL));
         mEmployeesBinding.employeesRecyclerView.setAdapter(employeesAdapter);
         mEmployeesBinding.employeesRecyclerView.setLayoutManager(layoutManager);
+        fillEmployees();
         return mEmployeesBinding.getRoot();
     }
 
@@ -54,78 +77,99 @@ public class EmployeesFragment extends Fragment {
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mFirestore = FirebaseFirestore.getInstance();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        fillEmployees();
     }
 
     private void fillEmployees() {
-        Employees employee = new Employees();
+        CollectionReference employees_collection = mFirestore.collection(Constant.Employees.toString());
 
-        employee.setEmployeeCurrentState("Working in Alqahera");
-        employee.setEmployeeName("Mohammed Shehab");
-        employee.setEmployeeIcon(R.drawable.picture1);
-        employee.setEmployeeStateIcon(R.drawable.ic_rest);
-        employee.setEmployeeType("Rep");
-        employee.setEmployeeTypeIcon(R.drawable.ic_rep_icon);
-        mEmployeesList.add(employee);
+        employees_collection.addSnapshotListener(requireActivity(), MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.d("TAG", "Error getting documents: ", error);
+                    return;
+                }
 
-        employee = new Employees();
-        employee.setEmployeeCurrentState("Working in Almadena");
-        employee.setEmployeeName("Kamal Balah");
-        employee.setEmployeeIcon(R.drawable.sign_in_image);
-        employee.setEmployeeStateIcon(R.drawable.ic_working);
-        employee.setEmployeeType("Agent");
-        employee.setEmployeeTypeIcon(R.drawable.ic_agent_icon);
-        mEmployeesList.add(employee);
 
-        employee = new Employees();
-        employee.setEmployeeCurrentState("Working in Mosa ST");
-        employee.setEmployeeName("Mohammed Alhamzy");
-        employee.setEmployeeIcon(R.drawable.picture2);
-        employee.setEmployeeStateIcon(R.drawable.ic_working);
-        employee.setEmployeeType("Agent");
-        employee.setEmployeeTypeIcon(R.drawable.ic_agent_icon);
-        mEmployeesList.add(employee);
+                assert value != null;
+                for (DocumentChange documentChange : value.getDocumentChanges()) {
+                    if (documentChange.getType() == DocumentChange.Type.REMOVED) {
+                        mEmployeesList.remove(documentChange.getOldIndex());
+                        employeesAdapter.notifyItemRemoved(documentChange.getOldIndex());
+                        continue;
+                    }
+                    employee = new Employees();
+                    DocumentSnapshot document = documentChange.getDocument();
+                    String employeeName = document.getString("Name");
+                    int employeeIcon = R.drawable.sign_in_image;
+                    String employeeType = document.getString("Type_of_jop");
+                    String employeeCurrentState = "Working on madena'a street";
+                    int employeeTypeIcon = R.drawable.ic_rep_icon;
+                    switch (documentChange.getType()) {
+                        case ADDED:
+                            employee.setEmployeeName(employeeName);
+                            employee.setEmployeeIcon(employeeIcon);
+                            employee.setEmployeeType(employeeType);
+                            employee.setEmployeeCurrentState(employeeCurrentState);
+                            employee.setEmployeeTypeIcon(employeeTypeIcon);
+                            mEmployeesList.add(employee);
+                            employeesAdapter.notifyItemInserted(documentChange.getNewIndex());
+                            break;
+                        case MODIFIED:
+                            employee.setEmployeeName(employeeName);
+                            employee.setEmployeeIcon(employeeIcon);
+                            employee.setEmployeeType(employeeType);
+                            employee.setEmployeeCurrentState(employeeCurrentState);
+                            employee.setEmployeeTypeIcon(employeeTypeIcon);
+                            mEmployeesList.set(documentChange.getOldIndex(), employee);
+                            employeesAdapter.notifyItemChanged(documentChange.getNewIndex());
+                            break;
+                    }
+                    Toast.makeText(getContext(), String.valueOf(mEmployeesList.size()), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onComplete: " + mEmployeesList.size());
+                }
+                Log.d("TAG", mEmployeesList.toString());
+            }
+        });
 
-        employee = new Employees();
-        employee.setEmployeeCurrentState("Working in Aldamgha");
-        employee.setEmployeeName("Ammar Sharqy");
-        employee.setEmployeeIcon(R.drawable.picture3);
-        employee.setEmployeeStateIcon(R.drawable.ic_working);
-        employee.setEmployeeType("Rep");
-        employee.setEmployeeTypeIcon(R.drawable.ic_rep_icon);
-        mEmployeesList.add(employee);
+    }
 
-        employee = new Employees();
-        employee.setEmployeeCurrentState("Working in sana'a ST");
-        employee.setEmployeeName("Salah Doos");
-        employee.setEmployeeIcon(R.drawable.picture4);
-        employee.setEmployeeStateIcon(R.drawable.ic_rest);
-        employee.setEmployeeType("Rep");
-        employee.setEmployeeTypeIcon(R.drawable.ic_rep_icon);
-        mEmployeesList.add(employee);
 
-        employee = new Employees();
-        employee.setEmployeeCurrentState("Working in Gamal ST");
-        employee.setEmployeeName("wael Masawod");
-        employee.setEmployeeIcon(R.drawable.sign_in_image);
-        employee.setEmployeeStateIcon(R.drawable.ic_working);
-        employee.setEmployeeType("Rep");
-        employee.setEmployeeTypeIcon(R.drawable.ic_rep_icon);
-        mEmployeesList.add(employee);
+    private void checkNotification() {
+        mMenuItemNotification.setActionView(R.layout.notification_layout);
+        View view = mMenuItemNotification.getActionView();
+        tvNotificationCounter = view.findViewById(R.id.notification_counter);
+        ivNotificationIcon = view.findViewById(R.id.iv_notification_icon);
+        ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAdditionRequestActivity();
+            }
+        });
+        Drawable mDrawable = getActivity().getDrawable(R.drawable.notification_counter_shape);
+        view.findViewById(R.id.card_view).setBackground(mDrawable);
+        tvNotificationCounter.setText(String.valueOf(pendingNotification));
+    }
 
-        employee = new Employees();
-        employee.setEmployeeCurrentState("Working in Aldhmia ST");
-        employee.setEmployeeName("Salah Ghazy");
-        employee.setEmployeeIcon(R.drawable.picture5);
-        employee.setEmployeeStateIcon(R.drawable.ic_rest);
-        employee.setEmployeeType("agent");
-        employee.setEmployeeTypeIcon(R.drawable.ic_agent_icon);
-        mEmployeesList.add(employee);
 
+    private void openAdditionRequestActivity() {
+        Intent intent = new Intent(getContext(), AdditionRequestsActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.top_action_bar_menu, menu);
+        mMenuItemNotification = menu.findItem(R.id.notification_addition);
+        checkNotification();
         MenuItem searchItem = menu.findItem(R.id.ic_action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 

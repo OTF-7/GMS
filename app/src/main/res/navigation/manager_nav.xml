@@ -7,16 +7,16 @@
     <fragment
         android:id="@+id/actions_fragment"
         android:name="com.GMS.manager.fragments.ActionsFragment"
-        android:label="fragment_actions"
+        android:label="Actions"
         tools:layout="@layout/fragment_actions" />
     <fragment
         android:id="@+id/employee_fragment"
         android:name="com.GMS.manager.fragments.EmployeesFragment"
-        android:label="fragment_employees"
+        android:label="Employees"
         tools:layout="@layout/fragment_employees" />
     <fragment
         android:id="@+id/station_fragment"
         android:name="com.GMS.manager.fragments.StationsFragment"
-        android:label="fragment_stations"
+        android:label="Stations"
         tools:layout="@layout/fragment_stations" />
 </navigation>

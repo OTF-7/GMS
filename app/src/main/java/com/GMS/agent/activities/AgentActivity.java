@@ -34,13 +34,10 @@ import com.GMS.GeneralClasses.CitizenItemClickListener;
 import com.GMS.HistoryActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
-import com.GMS.agent.adapters.ItemClickListener;
 import com.GMS.agent.adapters.RecyclerViewAdapterCitizen;
-import com.GMS.agent.helperClasses.CitizenItem;
 import com.GMS.databinding.ActivityAgentBinding;
 import com.GMS.firebaseFireStore.CitizenActionDetails;
 import com.GMS.firebaseFireStore.CollectionName;
-import com.GMS.representative.adapters.RecyclerViewRepAdapterCitizen;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -156,7 +153,7 @@ public class AgentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_agent_top_bar, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_ic);
+        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
         createDialog();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -4,14 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,12 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.GMS.GeneralClasses.CitizenItemClickListener;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.aqel.activities.AddCitizenActivity;
 import com.GMS.aqel.adapters.RecyclerViewAqelAdapter;
-import com.GMS.aqel.helperClass.CitizenItemOfAqel;
 import com.GMS.databinding.FragmentVerifiedAqelBinding;
 import com.GMS.firebaseFireStore.CitizenActionDetails;
 import com.GMS.firebaseFireStore.CollectionName;
@@ -96,9 +94,9 @@ public class VerifiedAqelFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_aqel_top_bar , menu);
-        MenuItem searchItem = menu.findItem(R.id.search_ic);
-        SearchView searchView= (SearchView) searchItem.getActionView();
+        inflater.inflate(R.menu.menu_aqel_top_bar, menu);
+        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

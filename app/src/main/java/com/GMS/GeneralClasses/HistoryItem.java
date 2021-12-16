@@ -2,12 +2,12 @@ package com.GMS.GeneralClasses;
 
 public class HistoryItem {
 
-    String location ;
-    String date ;
-    String  partnerName ;
-    String station;
-    int price ;
-    int Qty ;
+    private String location;
+    private String date;
+    private String partnerName;
+    private String station;
+    private int price;
+    private int Qty;
 
     public HistoryItem(String location, String date, String partnerName, String station, int price, int qty) {
         this.location = location;

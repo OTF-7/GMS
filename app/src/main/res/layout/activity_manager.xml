@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
-        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +20,10 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/action_toolbar"
-            style="@style/AppBarTheme"
             android:layout_width="match_parent"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/shape_top_action_bar"
-            app:menu="@menu/top_action_bar_menu"
             app:navigationIcon="@drawable/ic_menu"
             android:foregroundTint="@color/white"
             app:title="Actions"

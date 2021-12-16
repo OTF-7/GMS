@@ -6,13 +6,13 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.GMS.GeneralClasses.ActionDetailsCitizen;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.GeneralClasses.ActionDetailsCitizen;
 import com.GMS.R;
 import com.GMS.databinding.DetailsItemBinding;
-import com.GMS.databinding.HistoryItemBinding;
 
 import java.util.ArrayList;
 

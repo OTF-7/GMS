@@ -20,8 +20,10 @@ import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.aqel.activities.AddCitizenActivity;
 import com.GMS.databinding.FragmentActionsBinding;
+import com.GMS.login.activities.LoginActivity;
 import com.GMS.manager.adapters.ActionsAdapter;
 import com.GMS.manager.models.Actions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +41,7 @@ public class ActionsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mActionsBinding = FragmentActionsBinding.inflate(inflater, container, false);
@@ -108,7 +110,17 @@ public class ActionsFragment extends Fragment {
         inflater.inflate(R.menu.top_action_bar_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.ic_action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-
+        MenuItem logOut = menu.findItem(R.id.ic_log_out);
+        logOut.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                auth.signOut();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                requireActivity().finish();
+                return false;
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

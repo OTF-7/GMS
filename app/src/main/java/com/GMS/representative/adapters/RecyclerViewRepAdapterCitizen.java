@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.GMS.GeneralClasses.CitizenItemClickListener;
 import com.GMS.databinding.CitizenItemRvBinding;
 import com.GMS.firebaseFireStore.CitizenActionDetails;
-import com.GMS.firebaseFireStore.CitizenCollection;
-import com.GMS.representative.helperClass.CitizenItemOfRep;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +48,7 @@ public class RecyclerViewRepAdapterCitizen extends RecyclerView.Adapter<Recycler
             notifyDataSetChanged();
         }
     };
+
     int typeOfPage;
 
     public RecyclerViewRepAdapterCitizen(ArrayList<CitizenActionDetails> lsts, int typeOfPage , CitizenItemClickListener mItemClickListener) {

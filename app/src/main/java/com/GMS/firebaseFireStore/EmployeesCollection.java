@@ -1,12 +1,13 @@
 package com.GMS.firebaseFireStore;
 
+import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.Exclude;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserCollection {
+public class EmployeesCollection {
     /*
      *NOTICE THIS NOTE BELOW FOR MORE INFO FOR CONTENT OF EACH DOCUMENT
      ** EACH EMPLOYEE DOCUMENT CONTAINS THESE :
@@ -15,20 +16,21 @@ public class UserCollection {
      *  , USER_NAME  , PASSWORD ,SOCIAL_ACCOUNTS , TYPE_OF_JOB , HIRE_DATE
      * }
      */
+    @DocumentId
     private String id;
     private String name;
-    private List<String> telephones ;
-    private Map<String , Object> address = new HashMap<>();
-    private String district ;
-    private String neighborhood ;
-    private String quarter ;
-    private String userName ;
-    private String password ;
-    private List<String> socialAccounts ;
-    private String typeOfJob ;
-    private String hireDate ;
+    private List<String> telephones;
+    private Map<String, Object> address = new HashMap<>();
+    private String district;
+    private String neighborhood;
+    private String quarter;
+    private String userName;
+    private String password;
+    private List<String> socialAccounts;
+    private String typeOfJob;
+    private String hireDate;
 
-    public UserCollection(String name, List<String> telephones, String userName, String password,List<String> socialAccounts, String typeOfJob, String hireDate , Map<String , Object> address) {
+    public EmployeesCollection(String name, List<String> telephones, String userName, String password, List<String> socialAccounts, String typeOfJob, String hireDate, Map<String, Object> address) {
         this.name = name;
         this.telephones = telephones;
         this.address = address;
@@ -48,6 +50,7 @@ public class UserCollection {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
