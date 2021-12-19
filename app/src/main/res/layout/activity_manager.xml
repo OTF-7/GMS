@@ -1,93 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manager_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".manager.activities.ManagerActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/top_app_bar_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/manager_main_constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@android:color/transparent"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        app:elevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/action_toolbar"
-            android:layout_width="match_parent"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/shape_top_action_bar"
-            app:navigationIcon="@drawable/ic_menu"
-            android:foregroundTint="@color/white"
-            app:title="Actions"
-            app:subtitleTextColor="@color/Floral_White"
-            app:titleTextColor="@color/white" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <fragment
-        android:id="@+id/fragmentContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
-        android:padding="8dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="@id/mgrCoordinatorLayoutRoot"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout"
-        app:navGraph="@navigation/manager_nav" />
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/mgrCoordinatorLayoutRoot"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/manager_bottomAppBar"
-            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/top_app_bar_layout"
+            style="@style/Theme.MyAppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:fabAlignmentMode="end"
-            app:fabCradleMargin="8dp"
-            app:fabCradleRoundedCornerRadius="32dp"
-            app:fabCradleVerticalOffset="4dp">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:theme="@style/ThemeOverlay.Material3.Dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/manager_bottomNavigationView"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/action_toolbar"
+                style="@style/Theme.MyToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.Material3.Light"
+                app:subtitleTextColor="?attr/colorOnPrimarySurface"
+                app:titleTextColor="?attr/colorOnPrimarySurface" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <fragment
+            android:id="@+id/fragmentContainerView"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="@id/mgrCoordinatorLayoutRoot"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_app_bar_layout"
+            app:navGraph="@navigation/manager_nav" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/mgrCoordinatorLayoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/manager_bottomAppBar"
+                style="@style/Theme.MyBottomAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:fabAlignmentMode="end"
+                app:fabCradleMargin="8dp"
+                app:fabCradleRoundedCornerRadius="40dp"
+                app:fabCradleVerticalOffset="16dp">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/manager_bottomNavigationView"
+                    style="@style/Theme.MyBottomNavigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    app:elevation="0dp"
+                    app:menu="@menu/menu_manager_bottom_navigation_view" />
+
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/manager_add_floating_action_button"
+                style="@style/Theme.MyFloatingActionButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:background="@color/transparent"
-                app:elevation="0dp"
-                app:itemIconTint="#fff"
-                app:itemTextAppearance="@style/TextViewStyle"
-                app:itemTextColor="#fff"
-                app:menu="@menu/navigation_view_menu" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add"
+                app:borderWidth="0dp"
+                app:fabSize="normal"
+                app:layout_anchor="@id/manager_bottomAppBar" />
 
-        </com.google.android.material.bottomappbar.BottomAppBar>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:src="@drawable/add_floating_button_icon"
-            app:borderWidth="0dp"
-            app:fabSize="normal"
-            app:layout_anchor="@id/manager_bottomAppBar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/manager_navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/layout_manager_header_navigation_drawer"
+        app:menu="@menu/menu_manager_navigation_drawer" />
+</androidx.drawerlayout.widget.DrawerLayout>

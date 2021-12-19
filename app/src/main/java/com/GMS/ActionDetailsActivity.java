@@ -33,7 +33,7 @@ public class ActionDetailsActivity extends AppCompatActivity {
         mBinding = ActivityActionDetailsBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         setSupportActionBar(mBinding.toolBarDetails);
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         items.add(new ActionDetailsCitizen("done","Abdulrahman khalid" , 4 ,"Abubaker Khalid" ,"Omar Taha"));
         items.add(new ActionDetailsCitizen("done","Abdulrahman khalid" , 4 ,"Abubaker Khalid" ,"Omar Taha"));

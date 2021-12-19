@@ -28,7 +28,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="Mohammed shehab"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/colorOnSurface"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/employeeState"
         app:layout_constraintStart_toEndOf="@+id/employeeIcon"

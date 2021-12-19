@@ -28,7 +28,7 @@
         android:fontFamily="serif"
         android:padding="8dp"
         android:text="Aleesi"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/colorOnSurface"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/stationIcon"
         app:layout_constraintEnd_toStartOf="@+id/stationCallIcon"
@@ -46,7 +46,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/stationName"
         app:layout_constraintEnd_toStartOf="@+id/stationoShowLocationIcon"
         app:layout_constraintTop_toTopOf="@+id/stationName"
-        app:tint="@color/colorPrimary" />
+        app:tint="?attr/colorPrimary" />
 
     <ImageView
         android:id="@+id/stationoShowLocationIcon"
@@ -60,6 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/stationCallIcon"
         app:layout_constraintVertical_bias="0.0"
-        app:tint="@color/colorPrimary" />
+        app:tint="?attr/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

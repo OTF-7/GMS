@@ -52,8 +52,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.COLLAPSED) {
+                    if (loginBinding.loginPager.getCurrentItem() == 1)
+                        loginBinding.signUpImage.setVisibility(View.GONE);
                     loginBinding.loginNestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape2));
                 } else {
+                    if (loginBinding.loginPager.getCurrentItem() == 1)
+                        loginBinding.signUpImage.setVisibility(View.VISIBLE);
                     loginBinding.loginNestedScrollView.setBackground(getResources().getDrawable(R.drawable.login_scrolling_shape));
                 }
             }
@@ -85,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     loginBinding.switchFormButton.setImageResource(R.drawable.ic_sign_in);
                     loginBinding.loginCollapsingToolbar.setTitle("Sign up");
-
                     loginBinding.signUpImage.setVisibility(View.VISIBLE);
                     loginBinding.signInImage.setVisibility(View.GONE);
                     transition.startTransition(200);
@@ -101,11 +104,6 @@ public class LoginActivity extends AppCompatActivity {
         loginBinding.switchFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* if (!signin_signup_state) {
-                    loginBinding.loginPager.setCurrentItem(1);
-                } else {
-                    loginBinding.loginPager.setCurrentItem(0);
-                }*/
                 changePagerState.changePager(loginBinding);
             }
         });

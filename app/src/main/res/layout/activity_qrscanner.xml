@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@color/transparent"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="?attr/colorPrimary"
         android:src="@drawable/cancel_icon"
         app:layout_constraintEnd_toEndOf="@id/zxing_scanner_view"
         app:layout_constraintTop_toTopOf="@id/zxing_scanner_view" />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@color/transparent"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="?attr/colorPrimary"
         android:src="@drawable/ic_flash_off"
         app:layout_constraintBottom_toBottomOf="@id/i_btn_cancel"
         app:layout_constraintEnd_toStartOf="@id/i_btn_cancel"

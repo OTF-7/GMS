@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_manager_item_main_destinations_title"
+        android:title="Main Screens">
+        <menu>
+            <item
+                android:id="@+id/actions_fragment"
+                android:checkable="true"
+                android:icon="@drawable/ic_date"
+                android:iconTint="@color/white"
+                android:title="Actions"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/employee_fragment"
+                android:checkable="true"
+                android:icon="@drawable/ic_employees"
+                android:iconTint="@color/white"
+                android:title="Employees"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/station_fragment"
+                android:checkable="true"
+                android:icon="@drawable/ic_gas_station"
+                android:iconTint="@color/white"
+                android:title="Stations"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_manager_item_setting"
+        android:checkable="true"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_manager_item_log_out"
+        android:checkable="true"
+        android:title="logout"
+        app:showAsAction="never" />
+</menu>

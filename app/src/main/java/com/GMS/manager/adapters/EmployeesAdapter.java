@@ -85,6 +85,7 @@ public class EmployeesAdapter extends RecyclerView.Adapter<EmployeesAdapter.Empl
         return mEmployeesList.size();
     }
 
+
     @Override
     public Filter getFilter() {
         return employeesFilter;

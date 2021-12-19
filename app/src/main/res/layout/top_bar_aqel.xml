@@ -23,7 +23,6 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar_aqel"
-            style="@style/AppBarTheme"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/shape_top_action_bar"

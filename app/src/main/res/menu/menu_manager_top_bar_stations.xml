@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_manager_item_search"
+        android:icon="@drawable/search_icon"
+        android:title="search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_manager_item_notification"
+        android:icon="@drawable/ic_notification_addition"
+        android:title="notification addition"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_manager_item_setting"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_manager_item_log_out"
+        android:title="logout"
+        app:showAsAction="never" />
+</menu>

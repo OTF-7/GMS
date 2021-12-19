@@ -19,4 +19,12 @@
         android:name="com.GMS.manager.fragments.StationsFragment"
         android:label="Stations"
         tools:layout="@layout/fragment_stations" />
+    <fragment
+        android:id="@+id/managerSignUpRequestsFragment"
+        android:name="com.GMS.manager.fragments.ManagerSignUpRequestsFragment"
+        android:label="fragment_manager_sign_up_requests"
+        tools:layout="@layout/fragment_manager_sign_up_requests" />
+    <action
+        android:id="@+id/action_global_managerSignUpRequestsFragment"
+        app:destination="@id/managerSignUpRequestsFragment" />
 </navigation>

@@ -59,17 +59,40 @@ public class EmployeesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         mEmployeesBinding = FragmentEmployeesBinding.inflate(inflater, container, false);
         mEmployeesList = new ArrayList<>();
+        fillEmployees();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         employeesAdapter = new EmployeesAdapter(mEmployeesList);
         mEmployeesBinding.employeesRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(),
                 DividerItemDecoration.VERTICAL));
         mEmployeesBinding.employeesRecyclerView.setAdapter(employeesAdapter);
         mEmployeesBinding.employeesRecyclerView.setLayoutManager(layoutManager);
-        fillEmployees();
+        mEmployeesBinding.employeesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    requireActivity().findViewById(R.id.manager_add_floating_action_button)
+                            .animate()
+                            .alpha(0);
+
+                    requireActivity().findViewById(R.id.manager_bottomAppBar)
+                            .animate()
+                            .translationY(requireActivity().findViewById(R.id.manager_bottomAppBar).getHeight())
+                            .alpha(0);
+                } else {
+                    requireActivity().findViewById(R.id.manager_add_floating_action_button)
+                            .animate()
+                            .alpha(1);
+
+                    requireActivity().findViewById(R.id.manager_bottomAppBar)
+                            .animate()
+                            .translationY(0)
+                            .alpha(1);
+                }
+            }
+        });
         return mEmployeesBinding.getRoot();
     }
 

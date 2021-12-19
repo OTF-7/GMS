@@ -1,12 +1,11 @@
 package com.GMS.aqel.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityAqelNotificationsBinding;
@@ -20,7 +19,7 @@ public class AqelNotificationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityAqelNotificationsBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
         setSupportActionBar(mBinding.toolBarNotifications);
         setTitle(R.string.notifications);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

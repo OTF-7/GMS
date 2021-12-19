@@ -105,7 +105,7 @@ public class SingInFragment extends Fragment {
                                 } else {
                                     user.sendEmailVerification();
                                     signinBinding.signinUserNameField.setHelperText("Your email is not verified, call you manager");
-                                    signinBinding.signinUserNameField.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
+                                    signinBinding.signinUserNameField.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.md_theme_light_primary)));
                                 }
                             } else {
                                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();

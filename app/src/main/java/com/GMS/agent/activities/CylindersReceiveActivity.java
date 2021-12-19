@@ -31,7 +31,7 @@ public class CylindersReceiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityCylindersReceiveBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
         setSupportActionBar(mBinding.toolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

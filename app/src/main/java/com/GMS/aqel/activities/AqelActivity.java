@@ -1,6 +1,5 @@
 package com.GMS.aqel.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -9,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.GMS.Constant;
-import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.aqel.adapters.ViewPager2AqelAdapter;
 import com.GMS.databinding.ActivityAqelBinding;
@@ -42,7 +39,7 @@ public class  AqelActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
         // change color of status bar color
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
         setSupportActionBar(mBinding.toolBar.toolBarAqel);
         setTitle("Aqel");
        //addAction();

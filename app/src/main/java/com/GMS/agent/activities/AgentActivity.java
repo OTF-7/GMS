@@ -78,7 +78,7 @@ public class AgentActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         mAcceptedBackgroundImage = getDrawable(R.drawable.accpted_image_background_shape);
         // change color of status bar color
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
 
         setSupportActionBar(mBinding.agentTopBar.toolBarAgent);
         setTitle("Agent");

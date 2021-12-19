@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:background="@android:color/transparent"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/login_collapsing_toolbar"
@@ -23,22 +22,24 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:soundEffectsEnabled="true"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
-            app:contentScrim="@color/colorPrimary"
+            app:collapsedTitleTextColor="?attr/colorOnPrimarySurface"
             app:expandedTitleGravity="top|start"
-            app:expandedTitleMarginStart="8dp"
-            app:expandedTitleMarginTop="40dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
+            app:contentScrim="?attr/colorPrimarySurface"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleMarginTop="48dp"
+            app:expandedTitleTextColor="?attr/colorOnPrimarySurface"
+            app:title="Sign in"
+            app:titleCollapseMode="scale"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-           <ImageView
-               android:id="@+id/sign_up_image"
-               android:layout_width="128dp"
-               android:layout_height="128dp"
-               android:layout_gravity="center"
-               android:elevation="8dp"
-               android:layout_marginBottom="16dp"
-               android:src="@drawable/sign_up_image"
+            <ImageView
+                android:id="@+id/sign_up_image"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:elevation="8dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/sign_up_image"
                android:visibility="gone"
                app:layout_collapseMode="none" />
 
@@ -49,7 +50,7 @@
                 android:layout_gravity="center"
                 android:elevation="8dp"
                 android:src="@drawable/sign_in_image"
-                app:civ_border_color="#FFFFFF"
+                app:civ_border_color="?attr/colorSurface"
                 app:civ_border_width="2dp"
                 app:layout_collapseMode="none" />
 
@@ -58,11 +59,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_sign_in"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="Sign in" />
+                app:popupTheme="@style/ThemeOverlay.Material3.DynamicColors.DayNight" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -73,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="?attr/colorPrimarySurface"
         android:baselineAlignBottom="false"
         android:clickable="true"
         android:focusable="true"
@@ -84,13 +83,14 @@
         app:borderWidth="0dp"
         app:layout_anchor="@id/login_appbar"
         app:layout_anchorGravity="end|bottom"
-        app:tint="@color/colorAccent"
+        app:tint="?attr/colorOnPrimarySurface"
         android:contentDescription="switch between sign in and sign up" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/login_nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="?attr/colorSurface"
         android:background="@drawable/login_scrolling_shape"
         android:fillViewport="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -112,7 +112,7 @@
                 app:layout_constraintEnd_toEndOf="@id/pager_container"
                 app:layout_constraintStart_toStartOf="@id/pager_container"
                 app:layout_constraintTop_toTopOf="@id/pager_container"
-                app:tint="@color/colorAccent" />
+                app:tint="?attr/colorAccent" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/login_pager"

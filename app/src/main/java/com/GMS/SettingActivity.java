@@ -22,7 +22,7 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         setSupportActionBar(mBinding.toolBarSetting);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
 
         mBinding.constraintAccout.setOnClickListener(new View.OnClickListener() {
             @Override

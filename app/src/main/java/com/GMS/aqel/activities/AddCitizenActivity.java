@@ -41,7 +41,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -86,7 +85,7 @@ public class AddCitizenActivity extends AppCompatActivity {
         mBinding = ActivityAddCitizenBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
         setSupportActionBar(mBinding.toolBarAddCitizen);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mStorageRef = FirebaseStorage.getInstance().getReference(CollectionName.StorageFolder.CITIZENPICSOFDOCUMENT.name());

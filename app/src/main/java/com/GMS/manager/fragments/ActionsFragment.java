@@ -1,6 +1,7 @@
 package com.GMS.manager.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,6 +43,7 @@ public class ActionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,6 +55,30 @@ public class ActionsFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mActionsBinding.actionsRecyclerView.setAdapter(adapter);
         mActionsBinding.actionsRecyclerView.setLayoutManager(layoutManager);
+        mActionsBinding.actionsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    requireActivity().findViewById(R.id.manager_add_floating_action_button)
+                            .animate()
+                            .alpha(0);
+
+                    requireActivity().findViewById(R.id.manager_bottomAppBar)
+                            .animate()
+                            .translationY(requireActivity().findViewById(R.id.manager_bottomAppBar).getHeight())
+                            .alpha(0);
+                } else {
+                    requireActivity().findViewById(R.id.manager_add_floating_action_button)
+                            .animate()
+                            .alpha(1);
+
+                    requireActivity().findViewById(R.id.manager_bottomAppBar)
+                            .animate()
+                            .translationY(0)
+                            .alpha(1);
+                }
+            }
+        });
         return mActionsBinding.getRoot();
     }
 
@@ -107,10 +135,10 @@ public class ActionsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.top_action_bar_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.ic_action_search);
+        inflater.inflate(R.menu.menu_manager_top_bar_actions, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_manager_item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        MenuItem logOut = menu.findItem(R.id.ic_log_out);
+        MenuItem logOut = menu.findItem(R.id.menu_manager_item_log_out);
         logOut.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -141,13 +169,16 @@ public class ActionsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.notification_addition:
+            case R.id.menu_manager_item_notification:
                 Intent mAddCitizenIntent = new Intent(this.getActivity(), AddCitizenActivity.class);
                 startActivity(mAddCitizenIntent);
                 break;
-            case R.id.setting_item:
+            case R.id.menu_manager_item_setting:
                 Intent mSettingIntent = new Intent(this.getActivity(), SettingActivity.class);
                 startActivity(mSettingIntent);
+                break;
+            case R.id.menu_manager_item_light_dark_switch:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
         }
         return super.onOptionsItemSelected(item);
