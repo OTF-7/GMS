@@ -20,11 +20,12 @@
         android:label="Stations"
         tools:layout="@layout/fragment_stations" />
     <fragment
-        android:id="@+id/managerSignUpRequestsFragment"
-        android:name="com.GMS.manager.fragments.ManagerSignUpRequestsFragment"
-        android:label="fragment_manager_sign_up_requests"
-        tools:layout="@layout/fragment_manager_sign_up_requests" />
+        android:id="@+id/signUpRequestsFragment"
+        android:name="com.GMS.manager.fragments.SignUpRequestsFragment"
+        android:label="fragment_sign_up_requests"
+        tools:layout="@layout/fragment_sign_up_requests" />
     <action
-        android:id="@+id/action_global_managerSignUpRequestsFragment"
-        app:destination="@id/managerSignUpRequestsFragment" />
+        android:id="@+id/action_global_signUpRequestsFragment"
+        app:destination="@id/signUpRequestsFragment" />
+
 </navigation>

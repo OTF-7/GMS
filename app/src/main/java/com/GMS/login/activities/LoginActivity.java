@@ -1,6 +1,5 @@
 package com.GMS.login.activities;
 
-import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +16,6 @@ import com.GMS.databinding.ActivityLoginBinding;
 import com.GMS.login.adapters.AppBarStateChangeListener;
 import com.GMS.login.adapters.LoginViewPagerAdapter;
 import com.GMS.login.utilities.changePagerState;
-import com.GMS.manager.activities.ManagerActivity;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,8 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        if (user != null)
-            startActivity(new Intent(LoginActivity.this, ManagerActivity.class));
         loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(loginBinding.getRoot());
 

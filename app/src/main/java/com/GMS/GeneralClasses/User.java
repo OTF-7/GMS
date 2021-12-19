@@ -1,10 +1,26 @@
 package com.GMS.GeneralClasses;
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
 
+public class User implements Parcelable {
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     private String firstName, midName, lastName, email, userName, password, phone;
     private int userType;
-    //private HashMap<String, String> socialAccounts;
+
+    public User() {
+    }
 
     public User(String firstName,
                 String midName,
@@ -22,6 +38,17 @@ public class User {
         this.password = password;
         this.phone = phone;
         this.userType = userType;
+    }
+
+    protected User(Parcel in) {
+        firstName = in.readString();
+        midName = in.readString();
+        lastName = in.readString();
+        email = in.readString();
+        userName = in.readString();
+        password = in.readString();
+        phone = in.readString();
+        userType = in.readInt();
     }
 
     public String getPassword() {
@@ -88,4 +115,20 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstName);
+        dest.writeString(midName);
+        dest.writeString(lastName);
+        dest.writeString(email);
+        dest.writeString(userName);
+        dest.writeString(password);
+        dest.writeString(phone);
+        dest.writeInt(userType);
+    }
 }

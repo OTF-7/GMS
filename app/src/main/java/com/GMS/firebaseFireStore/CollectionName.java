@@ -3,7 +3,8 @@ package com.GMS.firebaseFireStore;
 public enum CollectionName {
 
     COMPANY,
-    EMPLOYEES,
+    Notifications,
+    Employees,
     USERS,
     CHATTING,
     CITIZENS,
@@ -34,7 +35,8 @@ public enum CollectionName {
         userName,
         password,
         socialAccounts,
-        typeOfJob,
+        userType,
+        email,
         state,
         regret,
 

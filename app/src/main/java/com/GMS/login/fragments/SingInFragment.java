@@ -13,22 +13,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.GMS.GeneralClasses.User;
 import com.GMS.R;
+import com.GMS.agent.activities.AgentActivity;
+import com.GMS.aqel.activities.AqelActivity;
 import com.GMS.databinding.FragmentSingInBinding;
+import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.login.activities.LoginActivity;
 import com.GMS.login.utilities.Validation;
 import com.GMS.login.utilities.changePagerState;
 import com.GMS.manager.activities.ManagerActivity;
+import com.GMS.representative.activities.RepresentativeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
 
 public class SingInFragment extends Fragment {
+    public static String USER_DATA = "user data";
+    User userData;
     //public static final int RC_SIGN_IN = 1;
     final int DELAYED_TIME = 2700;
     final Handler handler = new Handler();
@@ -38,9 +49,7 @@ public class SingInFragment extends Fragment {
             new AuthUI.IdpConfig.PhoneBuilder().build());*/
     FragmentSingInBinding signinBinding;
     private FirebaseFirestore mFirestore;
-    //private ArrayList<User> users;
     private FirebaseAuth mAuth;
-    //private FirebaseAuth.AuthStateListener mAuthStateListner;
 
     public SingInFragment() {
         // Required empty public constructor
@@ -52,9 +61,9 @@ public class SingInFragment extends Fragment {
         // Inflate the layout for this fragment
         signinBinding = FragmentSingInBinding.inflate(inflater, container, false);
         mFirestore = FirebaseFirestore.getInstance();
+        CollectionReference employees = mFirestore.collection(CollectionName.Employees.name());
         mAuth = FirebaseAuth.getInstance();
         //users = new ArrayList<User>();
-
         signinBinding.signinUserNameField.setTranslationY(800);
         signinBinding.signinUserNameField.setAlpha(0);
         signinBinding.signinPasswordField.setTranslationY(800);
@@ -89,11 +98,11 @@ public class SingInFragment extends Fragment {
         signinBinding.signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = Objects.requireNonNull(signinBinding.signinUserNameField.getEditText()).getText().toString().trim();
+                String email = Objects.requireNonNull(signinBinding.signinUserNameField.getEditText()).getText().toString().trim();
                 String password = Objects.requireNonNull(signinBinding.signinPasswordField.getEditText()).getText().toString().trim();
-                if (Validation.validate(userName.isEmpty(), signinBinding.signinUserNameField, "Enter your user name or your email") &&
+                if (Validation.validate(email.isEmpty(), signinBinding.signinUserNameField, "Enter your user name or your email") &&
                         Validation.validate(password.isEmpty(), signinBinding.signinPasswordField, "Enter your password")) {
-                    mAuth.signInWithEmailAndPassword(userName, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
@@ -101,14 +110,47 @@ public class SingInFragment extends Fragment {
                                 assert user != null;
                                 if (user.isEmailVerified()) {
                                     Toast.makeText(getContext(), "You logged in successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getContext(), ManagerActivity.class));
+                                    employees.whereEqualTo(CollectionName.Fields.email.name(), email)
+                                            .whereEqualTo(CollectionName.Fields.password.name(), password)
+                                            .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(@NonNull QuerySnapshot queryDocumentSnapshots) {
+                                            userData = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                                            Object destination;
+                                            switch (Objects.requireNonNull(userData).getUserType()) {
+                                                case R.id.radio_button_rep:
+                                                    destination = RepresentativeActivity.class;
+                                                    break;
+                                                case R.id.radio_button_agent:
+                                                    destination = AgentActivity.class;
+                                                    break;
+                                                case R.id.radio_button_aqel:
+                                                    destination = AqelActivity.class;
+                                                    break;
+                                                default:
+                                                    destination = ManagerActivity.class;
+                                                    break;
+                                            }
+                                            Intent intent = new Intent(getContext(), (Class) destination);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putParcelable(USER_DATA, userData);
+                                            startActivity(intent);
+                                            Objects.requireNonNull(getActivity()).finish();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getContext(), "Something went wrong with getting data", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
                                 } else {
                                     user.sendEmailVerification();
                                     signinBinding.signinUserNameField.setHelperText("Your email is not verified, call you manager");
                                     signinBinding.signinUserNameField.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.md_theme_light_primary)));
                                 }
                             } else {
-                                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Something went wrong with signing", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

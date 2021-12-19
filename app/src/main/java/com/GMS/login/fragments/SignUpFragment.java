@@ -1,7 +1,6 @@
 package com.GMS.login.fragments;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -15,8 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.GMS.GeneralClasses.User;
 import com.GMS.MainActivity;
-import com.GMS.R;
 import com.GMS.databinding.FragmentSignUpBinding;
+import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.login.activities.CreatedAccountActivity;
 import com.GMS.login.activities.LoginActivity;
 import com.GMS.login.utilities.Validation;
@@ -67,8 +66,8 @@ public class SignUpFragment extends Fragment {
 
     public void createAccount() {
         mFirestore = FirebaseFirestore.getInstance();
-        CollectionReference employees = mFirestore.collection("Employees");
-        CollectionReference notifications = mFirestore.collection("Notifications");
+        CollectionReference employees = mFirestore.collection(CollectionName.Employees.name());
+        CollectionReference notifications = mFirestore.collection(CollectionName.Notifications.name());
         String firstName = Objects.requireNonNull(signupBinding.signupFirstNameField.getEditText()).getText().toString().trim();
         String midName = Objects.requireNonNull(signupBinding.signupMidNameField.getEditText()).getText().toString().trim();
         String lastName = Objects.requireNonNull(signupBinding.signupLastNameField.getEditText()).getText().toString().trim();
@@ -135,34 +134,6 @@ public class SignUpFragment extends Fragment {
                     }
                 }
             });
-        }
-    }
-
-
-    private boolean validate(boolean condition, com.google.android.material.textfield.TextInputLayout field, String errorText) {
-        if (condition) {
-            field.setError(errorText);
-            field.requestFocus();
-            return false;
-        } else {
-            field.setError("");
-            return true;
-        }
-    }
-
-    private boolean validate(boolean condition,
-                             com.google.android.material.textfield.TextInputLayout field,
-                             String errorText,
-                             String helperText) {
-        if (condition) {
-            field.setError(errorText);
-            field.requestFocus();
-            return false;
-        } else {
-            field.setError("");
-            field.setHelperText(helperText);
-            field.setHelperTextColor(ColorStateList.valueOf(getResources().getColor(R.color.Light_See_Green)));
-            return true;
         }
     }
 

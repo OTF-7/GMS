@@ -42,18 +42,19 @@ import java.util.Map;
 
 public class NeedScanRepFragment extends Fragment {
 
-    public static final  int FRAGMENT_ID=1 ;
-    FragmentNeedScanRepBinding mBinding ;
-    RecyclerViewRepAdapterCitizen adapter ;
-    String idAction;
-    long sellingPrice ;
-    CitizenItemClickListener mItemClickListener;
-    ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
+    public static final int FRAGMENT_ID = 1;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
     private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
     private final CollectionReference mCollectionRefAction = db.collection(CollectionName.ACTIONS.name());
     private final CollectionReference mCollectionRefActionDetails = db.collection(CollectionName.ACTION_DETAILS.name());
+    FragmentNeedScanRepBinding mBinding;
+    RecyclerViewRepAdapterCitizen adapter;
+    String idAction;
+    long sellingPrice;
+    CitizenItemClickListener mItemClickListener;
+    ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
+
     public NeedScanRepFragment() {
         // Required empty public constructor
     }
@@ -62,23 +63,23 @@ public class NeedScanRepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mBinding = FragmentNeedScanRepBinding.inflate(inflater , container , false);
+        mBinding = FragmentNeedScanRepBinding.inflate(inflater, container, false);
 
-            getAction();
+        getAction();
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
-               verifiedCitizen(position);
+                verifiedCitizen(position);
             }
         };
 
 
         return mBinding.getRoot();
     }
-    public  void initRV()
-    {
+
+    public void initRV() {
         mBinding.progressWhileLoading.setVisibility(View.GONE);
-        adapter = new RecyclerViewRepAdapterCitizen(detailsItems , FRAGMENT_ID , mItemClickListener);
+        adapter = new RecyclerViewRepAdapterCitizen(detailsItems, FRAGMENT_ID, mItemClickListener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBinding.rvNeedScanFragment.setHasFixedSize(true);
         mBinding.rvNeedScanFragment.setLayoutManager(layoutManager);
@@ -114,6 +115,7 @@ public class NeedScanRepFragment extends Fragment {
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     private void getAction() {
 
         mCollectionRefAction.whereEqualTo(CollectionName.Fields.actionDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())))
@@ -122,7 +124,7 @@ public class NeedScanRepFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
-                    idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
+                    idAction = queryDocumentSnapshots.getDocuments().get(0).getId().toString();
                     sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
 
                     getActionDetails();
@@ -147,13 +149,13 @@ public class NeedScanRepFragment extends Fragment {
                             Log.e(TAG, e.toString());
                         }
                         if (queryDocumentSnapshots.isEmpty()) {
-                            adapter = null ;
+                            adapter = null;
                             detailsItems.clear();
                             initRV();
                             mBinding.progressWhileLoading.setVisibility(View.GONE);
                             Toast.makeText(getContext().getApplicationContext(), "no Items", Toast.LENGTH_SHORT).show();
                         } else {
-                            adapter = null ;
+                            adapter = null;
                             detailsItems.clear();
                             for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
 
@@ -166,22 +168,23 @@ public class NeedScanRepFragment extends Fragment {
                     }
                 });
     }
+
     private void verifiedCitizen(int position) {
 
-           CitizenActionDetails citizenActionDetails = detailsItems.get(position);
-            Map<String ,Object> updateState = citizenActionDetails.getDeliveredState();
-            updateState.put(CollectionName.Fields.repVerified.name(), true);
-            citizenActionDetails.setDeliveredState(updateState);
+        CitizenActionDetails citizenActionDetails = detailsItems.get(position);
+        Map<String, Object> updateState = citizenActionDetails.getDeliveredState();
+        updateState.put(CollectionName.Fields.repVerified.name(), true);
+        citizenActionDetails.setDeliveredState(updateState);
 
-            mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
-                    .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails , SetOptions.merge())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(getActivity(), "Verified", Toast.LENGTH_SHORT).show();
+        mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
+                .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getActivity(), "Verified", Toast.LENGTH_SHORT).show();
 
-                        }
-                    });
+                    }
+                });
 
     }
 
