@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    >
+    <item
+        android:id="@+id/menu_addition_request_action_confirm"
+        android:title="@string/confirm"
+        android:icon="@drawable/ic_done"
+        />
+    <item
+        android:id="@+id/menu_addition_request_action_regret"
+        android:title="@string/regret"
+        android:icon="@drawable/ic_done"
+        />
+</menu>
