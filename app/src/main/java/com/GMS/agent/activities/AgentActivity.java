@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -29,8 +30,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.GMS.GeneralClasses.CitizenItemClickListener;
+import com.GMS.GeneralClasses.NetworkCollection;
 import com.GMS.HistoryActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
@@ -39,6 +42,7 @@ import com.GMS.databinding.ActivityAgentBinding;
 import com.GMS.firebaseFireStore.CitizenActionDetails;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -61,6 +65,8 @@ public class AgentActivity extends AppCompatActivity {
     public static Drawable mAcceptedBackgroundImage;
     private Dialog stationDialog;
     private static final int CALL_PERMISSION = 122;
+    private static final String REFRESH_SWIPE="REFRESH_SWIPE";
+    private static final String REFRESH_START="REFRESH_START";
     String idAction;
     long sellingPrice ;
     CitizenItemClickListener mItemClickListener;
@@ -120,7 +126,14 @@ public class AgentActivity extends AppCompatActivity {
             }
         };
 
-     getAction();
+      mBinding.activityAgentSwipeRefreshRv.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+          @Override
+          public void onRefresh() {
+              checkConnectOfWifiOrData(REFRESH_SWIPE);
+              mBinding.activityAgentSwipeRefreshRv.setRefreshing(false);
+              mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
+          }
+      });
 
 
 
@@ -141,6 +154,8 @@ public class AgentActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        checkConnectOfWifiOrData(REFRESH_START);
+
     }
 
     @Override
@@ -260,6 +275,7 @@ public class AgentActivity extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
+                    mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
                     idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
                     sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
 
@@ -267,8 +283,8 @@ public class AgentActivity extends AppCompatActivity {
 
                 } else {
                     mBinding.progressWhileLoading.setVisibility(View.GONE);
-                    Toast.makeText(getBaseContext(), "no Action today", Toast.LENGTH_SHORT).show();
-
+                   // Toast.makeText(getBaseContext(), "no Action today", Toast.LENGTH_SHORT).show();
+                     mBinding.activityAgentNoItemTv.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -303,5 +319,53 @@ public class AgentActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    private void checkConnectOfWifiOrData(String comeFrom)
+    {
+        if(NetworkCollection.checkConnection(this))
+        {
+            mBinding.activityAgentInternetConnectionTv.setVisibility(View.GONE);
+            if(detailsItems.isEmpty())
+            {
+                mBinding.progressWhileLoading.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                mBinding.progressWhileLoading.setVisibility(View.GONE);
+            }
+
+            getAction();
+        }
+        else {
+            if(detailsItems.isEmpty())
+            {
+                mBinding.activityAgentInternetConnectionTv.setVisibility(View.VISIBLE);
+                mBinding.progressWhileLoading.setVisibility(View.GONE);
+
+            }
+            else
+            {
+                mBinding.activityAgentInternetConnectionTv.setVisibility(View.GONE);
+                mBinding.progressWhileLoading.setVisibility(View.GONE);
+
+            }
+
+            if(comeFrom==REFRESH_SWIPE)
+            {
+                Snackbar.make(mBinding.getRoot(), getString(R.string.chose_image), Snackbar.LENGTH_LONG).setAction("Check", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+
+                    }
+                }).show();
+
+            }
+            else
+            {
+
+            }
+        }
+
     }
 }

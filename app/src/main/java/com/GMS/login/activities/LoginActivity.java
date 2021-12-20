@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkIfItIsSignedIn() {
-        if (user==null && !user.isEmailVerified())
+        if (user==null )
             return;
         Gson gson = new Gson();
         String json = PreferenceManager

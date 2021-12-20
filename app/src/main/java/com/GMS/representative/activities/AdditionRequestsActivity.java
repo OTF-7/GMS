@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,7 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.GMS.GeneralClasses.NetworkCollection;
 import com.GMS.R;
 import com.GMS.databinding.ActivityAdditionRequestsBinding;
 import com.GMS.firebaseFireStore.CitizenCollection;
@@ -31,6 +34,7 @@ import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.representative.adapters.AdditionRequestRecyclerViewAdapter;
 import com.GMS.representative.helperClass.RepresentativeClickListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,6 +54,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
 
     private static final String TAG_ADDITION_REQUEST_RECYCLE = "TAG_ADDITION_REQUEST_RECYCLE";
     private static final int pendingNotification = 0;
+    private static final String REFRESH_SWIPE="REFRESH_SWIPE";
+    private static final String REFRESH_START="REFRESH_START";
     private final ArrayList<CitizenCollection> citizenCollectionItems = new ArrayList<>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
@@ -76,6 +82,13 @@ public class AdditionRequestsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         notificationsCount();
         intent = getIntent();
+        mBinding.activityAdditionRequestSwipeRefreshRv.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkConnectOfWifiOrData(REFRESH_SWIPE);
+                mBinding.activityAdditionRequestSwipeRefreshRv.setRefreshing(false);
+            }
+        });
 
     }
 
@@ -220,7 +233,47 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        checkConnectOfWifiOrData(REFRESH_START);
 
+
+    }
+
+    private void executeNumOfFamilyTransaction() {
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentReference docRef = mCollectionRefNeighborhood.document(id);
+                DocumentSnapshot docSnap = transaction.get(docRef);
+                long numberOfFamilies = docSnap.getLong(CollectionName.Fields.numberOfFamilies.name().toString()) + 1;
+                transaction.update(docRef, CollectionName.Fields.numberOfFamilies.name().toString(), numberOfFamilies);
+                return null;
+            }
+        });
+    }
+    /* // not working
+    public class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scaleFactor *= detector.getScaleFactor();
+             scaleFactor = Math.max(0.1f ,Math.min(scaleFactor ,10.f));
+             ivDocument.setScaleX(scaleFactor);
+             ivDocument.setScaleY(scaleFactor);
+
+            return true;
+
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        scaleGestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+     */
+    private void getAction()
+    {
         mCollectionRefNeighborhood.whereEqualTo(CollectionName.Fields.name.name(), "Mousa Street")
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
@@ -279,39 +332,52 @@ public class AdditionRequestsActivity extends AppCompatActivity {
 
 
     }
+    private void checkConnectOfWifiOrData(String comeFrom)
+    {
+        if(NetworkCollection.checkConnection(this))
+        {
+            mBinding.activityAdditionRequestInternetConnectionTv.setVisibility(View.GONE);
+          if(citizenCollectionItems.isEmpty())
+          {
+              mBinding.progressWhileLoading.setVisibility(View.VISIBLE);
+          }
+          else
+          {
+              mBinding.progressWhileLoading.setVisibility(View.GONE);
+          }
 
-    private void executeNumOfFamilyTransaction() {
-        db.runTransaction(new Transaction.Function<Void>() {
-            @Nullable
-            @Override
-            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                DocumentReference docRef = mCollectionRefNeighborhood.document(id);
-                DocumentSnapshot docSnap = transaction.get(docRef);
-                long numberOfFamilies = docSnap.getLong(CollectionName.Fields.numberOfFamilies.name().toString()) + 1;
-                transaction.update(docRef, CollectionName.Fields.numberOfFamilies.name().toString(), numberOfFamilies);
-                return null;
-            }
-        });
-    }
-    /* // not working
-    public class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            scaleFactor *= detector.getScaleFactor();
-             scaleFactor = Math.max(0.1f ,Math.min(scaleFactor ,10.f));
-             ivDocument.setScaleX(scaleFactor);
-             ivDocument.setScaleY(scaleFactor);
-
-            return true;
-
+           getAction();
         }
-    }
+        else {
+            if(citizenCollectionItems.isEmpty())
+            {
+                mBinding.activityAdditionRequestInternetConnectionTv.setVisibility(View.VISIBLE);
+                mBinding.progressWhileLoading.setVisibility(View.GONE);
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        scaleGestureDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
+            }
+            else
+            {
+                mBinding.activityAdditionRequestInternetConnectionTv.setVisibility(View.GONE);
+                mBinding.progressWhileLoading.setVisibility(View.GONE);
 
-     */
+            }
+
+            if(comeFrom==REFRESH_SWIPE)
+            {
+                 Snackbar.make(mBinding.getRoot(), getString(R.string.chose_image), Snackbar.LENGTH_LONG).setAction("Check", new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {
+                         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+
+                     }
+                 }).show();
+
+            }
+            else
+            {
+
+            }
+        }
+
+    }
 }
