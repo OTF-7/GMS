@@ -365,19 +365,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:checked="true"
-                android:text="Representative" />
+                android:text="@string/representative_text" />
 
             <RadioButton
                 android:id="@+id/radio_button_agent"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Agent" />
+                android:text="@string/agent_text" />
 
             <RadioButton
                 android:id="@+id/radio_button_aqel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Aqel" />
+                android:text="@string/aqel_text" />
 
         </RadioGroup>
 

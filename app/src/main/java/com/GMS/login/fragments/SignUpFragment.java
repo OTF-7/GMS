@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.GMS.GeneralClasses.User;
 import com.GMS.MainActivity;
+import com.GMS.R;
 import com.GMS.databinding.FragmentSignUpBinding;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.login.activities.CreatedAccountActivity;
@@ -76,7 +78,11 @@ public class SignUpFragment extends Fragment {
         String password = Objects.requireNonNull(signupBinding.signupPasswordField.getEditText()).getText().toString().trim();
         String repeatPassword = Objects.requireNonNull(signupBinding.repeatPasswordField.getEditText()).getText().toString().trim();
         String phone = Objects.requireNonNull(signupBinding.phoneField.getEditText()).getText().toString();
-        int userType = signupBinding.radioGroupsEmployeesTypes.getCheckedRadioButtonId();
+
+        int selectedRadio = signupBinding.radioGroupsEmployeesTypes.getCheckedRadioButtonId();
+        String typeText = ((RadioButton) requireActivity().findViewById(selectedRadio)).getText().toString();
+        int userType = typeText.equals(getResources().getString(R.string.representative_text)) ? 1 : typeText.equals(getResources().getString(R.string.agent_text)) ? 2 : 3;
+        ;
         //HashMap<String, String> socialAccounts = new HashMap<>();
         String age_text = Objects.requireNonNull(signupBinding.ageField.getEditText()).getText().toString();
         int age = Integer.parseInt((!age_text.isEmpty()) ? age_text : "0");

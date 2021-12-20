@@ -3,6 +3,7 @@ package com.GMS.manager.fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.GMS_Application;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.aqel.activities.AddCitizenActivity;
@@ -178,7 +180,17 @@ public class ActionsFragment extends Fragment {
                 startActivity(mSettingIntent);
                 break;
             case R.id.menu_manager_item_light_dark_switch:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                int selectedDarkLightTheme = PreferenceManager
+                        .getDefaultSharedPreferences(getContext())
+                        .getInt(getString(R.string.preferences_dark_light_mode_selected_key), AppCompatDelegate.MODE_NIGHT_NO);
+                if (selectedDarkLightTheme == AppCompatDelegate.MODE_NIGHT_YES)
+                    selectedDarkLightTheme = AppCompatDelegate.MODE_NIGHT_NO;
+                else selectedDarkLightTheme = AppCompatDelegate.MODE_NIGHT_YES;
+                PreferenceManager.getDefaultSharedPreferences(getContext())
+                        .edit()
+                        .putInt(getString(R.string.preferences_dark_light_mode_selected_key), selectedDarkLightTheme)
+                        .apply();
+                GMS_Application.setDarkLightTheme(selectedDarkLightTheme);
                 break;
         }
         return super.onOptionsItemSelected(item);

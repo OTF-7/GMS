@@ -117,6 +117,7 @@
         app:layout_constraintBottom_toTopOf="@id/constraint_notification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/view_separator">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -166,6 +167,7 @@
         app:layout_constraintBottom_toTopOf="@id/constraint_behavior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/constraint_accout">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -214,6 +216,7 @@
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/constraint_notification">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -262,6 +265,7 @@
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/constraint_behavior">
 
         <de.hdodenhof.circleimageview.CircleImageView

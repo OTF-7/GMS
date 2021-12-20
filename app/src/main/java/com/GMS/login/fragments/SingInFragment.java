@@ -3,7 +3,7 @@ package com.GMS.login.fragments;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,19 +34,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.util.Objects;
 
 public class SingInFragment extends Fragment {
-    public static String USER_DATA = "user data";
     User userData;
-    //public static final int RC_SIGN_IN = 1;
-    final int DELAYED_TIME = 2700;
-    final Handler handler = new Handler();
-    /*List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
-            new AuthUI.IdpConfig.GoogleBuilder().build(),
-            new AuthUI.IdpConfig.PhoneBuilder().build());*/
     FragmentSingInBinding signinBinding;
     private FirebaseFirestore mFirestore;
     private FirebaseAuth mAuth;
@@ -118,13 +111,13 @@ public class SingInFragment extends Fragment {
                                             userData = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
                                             Object destination;
                                             switch (Objects.requireNonNull(userData).getUserType()) {
-                                                case R.id.radio_button_rep:
+                                                case 1:
                                                     destination = RepresentativeActivity.class;
                                                     break;
-                                                case R.id.radio_button_agent:
+                                                case 2:
                                                     destination = AgentActivity.class;
                                                     break;
-                                                case R.id.radio_button_aqel:
+                                                case 3:
                                                     destination = AqelActivity.class;
                                                     break;
                                                 default:
@@ -132,8 +125,13 @@ public class SingInFragment extends Fragment {
                                                     break;
                                             }
                                             Intent intent = new Intent(getContext(), (Class) destination);
-                                            Bundle bundle = new Bundle();
-                                            bundle.putParcelable(USER_DATA, userData);
+                                            Gson gson = new Gson();
+                                            String json = gson.toJson(userData);
+                                            PreferenceManager
+                                                    .getDefaultSharedPreferences(getContext())
+                                                    .edit()
+                                                    .putString(getString(R.string.user_data_as_json), json)
+                                                    .apply();
                                             startActivity(intent);
                                             Objects.requireNonNull(getActivity()).finish();
                                         }

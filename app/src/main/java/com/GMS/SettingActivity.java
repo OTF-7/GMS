@@ -1,12 +1,14 @@
 package com.GMS;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.GMS.databinding.ActivitySettingBinding;
 
@@ -84,6 +86,22 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 }
 
+            }
+        });
+        mBinding.constraintBehavior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedDarkLightTheme = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext())
+                        .getInt(getString(R.string.preferences_dark_light_mode_selected_key), AppCompatDelegate.MODE_NIGHT_NO);
+                if (selectedDarkLightTheme == AppCompatDelegate.MODE_NIGHT_YES)
+                    selectedDarkLightTheme = AppCompatDelegate.MODE_NIGHT_NO;
+                else selectedDarkLightTheme = AppCompatDelegate.MODE_NIGHT_YES;
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                        .edit()
+                        .putInt(getString(R.string.preferences_dark_light_mode_selected_key), selectedDarkLightTheme)
+                        .apply();
+                GMS_Application.setDarkLightTheme(selectedDarkLightTheme);
             }
         });
 

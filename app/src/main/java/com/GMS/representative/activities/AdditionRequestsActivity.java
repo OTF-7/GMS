@@ -90,7 +90,7 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_addition_requsts_top_bar, menu);
-        MenuItem item = menu.findItem(R.id.agent_search_ic);
+        MenuItem item = menu.findItem(R.id.menu_agent_search_ic);
         SearchView mSearchView = (SearchView) item.getActionView();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

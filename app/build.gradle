@@ -83,9 +83,9 @@ dependencies {
     //using for convert and load image
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
-    //
+    //zooming abdulrahman
     implementation 'com.google.zxing:core:3.3.3'
-    // zooming abdulrahman
 
-
+//    for GSON objects
+    implementation 'com.google.code.gson:gson:2.8.9'
 }

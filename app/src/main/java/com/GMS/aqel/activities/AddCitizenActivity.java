@@ -61,23 +61,22 @@ import java.util.Map;
 
 public class AddCitizenActivity extends AppCompatActivity {
 
-    ActivityAddCitizenBinding mBinding;
     private static final int CAMERA_PERMISSION = 101;
     private static final int PICK_IMAGE_REQUEST = 100;
     private static final int IMAGE_CAPTURE = 102;
-    private Uri mImageUri;
-    private Dialog loadingDialog;
     private static boolean fromGallery = false;
     private static boolean fromCamera = false;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    StorageReference fileRef;
     private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
     private final CollectionReference mNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
-
     private final CollectionReference mCollectionReference = db.collection(CollectionName.ADDITION_REQUESTS.toString());
+    ActivityAddCitizenBinding mBinding;
+    StorageReference fileRef;
+    Handler handler = new Handler();
+    private Uri mImageUri;
+    private Dialog loadingDialog;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
-    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,23 +111,19 @@ public class AddCitizenActivity extends AppCompatActivity {
                         uploadCitizenDetails();
                     else if (fromCamera && checkFields()) {
                         uploadCitizenDetails();
-                    }
-                    else if ((!fromCamera || !fromGallery) &&!checkFields())
-                    {
+                    } else if ((!fromCamera || !fromGallery) && !checkFields()) {
                         Snackbar snackbar = Snackbar
                                 .make(mBinding.getRoot(), getString(R.string.fill_all_fields), Snackbar.LENGTH_LONG);
                         snackbar.show();
 
 
-                    }
-                    else
-                    {
+                    } else {
                         Snackbar snackbar = Snackbar
                                 .make(mBinding.getRoot(), getString(R.string.chose_image), Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
 
-                   }
+                }
             }
         });
         mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -185,10 +180,8 @@ public class AddCitizenActivity extends AppCompatActivity {
                 fromCamera = true;
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 mBinding.ivDocumentPicture.setImageBitmap(bitmap);
-            }
-            else
-            {
-                fromCamera=false;
+            } else {
+                fromCamera = false;
             }
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
@@ -200,7 +193,7 @@ public class AddCitizenActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "you have chosen a picture", Toast.LENGTH_SHORT).show();
 
         } else {
-            fromGallery=false;
+            fromGallery = false;
         }
 
 
@@ -298,15 +291,12 @@ public class AddCitizenActivity extends AppCompatActivity {
                                 uploadDataDetails(citizenDetails);
 
 
-
-
                             }
                         }
                     });
 
 
-        }
-        else if (fromCamera) {
+        } else if (fromCamera) {
             createDialog();
             showDialog();
             mBinding.ivDocumentPicture.setDrawingCacheEnabled(true);
@@ -374,43 +364,42 @@ public class AddCitizenActivity extends AppCompatActivity {
 
 
     }
-    private void uploadDataDetails(CitizenCollection citizenDetails)
-    {
+
+    private void uploadDataDetails(CitizenCollection citizenDetails) {
         mNeighborhood.whereEqualTo("name", mBinding.neighborhoodNameLayout.getEditText().getText().toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
-                        db.collection(CollectionName.NEIGHBORHOODS.name()).document(queryDocumentSnapshots.getDocuments().get(0).getId().toString()).collection(CollectionName.CITIZENS.name())
-                                .add(citizenDetails)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    db.collection(CollectionName.NEIGHBORHOODS.name()).document(queryDocumentSnapshots.getDocuments().get(0).getId().toString()).collection(CollectionName.CITIZENS.name())
+                            .add(citizenDetails)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
-                                            }
-                                        }, 3000);
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((TextView) loadingDialog.findViewById(R.id.tv_loading)).setText(R.string.done);
+                                        }
+                                    }, 3000);
 
-                                    }
-                                })
+                                }
+                            })
 
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        setDialogError();
-                                        Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    setDialogError();
+                                    Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                    }
-                                }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                loadingDialog.dismiss();
-                                initializeFields();
-                            }
-                        });
-
+                                }
+                            }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            loadingDialog.dismiss();
+                            initializeFields();
+                        }
+                    });
 
 
                 }
@@ -476,7 +465,7 @@ public class AddCitizenActivity extends AppCompatActivity {
         loadingDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         Window window = loadingDialog.getWindow();
         window.setGravity(Gravity.CENTER);
-      //  window.getAttributes().windowAnimations = R.style.FadeDialogAnimation;
+        //  window.getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         loadingDialog.setCancelable(false);
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
     }
@@ -519,8 +508,8 @@ public class AddCitizenActivity extends AppCompatActivity {
         }
 
     }
-    private void initializeFields()
-    {
+
+    private void initializeFields() {
 
         mBinding.ivDocumentPicture.setImageResource(R.drawable.ic_document);
         mBinding.citizenFirstNameLayout.getEditText().setText(null);
@@ -529,8 +518,8 @@ public class AddCitizenActivity extends AppCompatActivity {
         mBinding.neighborhoodNameLayout.getEditText().setText(null);
         mBinding.citizenNumberOfCylindersLayout.getEditText().setText(null);
         mBinding.citizenNumberOfFamilyMembersLayout.getEditText().setText(null);
-        fromCamera=false;
-        fromGallery=false;
+        fromCamera = false;
+        fromGallery = false;
     }
 }
 

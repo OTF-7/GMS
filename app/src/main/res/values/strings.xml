@@ -13,6 +13,7 @@
     <string name="agent_name">Agent Name</string>
     <string name="station_name">station Name</string>01
     <string name="cotroler_header_card_view">hide</string>
+    <string name="preferences_dark_light_mode_selected_key" translatable="false">dark light mode</string>
     <string-array name="items_array">
         <item>AL_kornish</item>
         <item>Mousa Street</item>
@@ -79,4 +80,9 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="user_data_as_json">user data as json</string>
+    <string name="sign_in_state">sign in state</string>
+    <string name="agent_text">Agent</string>
+    <string name="representative_text">Representative</string>
+    <string name="aqel_text">Aqel</string>
 </resources>

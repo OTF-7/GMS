@@ -1,33 +1,44 @@
 package com.GMS.login.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.GMS.GeneralClasses.User;
 import com.GMS.R;
+import com.GMS.agent.activities.AgentActivity;
+import com.GMS.aqel.activities.AqelActivity;
 import com.GMS.databinding.ActivityLoginBinding;
 import com.GMS.login.adapters.AppBarStateChangeListener;
 import com.GMS.login.adapters.LoginViewPagerAdapter;
 import com.GMS.login.utilities.changePagerState;
+import com.GMS.manager.activities.ManagerActivity;
+import com.GMS.representative.activities.RepresentativeActivity;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
     public static ActivityLoginBinding loginBinding;
     final int DELAYED_TIME = 50;
     final Handler handler = new Handler();
+    public Animation appBarLayoutAnimation;
     LoginViewPagerAdapter viewPagerAdapter;
     TransitionDrawable transition;
-    public Animation appBarLayoutAnimation;
     FirebaseAuth mAuth;
     FirebaseUser user;
     LoginActivity mActivity = this;
@@ -36,10 +47,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
+        checkIfItIsSignedIn();
         setContentView(loginBinding.getRoot());
+
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         transition = (TransitionDrawable) loginBinding.getRoot().getBackground();
@@ -104,6 +117,35 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void checkIfItIsSignedIn() {
+        if (user == null)
+            return;
+        Gson gson = new Gson();
+        String json = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext())
+                .getString(getString(R.string.user_data_as_json), "");
+        User userData = gson.fromJson(json, User.class);
+        Object destination;
+        Toast.makeText(getBaseContext(), String.valueOf(userData.getUserType()), Toast.LENGTH_SHORT).show();
+        switch (Objects.requireNonNull(userData).getUserType()) {
+            case 1:
+                destination = RepresentativeActivity.class;
+                break;
+            case 2:
+                destination = AgentActivity.class;
+                break;
+            case 3:
+                destination = AqelActivity.class;
+                break;
+            default:
+                destination = ManagerActivity.class;
+                break;
+        }
+        Intent intent = new Intent(getBaseContext(), (Class) destination);
+        startActivity(intent);
+        finish();
     }
 
     @Override
