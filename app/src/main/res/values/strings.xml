@@ -85,4 +85,10 @@
     <string name="agent_text">Agent</string>
     <string name="representative_text">Representative</string>
     <string name="aqel_text">Aqel</string>
+    <string name="log_out">log out</string>
+    <string name="search">search</string>
+    <string name="actions">Actions</string>
+    <string name="employees">Employees</string>
+    <string name="stations">Stations</string>
+    <string name="change_theme">change theme</string>
 </resources>

@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class NeedScanRepFragment extends Fragment {
@@ -95,8 +96,8 @@ public class NeedScanRepFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.search_item_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
+        inflater.inflate(R.menu.menu_representative_top_bar, menu);
+        MenuItem searchItem = menu.findItem(R.id.general_search_item);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -125,13 +126,13 @@ public class NeedScanRepFragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
                     idAction = queryDocumentSnapshots.getDocuments().get(0).getId().toString();
-                    sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
+                    sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name());
 
                     getActionDetails();
 
                 } else {
                     mBinding.progressWhileLoading.setVisibility(View.GONE);
-                    Toast.makeText(getContext().getApplicationContext(), "no Action today", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "no Action today", Toast.LENGTH_SHORT).show();
 
                 }
             }

@@ -47,7 +47,7 @@ public class ActionDetailsActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.menu_history, menu);
-        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
+        MenuItem searchItem = menu.findItem(R.id.general_search_item);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

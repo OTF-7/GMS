@@ -10,14 +10,14 @@
                 android:checkable="true"
                 android:icon="@drawable/ic_date"
                 android:iconTint="@color/white"
-                android:title="Actions"
+                android:title="@string/actions"
                 app:showAsAction="ifRoom" />
             <item
                 android:id="@+id/employee_fragment"
                 android:checkable="true"
                 android:icon="@drawable/ic_employees"
                 android:iconTint="@color/white"
-                android:title="Employees"
+                android:title="@string/employees"
                 app:showAsAction="ifRoom" />
 
             <item
@@ -25,7 +25,7 @@
                 android:checkable="true"
                 android:icon="@drawable/ic_gas_station"
                 android:iconTint="@color/white"
-                android:title="Stations"
+                android:title="@string/station"
                 app:showAsAction="ifRoom" />
         </menu>
     </item>
@@ -38,6 +38,6 @@
     <item
         android:id="@+id/menu_manager_item_log_out"
         android:checkable="true"
-        android:title="logout"
+        android:title="@string/log_out"
         app:showAsAction="never" />
 </menu>

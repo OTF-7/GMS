@@ -153,7 +153,7 @@ public class AgentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_agent_top_bar, menu);
-        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
+        MenuItem searchItem = menu.findItem(R.id.general_search_item);
         SearchView searchView = (SearchView) searchItem.getActionView();
         createDialog();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
