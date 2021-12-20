@@ -134,7 +134,6 @@ public class VerifiedRepFragment extends Fragment {
     }
     private void getActionDetails() {
         mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
-                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified, true)
                 .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified, true)
 
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {

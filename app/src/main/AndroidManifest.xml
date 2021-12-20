@@ -35,7 +35,10 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".aqel.activities.AddCitizenActivity" />
         <activity android:name=".aqel.activities.AqelActivity" />
-        <activity android:name=".representative.activities.AdditionRequestsActivity" />
+        <activity android:name=".representative.activities.AdditionRequestsActivity"
+            android:exported="true">
+
+        </activity>
         <activity android:name=".agent.activities.AgentActivity" />
         <activity android:name=".agent.activities.CylindersReceiveActivity" />
         <activity
@@ -46,13 +49,16 @@
         <activity
             android:name=".login.activities.LoginActivity"
             android:exported="true">
+
+        </activity>
+        <activity android:name=".representative.activities.RepresentativeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".representative.activities.RepresentativeActivity" />
         <activity android:name=".MainActivity" />
 
         <meta-data

@@ -2,6 +2,8 @@ package com.GMS.representative.adapters;
 
 import android.graphics.Paint;
 import android.text.TextUtils;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,28 @@ public class AdditionRequestRecyclerViewAdapter extends RecyclerView.Adapter<Add
         holder.mAdditionRequestItemBinding.tvCitizenAddress.setText(item.getNeighborhood());
         holder.mAdditionRequestItemBinding.tvCitizenHireDate.setText((CharSequence) item.getAdditionDetails().get(CollectionName.Fields.hireDate.name().toString()));
 
+        holder.mAdditionRequestItemBinding.parentAdditionItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.mAdditionRequestItemBinding.viewSeparator.getVisibility()==View.VISIBLE)
+                {
+                    holder.mAdditionRequestItemBinding.viewSeparator.setVisibility(View.GONE);
+
+                }
+                else
+                {
+                    holder.mAdditionRequestItemBinding.viewSeparator.setVisibility(View.VISIBLE);
+                }
+                if( holder.mAdditionRequestItemBinding.childContainer.getVisibility()==View.VISIBLE) {
+                   holder.mAdditionRequestItemBinding.childContainer.setVisibility(View.GONE);
+                   }
+                else
+                {
+                    holder.mAdditionRequestItemBinding.childContainer.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
         if(item.isRegret())
         {
             holder.mAdditionRequestItemBinding.parentAdditionItem.setBackgroundColor((int) R.color.light);
