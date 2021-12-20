@@ -48,23 +48,23 @@ import java.util.HashMap;
 
 public class AdditionRequestsActivity extends AppCompatActivity {
 
-     private ScaleGestureDetector scaleGestureDetector ;
-     float scaleFactor=1.0f;
-    private static final String TAG_ADDITION_REQUEST_RECYCLE ="TAG_ADDITION_REQUEST_RECYCLE" ;
+    private static final String TAG_ADDITION_REQUEST_RECYCLE = "TAG_ADDITION_REQUEST_RECYCLE";
+    private static final int pendingNotification = 0;
+    private final ArrayList<CitizenCollection> citizenCollectionItems = new ArrayList<>();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
+    private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
+    private final String TAG_ADDITION_REQUEST_COMING_DATA = "TAG_ADDITION_REQUEST_COMING_DATA";
+    float scaleFactor = 1.0f;
     ActivityAdditionRequestsBinding mBinding;
     AdditionRequestRecyclerViewAdapter adapter;
-    private final ArrayList<CitizenCollection> citizenCollectionItems = new ArrayList<>();
+    String id;
+    Intent intent = new Intent();
+    private ScaleGestureDetector scaleGestureDetector;
     private TextView tvCitizenName, tvNeighborhood;
     private ImageView ivDocument;
     private RepresentativeClickListener mRepresentativeClickListener;
     private Dialog mDialog;
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
-    private final CollectionReference mCollectionRefNeighborhood = db.collection(CollectionName.NEIGHBORHOODS.name());
-    String  id ;
-    private static final int pendingNotification = 0;
-    Intent intent = new Intent();
-    private final String TAG_ADDITION_REQUEST_COMING_DATA="TAG_ADDITION_REQUEST_COMING_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,6 @@ public class AdditionRequestsActivity extends AppCompatActivity {
             }
         });
         return true;
-
     }
 
     @Override
@@ -131,10 +130,8 @@ public class AdditionRequestsActivity extends AppCompatActivity {
             mBinding.rvAdditionRequests.setAdapter(adapter);
             mBinding.infoRequests.setVisibility(View.GONE);
             mBinding.progressWhileLoading.setVisibility(View.GONE);
-        }
-        catch (Exception ex)
-        {
-            Log.e(TAG_ADDITION_REQUEST_RECYCLE,ex.getMessage());
+        } catch (Exception ex) {
+            Log.e(TAG_ADDITION_REQUEST_RECYCLE, ex.getMessage());
         }
     }
 
@@ -224,79 +221,74 @@ public class AdditionRequestsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-       mCollectionRefNeighborhood.whereEqualTo(CollectionName.Fields.name.name(), "Mousa Street")
-               .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        mCollectionRefNeighborhood.whereEqualTo(CollectionName.Fields.name.name(), "Mousa Street")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
-           @Override
-           public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-               if(!queryDocumentSnapshots.isEmpty())
-               {
-                       id=queryDocumentSnapshots.getDocuments().get(0).getId().toString();
-                   mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).whereEqualTo(CollectionName.Fields.state.name(), false)
-                           .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                               @Override
-                               public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                   if (e != null) {
-                                       Log.e(TAG, e.toString());
-                                   }
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    id = queryDocumentSnapshots.getDocuments().get(0).getId().toString();
+                    mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).whereEqualTo(CollectionName.Fields.state.name(), false)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                    if (e != null) {
+                                        Log.e(TAG, e.toString());
+                                    }
 
-                        if (queryDocumentSnapshots.isEmpty()) {
-                                   mBinding.progressWhileLoading.setVisibility(View.GONE);
-                                   mBinding.infoRequests.setVisibility(View.VISIBLE);
-                                   mBinding.rvAdditionRequests.setVisibility(View.GONE);
-                               } else {
-                            try {
+                                    if (queryDocumentSnapshots.isEmpty()) {
+                                        mBinding.progressWhileLoading.setVisibility(View.GONE);
+                                        mBinding.infoRequests.setVisibility(View.VISIBLE);
+                                        mBinding.rvAdditionRequests.setVisibility(View.GONE);
+                                    } else {
+                                        try {
 
-                                mBinding.rvAdditionRequests.setVisibility(View.VISIBLE);
-                                citizenCollectionItems.clear();
-                                adapter = null;
-                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                    CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
-                                    citizenDocument.setDocumentId(documentSnapshot.getId());
-                                    citizenCollectionItems.add(citizenDocument);
+                                            mBinding.rvAdditionRequests.setVisibility(View.VISIBLE);
+                                            citizenCollectionItems.clear();
+                                            adapter = null;
+                                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                                CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
+                                                citizenDocument.setDocumentId(documentSnapshot.getId());
+                                                citizenCollectionItems.add(citizenDocument);
+                                            }
+                                        } catch (Exception ex) {
+                                            Log.e(TAG_ADDITION_REQUEST_COMING_DATA, ex.getMessage().toString());
+                                            Toast.makeText(getBaseContext(), ex.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                        mRepresentativeClickListener = new RepresentativeClickListener() {
+                                            @Override
+                                            public void onClick(int position, String tvItem) {
+                                                if (tvItem == getString(R.string.see_document)) {
+                                                    createDialog(position);
+                                                    showDialog();
+                                                } else if (tvItem == getString(R.string.confirm)) {
+                                                    confirmAdditionRequest(position);
+                                                } else if (tvItem == getString(R.string.regret)) {
+                                                    regretAdditionRequest(position);
+                                                }
+                                            }
+
+                                        };
+                                        initRV();
+                                    }
                                 }
-                            }catch (Exception ex)
-                            {
-                                Log.e(TAG_ADDITION_REQUEST_COMING_DATA , ex.getMessage().toString());
-                                Toast.makeText(getBaseContext() ,ex.getMessage().toString() , Toast.LENGTH_SHORT).show();
-                            }
-                                   mRepresentativeClickListener = new RepresentativeClickListener() {
-                                       @Override
-                                       public void onClick(int position, String tvItem) {
-                                           if (tvItem == getString(R.string.see_document)) {
-                                               createDialog(position);
-                                               showDialog();
-                                           } else if (tvItem == getString(R.string.confirm)) {
-                                               confirmAdditionRequest(position);
-                                           } else if (tvItem == getString(R.string.regret)) {
-                                               regretAdditionRequest(position);
-                                           }
-                                       }
-
-                                   };
-                                   initRV();
-                               }
-                               }
-                           });
-               }
-           }
-       });
-
-
+                            });
+                }
+            }
+        });
 
 
     }
 
-    private  void executeNumOfFamilyTransaction()
-    {
+    private void executeNumOfFamilyTransaction() {
         db.runTransaction(new Transaction.Function<Void>() {
             @Nullable
             @Override
             public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
                 DocumentReference docRef = mCollectionRefNeighborhood.document(id);
                 DocumentSnapshot docSnap = transaction.get(docRef);
-                long numberOfFamilies = docSnap.getLong(CollectionName.Fields.numberOfFamilies.name().toString())+1;
-                transaction.update(docRef ,CollectionName.Fields.numberOfFamilies.name().toString() ,numberOfFamilies);
+                long numberOfFamilies = docSnap.getLong(CollectionName.Fields.numberOfFamilies.name().toString()) + 1;
+                transaction.update(docRef, CollectionName.Fields.numberOfFamilies.name().toString(), numberOfFamilies);
                 return null;
             }
         });
