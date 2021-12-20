@@ -7,10 +7,12 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.GMS.databinding.ActivityCreatedAccountBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class CreatedAccountActivity extends AppCompatActivity {
 
     ActivityCreatedAccountBinding mCreatedAccountBinding;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,8 @@ public class CreatedAccountActivity extends AppCompatActivity {
         mCreatedAccountBinding.createdAccountOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAuth = FirebaseAuth.getInstance();
+                mAuth.signOut();
                 startActivity(new Intent(CreatedAccountActivity.this, LoginActivity.class));
                 finish();
             }
