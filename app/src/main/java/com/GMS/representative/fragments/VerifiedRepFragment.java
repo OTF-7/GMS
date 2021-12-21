@@ -91,7 +91,7 @@ public class VerifiedRepFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_representative_top_bar, menu);
+        inflater.inflate(R.menu.search_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.general_search_item);
         SearchView searchView = (SearchView) searchItem.getActionView();
 

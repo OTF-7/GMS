@@ -193,9 +193,9 @@ public class EmployeesFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_manager_top_bar, menu);
-        mMenuItemNotification = menu.findItem(R.id.notification_addition);
+        mMenuItemNotification = menu.findItem(R.id.menu_manager_item_notification);
         checkNotification();
-        MenuItem searchItem = menu.findItem(R.id.ic_action_search);
+        MenuItem searchItem = menu.findItem(R.id.menu_manager_item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -123,7 +123,7 @@ public class RepresentativeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_representative_top_bar, menu);
-        mMenuItemNotification = menu.findItem(R.id.notification_addition);
+        mMenuItemNotification = menu.findItem(R.id.menu_representative_item_notification);
         //checkNotification();
 
         return true;
@@ -174,7 +174,7 @@ public class RepresentativeActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
 
-            case R.id.notification_addition:
+            case R.id.menu_representative_item_notification:
                 Toast.makeText(getBaseContext(), item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                 openAdditionRequestActivity();
                 break;
