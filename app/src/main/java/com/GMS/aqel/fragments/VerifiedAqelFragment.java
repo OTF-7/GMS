@@ -45,6 +45,7 @@ public class VerifiedAqelFragment extends Fragment {
     FragmentVerifiedAqelBinding mBinding;
     RecyclerViewAqelAdapter adapter;
     public static final int FRAGMENT_ID=1;
+
     ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
     CitizenItemClickListener mItemClickListener;
     long sellingPrice ;
@@ -86,6 +87,7 @@ public class VerifiedAqelFragment extends Fragment {
 
     }
 
+
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -95,7 +97,7 @@ public class VerifiedAqelFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_aqel_top_bar, menu);
-        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
+        MenuItem searchItem = menu.findItem(R.id.aqel_search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -2,6 +2,7 @@ package com.GMS.aqel.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,10 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -26,7 +31,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.Constant;
 import com.GMS.GeneralClasses.CitizenItemClickListener;
+import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.aqel.activities.AddCitizenActivity;
@@ -58,11 +65,17 @@ public class NeedScanAqelFragment extends Fragment {
     public static final int FRAGMENT_ID = 1;
     FragmentNeedScanAqelBinding mBinding;
     RecyclerViewAqelAdapter adapter;
+    String resultId =null;
     ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
-
+    private final static String SEARCH_ALL="SEARCH_ALL";
+    private final static String CHECK_ITEM ="CHECK_ITEM";
     ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
     CitizenItemClickListener mItemClickListener;
+    private final static int AQEL_NEED_SCAN_FRAGMENT=101;
+    private  final static String RESULT="RESULT";
     private Dialog mDialog;
+    private final static String TYPE_OF_CHECK="TYPE_OF_CHECK";
+    private final static String POSITION ="POSITION";
     private TextInputEditText textInputEditTextQTY;
     private TextView tvTotal , tvRequiredQty;
     String idAction;
@@ -83,7 +96,24 @@ public class NeedScanAqelFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()==AQEL_NEED_SCAN_FRAGMENT)
+                    {
+                        Intent intent = result.getData();
+                        if(intent != null)
+                        {
+                            resultId=intent.getStringExtra(RESULT);
+                            String checking = intent.getStringExtra(TYPE_OF_CHECK).toString();
+                            int position = intent.getIntExtra(POSITION , -1);
+                            openQrScanner(checking ,position );
+                            }
+                    }
+                }
+            }
+    );
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,19 +123,83 @@ public class NeedScanAqelFragment extends Fragment {
       // addActionDetails();
         getAction();
 
+        mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
+                intent.putExtra(Constant.ACTIVITY.toString() , Constant.AQELNEEDSCANFRAGNENT.toString());
+                intent.putExtra(TYPE_OF_CHECK , SEARCH_ALL);
+                activityResultLauncher.launch(intent);
+
+
+            }
+        });
 
 
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
-                tvRequiredQty.setText(String.valueOf(detailsItems.get(position).getQuantityRequired()));
-                showDialog( position);
+                Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
+                intent.putExtra(Constant.ACTIVITY.toString() , Constant.AQELNEEDSCANFRAGNENT.toString());
+                intent.putExtra(TYPE_OF_CHECK , CHECK_ITEM);
+                intent.putExtra(POSITION , position);
+                activityResultLauncher.launch(intent);
+
+
                   }
         };
 
         return mBinding.getRoot();
     }
+    public  void openQrScanner( String checking , int position)
+    {
 
+        if( checking.equals(CHECK_ITEM) && position>-1)
+        {
+            if(resultId.equals(detailsItems.get(position).getDocumentId().toString())) {
+                tvRequiredQty.setText(String.valueOf(detailsItems.get(position).getQuantityRequired()));
+               showDialog(position);
+            }
+            else
+            {
+                Toast.makeText(getActivity().getApplicationContext() , "there is error try again to read QR code", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+        else
+        {
+              checkingItm();
+        }
+
+
+
+
+    }
+    private void checkingItm()
+    {
+        boolean isAvailable = false;
+        int position=-1;
+        for(int i =0 ; i<detailsItems.size() ; i++)
+        {
+            if(resultId.equals(detailsItems.get(i).getDocumentId()))
+            {
+                tvRequiredQty.setText(String.valueOf(detailsItems.get(i).getQuantityRequired()));
+              position = i ;
+                isAvailable=true;
+            }
+        }
+        if (isAvailable)
+        {
+            showDialog(position);
+        }
+        else
+        {
+            Toast.makeText(getActivity().getApplicationContext() , "there is error try again to read QR code", Toast.LENGTH_SHORT).show();
+
+        }
+    }
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -115,18 +209,20 @@ public class NeedScanAqelFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_aqel_top_bar, menu);
-        MenuItem searchItem = menu.findItem(R.id.agent_search_ic);
+        MenuItem searchItem = menu.findItem(R.id.aqel_search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if(adapter!=null)
                 adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(adapter!=null)
                 adapter.getFilter().filter(newText);
                 return false;
             }
@@ -243,35 +339,10 @@ public class NeedScanAqelFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        mCollectionRefNeighborhood.whereEqualTo("name", "Mousa Street").get().addOnSuccessListener(
-                new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.isEmpty()) {
-                            mBinding.progressWhileLoading.setVisibility(View.GONE);
-                        } else {
-                            for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                                id = q.getId();
-                                break;
-                            }
-                            mCollectionRefNeighborhood.document(id).collection(CollectionName.CITIZENS.name()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                @Override
-                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                    if (!queryDocumentSnapshots.isEmpty()) {
-                                        Toast.makeText(mBinding.getRoot().getContext(), id, Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                                            // add citizen to action Details
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
-        );
+
 
     }
+
 
     private void getAction() {
 
@@ -389,4 +460,5 @@ public class NeedScanAqelFragment extends Fragment {
         });
 
     }
+
 }

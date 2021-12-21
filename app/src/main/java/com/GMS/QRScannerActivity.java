@@ -12,6 +12,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,13 +42,20 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
     private BarcodeDetector mBarcodeDetector;
     private CameraSource mCameraSource;
     private ZXingScannerView mZXingScannerView;
+    private  final static String RESULT="RESULT";
+    private final static int AQEL_NEED_SCAN_FRAGMENT=101;
+    private final static String TYPE_OF_CHECK="TYPE_OF_CHECK";
+    private final static String POSITION ="POSITION";
     final static int CAMERA_PERMISSION = 1024;
     private TextInputEditText textInputEditTextQTY;
     private Dialog mDialog;
     private static String idCitizen;
     private static int Qty;
+    private String typeOfCheck= null;
+    private int position;
     private String layoutName;
     private Intent layoutsIntent = new Intent();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +65,11 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
         setContentView(mBinding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         layoutsIntent = getIntent();
-        layoutName = layoutsIntent.getStringExtra(Constant.ACTIVITY.toString());
-        createDialog();
 
+        layoutName = layoutsIntent.getStringExtra(Constant.ACTIVITY.toString());
+        typeOfCheck = layoutsIntent.getStringExtra(TYPE_OF_CHECK);
+        position = layoutsIntent.getIntExtra(POSITION , -1);
+        createDialog();
         mBinding.iBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,10 +109,14 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
     @Override
     public void handleResult(Result result) {
         idCitizen = result.getText();
-     Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(RESULT,idCitizen);
+        returnIntent.putExtra(POSITION , position);
+        returnIntent.putExtra(TYPE_OF_CHECK , typeOfCheck);
+        setResult(AQEL_NEED_SCAN_FRAGMENT,returnIntent);
 
-         //onBackPressed();
-        startQRScanner();
+         onBackPressed();
+        //startQRScanner();
     }
 
     @Override
@@ -139,8 +157,7 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
         super.onStart();
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) mBinding.getRoot().getContext(), new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
-            Toast.makeText(mBinding.getRoot().getContext(), "if", Toast.LENGTH_SHORT).show();
-            return;
+             return;
         }
         startQRScanner();
     }
@@ -150,10 +167,10 @@ public class QRScannerActivity extends AppCompatActivity /*implements Detector.P
         mBinding.zxingScannerView.startCamera();
         mBinding.zxingScannerView.setAutoFocus(true);
         if (layoutName.equals(Constant.AQELNEEDSCANFRAGNENT.toString())) {
-            Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
             mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.QR_CODE));
         } else if (layoutName.equals(Constant.REPNEEDSCAN.toString())) {
-            Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mBinding.getRoot().getContext(), layoutName, Toast.LENGTH_SHORT).show();
             mBinding.zxingScannerView.setFormats(Collections.singletonList(BarcodeFormat.CODE_128));
         }
 

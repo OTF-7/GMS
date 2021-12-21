@@ -1,5 +1,6 @@
 package com.GMS.aqel.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -8,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.GMS.Constant;
+import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.aqel.adapters.ViewPager2AqelAdapter;
 import com.GMS.databinding.ActivityAqelBinding;
@@ -52,11 +55,14 @@ public class  AqelActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mBinding.mainViewPager.setCurrentItem(tab.getPosition());
+                /*
                 if (mBinding.mainViewPager.getCurrentItem() == 1 || tab.getPosition() == 1) {
                     mBinding.fabScan.setVisibility(View.GONE);
                 } else {
                     mBinding.fabScan.setVisibility(View.VISIBLE);
                 }
+
+                 */
             }
 
             @Override
@@ -74,52 +80,36 @@ public class  AqelActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mBinding.tabLayoutAqel.selectTab(mBinding.tabLayoutAqel.getTabAt(position));
+             /*
                 if (position == 1) {
                     mBinding.fabScan.setVisibility(View.GONE);
                 } else {
                     mBinding.fabScan.setVisibility(View.VISIBLE);
                 }
 
+              */
+
             }
 
         });
+        /*
         mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mBinding.tabLayoutAqel.getSelectedTabPosition()==0) {
-                    /*
+
                     Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
                     intent.putExtra(Constant.ACTIVITY.toString() , Constant.AQELNEEDSCANFRAGNENT.toString());
                     startActivity(intent);
-                     */
-                    Map<String ,Object> aqelDetails = new HashMap<>();
-                    Map<String , Object> location = new HashMap<>();
-                    location.put(CollectionName.Fields.latitude.name(), "12 14");
-                    location.put(CollectionName.Fields.longitude.name(), "12 15");
-                    aqelDetails.put(CollectionName.Fields.name.name(), "Ahmed");
-                    aqelDetails.put(CollectionName.Fields.userName.name(), "a7md");
-                    aqelDetails.put(CollectionName.Fields.password.name(), "123");
-                    aqelDetails.put(CollectionName.Fields.hireDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())));
-                    Map<String ,Object> socialAccounts = new HashMap<>();
-                    socialAccounts.put(CollectionName.Fields.facebook.name(), "facebook");
-                    socialAccounts.put(CollectionName.Fields.google.name(), "google");
-                    ArrayList<String> telephones = new ArrayList<>();
-                    telephones.add("734157397");
-                    telephones.add("770038518");
-                    aqelDetails.put(CollectionName.Fields.socialAccounts.name(), socialAccounts);
-                    aqelDetails.put(CollectionName.Fields.telephones.name(), telephones);
-                    NeighborhoodCollection neighborhood = new NeighborhoodCollection("Mousa Street" ,(List<String>) telephones ,0 ,
-                            aqelDetails ,location);
-                    mCollectionRef.add(neighborhood).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(getBaseContext(), "done", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+
 
                 }
             }
         });
+
+
+         */
+
     }
 
     @Override

@@ -29,26 +29,31 @@
         app:tabIndicatorGravity="stretch"
         app:tabMode="fixed"
         android:background="@color/transparent"/>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/login_nestedScrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="insideOverlay"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout_aqel">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/main_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.core.widget.NestedScrollView>
-
+    <!--
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/login_nestedScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideOverlay"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout_aqel">
+    -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/main_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tab_layout_aqel"/>
+        <!--</androidx.core.widget.NestedScrollView>-->
+<!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_scan"
         android:layout_width="wrap_content"
@@ -61,4 +66,5 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+        -->
 </androidx.constraintlayout.widget.ConstraintLayout>
