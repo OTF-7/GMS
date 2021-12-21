@@ -19,10 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.GMS.R;
 import com.GMS.SettingActivity;
-import com.GMS.aqel.activities.AddCitizenActivity;
 import com.GMS.databinding.FragmentStationsBinding;
+import com.GMS.login.activities.LoginActivity;
 import com.GMS.manager.adapters.StationsAdapter;
 import com.GMS.manager.models.Stations;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +34,7 @@ public class StationsFragment extends Fragment {
     FragmentStationsBinding mBinding;
     StationsAdapter mStationsAdapter;
     List<Stations> mStationsList;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class StationsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         // Inflate the layout for this fragment
         mBinding = FragmentStationsBinding.inflate(inflater, container, false);
         mStationsList = new ArrayList<>();
@@ -126,8 +129,8 @@ public class StationsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.top_action_bar_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.ic_action_search);
+        inflater.inflate(R.menu.menu_manager_top_bar, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_manager_item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -150,18 +153,22 @@ public class StationsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.notification_addition:
-                Intent mAddCitizenIntent = new Intent(this.getActivity(), AddCitizenActivity.class);
-                startActivity(mAddCitizenIntent);
+            case R.id.menu_manager_item_notification:
+
                 break;
-            case R.id.setting_item:
-                Intent mSettingIntent = new Intent(this.getActivity(), SettingActivity.class);
-                startActivity(mSettingIntent);
+            case R.id.menu_manager_item_setting:
+                startActivity(new Intent(requireContext(), SettingActivity.class));
+                requireActivity().finish();
+                break;
+
+            case R.id.menu_manager_item_log_out:
+                mAuth.signOut();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                requireActivity().finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onDestroy() {

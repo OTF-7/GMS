@@ -10,7 +10,7 @@
         />
     <item
 
-        android:id="@+id/agent_search_ic"
+        android:id="@+id/general_search_item"
         android:title="search"
         app:showAsAction="always|collapseActionView"
         android:icon="@drawable/search_icon"

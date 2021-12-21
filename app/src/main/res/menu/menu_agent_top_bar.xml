@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/agent_search_ic"
+        android:id="@+id/general_search_item"
         android:icon="@drawable/search_icon"
-        android:title="search"
+        android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/station_item"
         android:title="@string/station"
@@ -23,5 +23,9 @@
     <item
         android:id="@+id/setting_item"
         android:title="@string/settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_agent_item_log_out"
+        android:title="@string/log_out"
         app:showAsAction="never" />
 </menu>

@@ -3,7 +3,6 @@ package com.GMS.manager.fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,16 +13,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.GMS.GMS_Application;
 import com.GMS.R;
 import com.GMS.SettingActivity;
-import com.GMS.aqel.activities.AddCitizenActivity;
 import com.GMS.databinding.FragmentActionsBinding;
 import com.GMS.login.activities.LoginActivity;
 import com.GMS.manager.adapters.ActionsAdapter;
@@ -38,7 +34,7 @@ public class ActionsFragment extends Fragment {
     FragmentActionsBinding mActionsBinding;
     ArrayList<Actions> mActionsList;
     ActionsAdapter adapter;
-
+    FirebaseAuth mAuth;
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -49,6 +45,7 @@ public class ActionsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         // Inflate the layout for this fragment
         mActionsBinding = FragmentActionsBinding.inflate(inflater, container, false);
         mActionsList = new ArrayList<>();
@@ -137,20 +134,9 @@ public class ActionsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_manager_top_bar_actions, menu);
+        inflater.inflate(R.menu.menu_manager_top_bar, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_manager_item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        MenuItem logOut = menu.findItem(R.id.menu_manager_item_log_out);
-        logOut.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.signOut();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                requireActivity().finish();
-                return false;
-            }
-        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -172,25 +158,17 @@ public class ActionsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_manager_item_notification:
-                Intent mAddCitizenIntent = new Intent(this.getActivity(), AddCitizenActivity.class);
-                startActivity(mAddCitizenIntent);
+
                 break;
             case R.id.menu_manager_item_setting:
-                Intent mSettingIntent = new Intent(this.getActivity(), SettingActivity.class);
-                startActivity(mSettingIntent);
+                startActivity(new Intent(requireContext(), SettingActivity.class));
+                requireActivity().finish();
                 break;
-            case R.id.menu_manager_item_light_dark_switch:
-                int selectedDarkLightTheme = PreferenceManager
-                        .getDefaultSharedPreferences(getContext())
-                        .getInt(getString(R.string.preferences_dark_light_mode_selected_key), AppCompatDelegate.MODE_NIGHT_NO);
-                if (selectedDarkLightTheme == AppCompatDelegate.MODE_NIGHT_YES)
-                    selectedDarkLightTheme = AppCompatDelegate.MODE_NIGHT_NO;
-                else selectedDarkLightTheme = AppCompatDelegate.MODE_NIGHT_YES;
-                PreferenceManager.getDefaultSharedPreferences(getContext())
-                        .edit()
-                        .putInt(getString(R.string.preferences_dark_light_mode_selected_key), selectedDarkLightTheme)
-                        .apply();
-                GMS_Application.setDarkLightTheme(selectedDarkLightTheme);
+
+            case R.id.menu_manager_item_log_out:
+                mAuth.signOut();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                requireActivity().finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

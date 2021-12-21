@@ -5,15 +5,15 @@
     <item
         android:id="@+id/aqel_search_ic"
         android:icon="@drawable/search_icon"
-        android:title="search"
+        android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/notification"
         android:icon="@drawable/ic_notification_addition"
         android:title="notification addition"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/add_citizen"
@@ -27,7 +27,7 @@
 
     <item
         android:id="@+id/logout"
-        android:title="log out"
+        android:title="@string/log_out"
         app:showAsAction="never" />
 
 </menu>

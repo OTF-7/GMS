@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-
-        android:id="@+id/agent_search_ic"
-        android:title="search"
-        app:showAsAction="always|collapseActionView"
+        android:id="@+id/general_search_item"
         android:icon="@drawable/search_icon"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
-
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
 </menu>

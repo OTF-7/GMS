@@ -25,11 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.GMS.Constant;
 import com.GMS.R;
 import com.GMS.SettingActivity;
-import com.GMS.aqel.activities.AddCitizenActivity;
 import com.GMS.databinding.FragmentEmployeesBinding;
+import com.GMS.login.activities.LoginActivity;
 import com.GMS.manager.adapters.EmployeesAdapter;
 import com.GMS.manager.models.Employees;
 import com.GMS.representative.activities.AdditionRequestsActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -55,6 +56,7 @@ public class EmployeesFragment extends Fragment {
     TextView tvNotificationCounter;
     ImageView ivNotificationIcon;
     private FirebaseFirestore mFirestore;
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -190,7 +192,7 @@ public class EmployeesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.top_action_bar_menu, menu);
+        inflater.inflate(R.menu.menu_manager_top_bar, menu);
         mMenuItemNotification = menu.findItem(R.id.notification_addition);
         checkNotification();
         MenuItem searchItem = menu.findItem(R.id.ic_action_search);
@@ -216,18 +218,22 @@ public class EmployeesFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.notification_addition:
-                Intent mAddCitizenIntent = new Intent(this.getActivity(), AddCitizenActivity.class);
-                startActivity(mAddCitizenIntent);
+            case R.id.menu_manager_item_notification:
+
                 break;
-            case R.id.setting_item:
-                Intent mSettingIntent = new Intent(this.getActivity(), SettingActivity.class);
-                startActivity(mSettingIntent);
+            case R.id.menu_manager_item_setting:
+                startActivity(new Intent(requireContext(), SettingActivity.class));
+                requireActivity().finish();
+                break;
+
+            case R.id.menu_manager_item_log_out:
+                mAuth.signOut();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                requireActivity().finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onDestroy() {
