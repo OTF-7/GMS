@@ -2,10 +2,7 @@ package com.GMS.GeneralClasses;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
-import android.os.Handler;
 import android.view.Gravity;
-import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -58,7 +55,7 @@ public final class Dialogs {
     private void moneyDialog(Context context)
     {
         moneyDialog = new Dialog(context);
-        moneyDialog.setContentView(R.layout.recieving_dialog);
+        moneyDialog.setContentView(R.layout.dialog_recieving_money);
         moneyDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         Window window = moneyDialog.getWindow();
         window.setGravity(Gravity.CENTER);

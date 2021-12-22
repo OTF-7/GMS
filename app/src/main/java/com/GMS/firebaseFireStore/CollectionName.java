@@ -79,6 +79,9 @@ public enum CollectionName {
         deliveredState,
         neighborhoodDetails,
         sellingPrice,
+        aqelName,
+        stationDetails,
+        aqelCount ,
         /*
          *NOTICE THIS NOTE BELOW FOR MORE INFO FOR CONTENT OF EACH DOCUMENT
          ** EACH EMPLOYEE DOCUMENT CONTAINS THESE :

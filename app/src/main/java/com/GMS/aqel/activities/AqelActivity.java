@@ -45,7 +45,7 @@ public class  AqelActivity extends AppCompatActivity {
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
         setSupportActionBar(mBinding.toolBar.toolBarAqel);
         setTitle("Aqel");
-       //addAction();
+        //addAction();
         FragmentManager fm = getSupportFragmentManager();
         adapter = new ViewPager2AqelAdapter(fm, getLifecycle());
         mBinding.mainViewPager.setAdapter(adapter);
@@ -125,6 +125,7 @@ public class  AqelActivity extends AppCompatActivity {
         neighborhoodDetails.put(CollectionName.Fields.name.name(), "Mousa Street");
         neighborhoodDetails.put(CollectionName.Fields.numberOfDelivered.name(), 0);
         ActionCollection actionCollection = new ActionCollection("Abdulrahman",
+                0 ,
                 "abubaker",
                 "khalid",
                 3350,

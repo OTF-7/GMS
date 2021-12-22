@@ -49,10 +49,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AgentActivity extends AppCompatActivity {
 
@@ -63,7 +65,7 @@ public class AgentActivity extends AppCompatActivity {
     private ActivityAgentBinding mBinding;
 
     public static Drawable mAcceptedBackgroundImage;
-    private Dialog stationDialog;
+    private Dialog stationDialog , receivingMoneyDialog;
     private static final int CALL_PERMISSION = 122;
     private static final String REFRESH_SWIPE="REFRESH_SWIPE";
     private static final String REFRESH_START="REFRESH_START";
@@ -85,7 +87,7 @@ public class AgentActivity extends AppCompatActivity {
         mAcceptedBackgroundImage = getDrawable(R.drawable.accpted_image_background_shape);
         // change color of status bar color
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
-
+        createReceivingMoneyDialog();
         setSupportActionBar(mBinding.agentTopBar.toolBarAgent);
         setTitle("Agent");
         mBinding.cardViewHeaderContainer.setBackgroundColor(Color.TRANSPARENT);
@@ -122,7 +124,7 @@ public class AgentActivity extends AppCompatActivity {
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
-
+                 showReceivingMoneyDialog(position);
             }
         };
 
@@ -278,13 +280,17 @@ public class AgentActivity extends AppCompatActivity {
                     mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
                     idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
                     sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
+                   mBinding.stationName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.stationDetails.name()+"."+CollectionName.Fields.stationName.name()));
+                 mBinding.stationCount.setText(String.valueOf(queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.deliveredQuantity.name())));
+                    mBinding.aqelName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.aqelName.name()));
 
                     getActionDetails();
 
                 } else {
+                    mBinding.activityAgentNoItemTv.setText(getString(R.string.no_action_yet));
+                    mBinding.activityAgentNoItemTv.setVisibility(View.VISIBLE);
                     mBinding.progressWhileLoading.setVisibility(View.GONE);
-                   // Toast.makeText(getBaseContext(), "no Action today", Toast.LENGTH_SHORT).show();
-                     mBinding.activityAgentNoItemTv.setVisibility(View.VISIBLE);
+
                 }
             }
         });
@@ -294,6 +300,7 @@ public class AgentActivity extends AppCompatActivity {
         mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
                 .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified, true)
                 .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified, true)
+                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.received, false)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -304,11 +311,14 @@ public class AgentActivity extends AppCompatActivity {
                             adapter = null ;
                             detailsItems.clear();
                             initRV();
+                            mBinding.activityAgentNoItemTv.setText(getString(R.string.no_item_yet));
+                            mBinding.activityAgentNoItemTv.setVisibility(View.VISIBLE);
                             mBinding.progressWhileLoading.setVisibility(View.GONE);
                             Toast.makeText(getBaseContext(), "no Items", Toast.LENGTH_SHORT).show();
                         } else {
                             adapter = null ;
                             detailsItems.clear();
+                            mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
                             for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
 
                                 CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
@@ -324,9 +334,11 @@ public class AgentActivity extends AppCompatActivity {
     {
         if(NetworkCollection.checkConnection(this))
         {
+            mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
             mBinding.activityAgentInternetConnectionTv.setVisibility(View.GONE);
             if(detailsItems.isEmpty())
             {
+
                 mBinding.progressWhileLoading.setVisibility(View.VISIBLE);
             }
             else
@@ -337,6 +349,7 @@ public class AgentActivity extends AppCompatActivity {
             getAction();
         }
         else {
+            mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
             if(detailsItems.isEmpty())
             {
                 mBinding.activityAgentInternetConnectionTv.setVisibility(View.VISIBLE);
@@ -368,4 +381,51 @@ public class AgentActivity extends AppCompatActivity {
         }
 
     }
-}
+
+    private void createReceivingMoneyDialog() {
+        receivingMoneyDialog = new Dialog(mBinding.getRoot().getContext());
+        receivingMoneyDialog.setContentView(R.layout.dialog_recieving_money);
+        receivingMoneyDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        Window window = receivingMoneyDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        //  window.getAttributes().windowAnimations = R.style.FadeDialogAnimation;
+        receivingMoneyDialog.setCancelable(false);
+
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+    }
+    private void showReceivingMoneyDialog(int position) {
+
+
+        receivingMoneyDialog.show();
+        receivingMoneyDialog.findViewById(R.id.tv_accept).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+acceptData(position);
+            }
+        });
+        receivingMoneyDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+   receivingMoneyDialog.dismiss();
+            }
+        });
+
+    }
+    private void acceptData(int position) {
+        CitizenActionDetails citizenActionDetails = detailsItems.get(position);
+
+            Map<String ,Object> updateState = citizenActionDetails.getDeliveredState();
+            updateState.put(CollectionName.Fields.received.name(), true);
+            citizenActionDetails.setDeliveredState(updateState);
+            receivingMoneyDialog.dismiss();
+            mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
+                    .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails , SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(mBinding.getRoot().getContext() , "have received", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+           }
+    }

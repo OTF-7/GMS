@@ -92,4 +92,6 @@
     <string name="stations">Stations</string>
     <string name="change_theme">change theme</string>
     <string name="serial_number">serial number</string>
+    <string name="no_item_yet">there is no item yet</string>
+    <string name="no_action_yet">there is no action</string>
 </resources>
