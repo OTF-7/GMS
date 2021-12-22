@@ -11,6 +11,10 @@ public class CitizenActionDetails {
     private String documentId;
     private  String idInParent;
     private  String name;
+    private String firstName;
+    private String secondName;
+    private String lastName;
+    private String serialNumber;
     private  int deliveredQuantity;
     private  long quantityRequired;
     private  double total;
@@ -23,9 +27,13 @@ public class CitizenActionDetails {
      }
 
 
-    public CitizenActionDetails(String idInParent, String name, int deliveredQuantity, double total, String deliveringDate, String receivingDate, Map<String, Object> deliveredState ,long quantityRequired) {
+    public CitizenActionDetails(String idInParent, String serialNumber, String firstName , String secondName , String lastName, int deliveredQuantity, double total, String deliveringDate, String receivingDate, Map<String, Object> deliveredState ,long quantityRequired) {
         this.idInParent = idInParent;
-        this.name = name;
+        this.firstName = firstName;
+        this.secondName= secondName;
+        this.lastName = lastName;
+        this.name = firstName+" "+secondName+" "+lastName;
+        this.serialNumber=serialNumber;
         this.quantityRequired= quantityRequired;
         this.deliveredQuantity = deliveredQuantity;
         this.total = total;
@@ -40,6 +48,9 @@ public class CitizenActionDetails {
         this.receivingDate = receivingDate;
     }
 
+    public String getSerialNumber() {
+        return serialNumber;
+    }
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;

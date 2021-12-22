@@ -8,6 +8,10 @@ import java.util.Map;
 public class CitizenCollection {
 
     private String documentId;
+    private String serialNumber;
+    private String firstName;
+    private String secondName;
+    private String lastName;
     private String fullName ;
     private Map<String ,Object> additionDetails ;
     private String documentUrl ;
@@ -19,8 +23,11 @@ public class CitizenCollection {
     public CitizenCollection() {
     }
 
-    public CitizenCollection(String fullName, Map<String, Object> additionDetails, String documentUrl, String neighborhood, int familyMember, int numberOfCylinders, boolean state ,boolean regret) {
-        this.fullName = fullName;
+    public CitizenCollection(String firstName , String secondName , String lastName , String serialNumber, Map<String, Object> additionDetails, String documentUrl, String neighborhood, int familyMember, int numberOfCylinders, boolean state ,boolean regret) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.serialNumber = serialNumber;
         this.additionDetails = additionDetails;
         this.documentUrl = documentUrl;
         this.neighborhood = neighborhood;
@@ -44,8 +51,28 @@ public class CitizenCollection {
         return fullName;
     }
 
+    public void setFullName(String fullName)
+    {
+        this.fullName = firstName+" "+secondName+" "+lastName;
+    }
     public HashMap<String, Object> getAdditionDetails() {
         return (HashMap<String, Object>) additionDetails;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getDocumentUrl() {

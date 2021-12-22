@@ -302,7 +302,9 @@ public class AdditionRequestsActivity extends AppCompatActivity {
                                             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                                 CitizenCollection citizenDocument = documentSnapshot.toObject(CitizenCollection.class);
                                                 citizenDocument.setDocumentId(documentSnapshot.getId());
+                                                citizenDocument.setFullName(citizenDocument.getFirstName()+" "+ citizenDocument.getSecondName()+" "+citizenDocument.getLastName());
                                                 citizenCollectionItems.add(citizenDocument);
+
                                             }
                                         } catch (Exception ex) {
                                             Log.e(TAG_ADDITION_REQUEST_COMING_DATA, ex.getMessage().toString());

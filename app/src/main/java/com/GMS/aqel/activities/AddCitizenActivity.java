@@ -279,9 +279,10 @@ public class AddCitizenActivity extends AppCompatActivity {
                                 additionDetails.put(CollectionName.Fields.dateCertain.name(), " ");
                                 Uri uri = (Uri) task.getResult();
                                 CitizenCollection citizenDetails = new CitizenCollection(
-                                        mBinding.citizenFirstNameLayout.getEditText().getText().toString() + " "
-                                                + mBinding.citizenSecondNameLayout.getEditText().getText().toString() + " "
-                                                + mBinding.citizenLastNameLayout.getEditText().getText().toString(),
+                                        mBinding.citizenFirstNameLayout.getEditText().getText().toString()
+                                        , mBinding.citizenSecondNameLayout.getEditText().getText().toString()
+                                        , mBinding.citizenLastNameLayout.getEditText().getText().toString(),
+                                        mBinding.citizenSerialNumberLayout.getEditText().getText().toString(),
                                         additionDetails, uri.toString(),
                                         mBinding.neighborhoodNameLayout.getEditText().getText().toString(),
                                         Integer.valueOf(mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString()),
@@ -345,9 +346,10 @@ public class AddCitizenActivity extends AppCompatActivity {
                         additionDetails.put(CollectionName.Fields.dateCertain.name(), " ");
                         Uri uri = (Uri) task.getResult();
                         CitizenCollection citizenDetails = new CitizenCollection(
-                                mBinding.citizenFirstNameLayout.getEditText().getText().toString() + " "
-                                        + mBinding.citizenSecondNameLayout.getEditText().getText().toString() + " "
-                                        + mBinding.citizenLastNameLayout.getEditText().getText().toString(),
+                                mBinding.citizenFirstNameLayout.getEditText().getText().toString()
+                                        , mBinding.citizenSecondNameLayout.getEditText().getText().toString()
+                                        , mBinding.citizenLastNameLayout.getEditText().getText().toString(),
+                                mBinding.citizenSerialNumberLayout.getEditText().getText().toString(),
                                 additionDetails, uri.toString(),
                                 mBinding.neighborhoodNameLayout.getEditText().getText().toString(),
                                 Integer.valueOf(mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString()),
@@ -449,6 +451,12 @@ public class AddCitizenActivity extends AppCompatActivity {
         } else {
             number++;
         }
+        if (mBinding.citizenSerialNumberLayout.getEditText().getText().toString().trim().isEmpty()) {
+            mBinding.citizenSerialNumberLayout.setError(" Number Of Cylinders  is required");
+            mBinding.citizenSerialNumberLayout.requestFocus();
+        } else {
+            number++;
+        }
         if (mBinding.citizenNumberOfFamilyMembersLayout.getEditText().getText().toString().trim().isEmpty()) {
             mBinding.citizenNumberOfFamilyMembersLayout.setError(" family member  is required");
             mBinding.citizenNumberOfFamilyMembersLayout.requestFocus();
@@ -456,7 +464,7 @@ public class AddCitizenActivity extends AppCompatActivity {
             number++;
         }
 
-        return number == 6;
+        return number == 7;
     }
 
     private void createDialog() {
@@ -518,6 +526,7 @@ public class AddCitizenActivity extends AppCompatActivity {
         mBinding.neighborhoodNameLayout.getEditText().setText(null);
         mBinding.citizenNumberOfCylindersLayout.getEditText().setText(null);
         mBinding.citizenNumberOfFamilyMembersLayout.getEditText().setText(null);
+        mBinding.citizenSerialNumberLayout.getEditText().setText(null);
         fromCamera = false;
         fromGallery = false;
     }

@@ -39,6 +39,10 @@ public enum CollectionName {
         email,
         state,
         regret,
+        firstName ,
+        secondName ,
+        lastName ,
+        serialNumber,
 
         // citizen document ;
 

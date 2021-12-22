@@ -238,7 +238,7 @@ public class NeedScanRepFragment extends Fragment {
 
         if( checking.equals(CHECK_ITEM) && position>-1)
         {
-            if(resultId.equals(detailsItems.get(position).getDocumentId().toString())) {
+            if(resultId.equals(detailsItems.get(position).getSerialNumber().toString())) {
              verifiedCitizen(position);
             }
             else
@@ -255,7 +255,7 @@ public class NeedScanRepFragment extends Fragment {
             for(int i =0 ; i<detailsItems.size() ; i++)
             {
 
-                if(resultId.equals(String.valueOf(detailsItems.get(i).getQuantityRequired())))
+                if(resultId.equals(String.valueOf(detailsItems.get(i).getSerialNumber())))
                 {
                     Toast.makeText(getActivity().getApplicationContext() , detailsItems.get(i).getQuantityRequired()+"done ", Toast.LENGTH_SHORT).show();
                     index = i ;

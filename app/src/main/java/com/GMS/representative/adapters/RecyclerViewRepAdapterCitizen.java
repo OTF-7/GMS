@@ -83,7 +83,7 @@ public class RecyclerViewRepAdapterCitizen extends RecyclerView.Adapter<Recycler
         CitizenActionDetails item = lsts.get(position);
 
         holder.mCitizenItemRvBinding.tvCitizenName.setText(item.getName());
-        holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getIdInParent());
+        holder.mCitizenItemRvBinding.tvCitizenId.setText(item.getSerialNumber());
         holder.mCitizenItemRvBinding.tvCount.setText(String.valueOf(item.getDeliveredQuantity()));
         holder.mCitizenItemRvBinding.citizenItem.setOnClickListener(new View.OnClickListener() {
             @Override

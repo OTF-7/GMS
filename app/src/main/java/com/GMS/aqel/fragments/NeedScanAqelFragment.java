@@ -157,7 +157,7 @@ public class NeedScanAqelFragment extends Fragment {
 
         if( checking.equals(CHECK_ITEM) && position>-1)
         {
-            if(resultId.equals(detailsItems.get(position).getDocumentId().toString())) {
+            if(resultId.equals(detailsItems.get(position).getIdInParent().toString())) {
                 tvRequiredQty.setText(String.valueOf(detailsItems.get(position).getQuantityRequired()));
                showDialog(position);
             }
@@ -183,7 +183,7 @@ public class NeedScanAqelFragment extends Fragment {
         int position=-1;
         for(int i =0 ; i<detailsItems.size() ; i++)
         {
-            if(resultId.equals(detailsItems.get(i).getDocumentId()))
+            if(resultId.equals(detailsItems.get(i).getIdInParent()))
             {
                 tvRequiredQty.setText(String.valueOf(detailsItems.get(i).getQuantityRequired()));
               position = i ;
@@ -434,7 +434,10 @@ public class NeedScanAqelFragment extends Fragment {
 
                                                         for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
                                                             detailsItems.add(new CitizenActionDetails(q.getId(),
-                                                                    q.getString(CollectionName.Fields.fullName.name())
+                                                                    q.getString(CollectionName.Fields.serialNumber.name()) ,
+                                                                    q.getString(CollectionName.Fields.firstName.name()) ,
+                                                                    q.getString(CollectionName.Fields.secondName.name()) ,
+                                                                    q.getString(CollectionName.Fields.lastName.name())
                                                                     , 0, 0.0, String.valueOf(new java.sql.Date(System.currentTimeMillis())),
                                                                     ""
                                                                     , deliveredState, q.getLong(CollectionName.Fields.numberOfCylinders.name())));
