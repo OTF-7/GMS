@@ -2,6 +2,7 @@ package com.GMS.representative.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -19,7 +24,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.Constant;
 import com.GMS.GeneralClasses.CitizenItemClickListener;
+import com.GMS.QRScannerActivity;
 import com.GMS.R;
 import com.GMS.databinding.FragmentNeedScanRepBinding;
 import com.GMS.firebaseFireStore.CitizenActionDetails;
@@ -51,11 +58,36 @@ public class NeedScanRepFragment extends Fragment {
     private final CollectionReference mCollectionRefActionDetails = db.collection(CollectionName.ACTION_DETAILS.name());
     FragmentNeedScanRepBinding mBinding;
     RecyclerViewRepAdapterCitizen adapter;
+    String resultId =null;
+    private final static int REP_NEED_SCAN_FRAGMENT=101;
+    private final static String TYPE_OF_CHECK="TYPE_OF_CHECK";
+    private final static String SEARCH_ALL="SEARCH_ALL";
+    private final static String CHECK_ITEM ="CHECK_ITEM";
+    private final static String POSITION ="POSITION";
+    private  final static String RESULT="RESULT";
     String idAction;
     long sellingPrice;
     CitizenItemClickListener mItemClickListener;
     ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
 
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()==REP_NEED_SCAN_FRAGMENT)
+                    {
+                        Intent intent = result.getData();
+                        if(intent != null)
+                        {
+                            resultId=intent.getStringExtra(RESULT);
+                            String checking = intent.getStringExtra(TYPE_OF_CHECK).toString();
+                            int position = intent.getIntExtra(POSITION , -1);
+                            openQrScanner(checking ,position );
+                        }
+                    }
+                }
+            }
+    );
     public NeedScanRepFragment() {
         // Required empty public constructor
     }
@@ -70,12 +102,26 @@ public class NeedScanRepFragment extends Fragment {
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
-                verifiedCitizen(position);
+                Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
+                intent.putExtra(Constant.ACTIVITY.toString() , Constant.REPNEEDSCAN.toString());
+                intent.putExtra(TYPE_OF_CHECK , CHECK_ITEM);
+                intent.putExtra(POSITION , position);
+                activityResultLauncher.launch(intent);
             }
         };
+        mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
+                intent.putExtra(Constant.ACTIVITY.toString(), Constant.REPNEEDSCAN.toString());
+                intent.putExtra(TYPE_OF_CHECK, SEARCH_ALL);
+                activityResultLauncher.launch(intent);
+
+            }});
 
 
-        return mBinding.getRoot();
+                return mBinding.getRoot();
     }
 
     public void initRV() {
@@ -187,5 +233,52 @@ public class NeedScanRepFragment extends Fragment {
                 });
 
     }
+    public  void openQrScanner( String checking , int position)
+    {
+
+        if( checking.equals(CHECK_ITEM) && position>-1)
+        {
+            if(resultId.equals(detailsItems.get(position).getDocumentId().toString())) {
+             verifiedCitizen(position);
+            }
+            else
+            {
+                Toast.makeText(getActivity().getApplicationContext() , "there is error try again to read QR code", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+        else if(checking.equals(SEARCH_ALL) && position==-1)
+        {
+            boolean isAvailable = false;
+            int index=-1;
+            for(int i =0 ; i<detailsItems.size() ; i++)
+            {
+
+                if(resultId.equals(String.valueOf(detailsItems.get(i).getQuantityRequired())))
+                {
+                    Toast.makeText(getActivity().getApplicationContext() , detailsItems.get(i).getQuantityRequired()+"done ", Toast.LENGTH_SHORT).show();
+                    index = i ;
+                    isAvailable=true;
+                    break;
+                }
+            }
+            if (isAvailable)
+            {
+              verifiedCitizen(index);
+            }
+            else
+            {
+                Toast.makeText(getActivity().getApplicationContext() , " bbbbb there is error try again to read QR code", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+
+
+
+
+    }
+
 
 }

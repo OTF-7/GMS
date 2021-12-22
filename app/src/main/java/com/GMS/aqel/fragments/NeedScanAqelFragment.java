@@ -188,6 +188,7 @@ public class NeedScanAqelFragment extends Fragment {
                 tvRequiredQty.setText(String.valueOf(detailsItems.get(i).getQuantityRequired()));
               position = i ;
                 isAvailable=true;
+                break;
             }
         }
         if (isAvailable)

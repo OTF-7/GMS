@@ -68,11 +68,7 @@ public class RepresentativeActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mBinding.mainViewPager.setCurrentItem(tab.getPosition());
-                if (mBinding.mainViewPager.getCurrentItem() == 1 || tab.getPosition() == 1) {
-                    mBinding.fabScan.setVisibility(View.GONE);
-                } else {
-                    mBinding.fabScan.setVisibility(View.VISIBLE);
-                }
+
             }
 
             @Override
@@ -89,24 +85,11 @@ public class RepresentativeActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mBinding.tabLayoutRepresentative.selectTab(mBinding.tabLayoutRepresentative.getTabAt(position));
-                if (position == 1) {
-                    mBinding.fabScan.setVisibility(View.GONE);
-                } else {
-                    mBinding.fabScan.setVisibility(View.VISIBLE);
-                }
+
             }
 
         });
-        mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mBinding.tabLayoutRepresentative.getSelectedTabPosition() == 0) {
-                    Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
-                    intent.putExtra(Constant.ACTIVITY.toString(), Constant.REPNEEDSCAN.toString());
-                    startActivity(intent);
-                }
-            }
-        });
+
 
         /*
         mAdapter = new MainAdapter(getSupportFragmentManager());
