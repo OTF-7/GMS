@@ -47,12 +47,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Transaction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -309,7 +311,10 @@ public class NeedScanAqelFragment extends Fragment {
                         public void onSuccess(Void unused) {
                             Toast.makeText(getActivity(), "Verified", Toast.LENGTH_SHORT).show();
 
+                           executeTransaction();
+
                         }
+
                     });
            // Toast.makeText(getActivity(), String.valueOf(Qty*sellingPrice), Toast.LENGTH_SHORT).show();
         }
@@ -355,7 +360,6 @@ public class NeedScanAqelFragment extends Fragment {
                 if (!queryDocumentSnapshots.isEmpty()) {
                         idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
                         sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
-
                     getActionDetails();
 
                 } else {
@@ -369,7 +373,7 @@ public class NeedScanAqelFragment extends Fragment {
 
     private void getActionDetails() {
         mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
-                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified, false)
+                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified.name(), false)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -465,4 +469,20 @@ public class NeedScanAqelFragment extends Fragment {
 
     }
 
+
+    private void executeTransaction()
+
+    {
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentReference docRef=mCollectionRefAction.document(idAction) ;
+                DocumentSnapshot documentSnapshot =transaction.get(docRef);
+                long qty =  documentSnapshot.getLong(CollectionName.Fields.aqelCount.name().toString())+Qty;
+                transaction.update(docRef ,CollectionName.Fields.aqelCount.name().toString() , qty);
+                return null;
+            }
+        });
+    }
 }

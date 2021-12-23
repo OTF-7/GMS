@@ -81,7 +81,7 @@ public enum CollectionName {
         sellingPrice,
         aqelName,
         stationDetails,
-        aqelCount ,
+        aqelCount,
         /*
          *NOTICE THIS NOTE BELOW FOR MORE INFO FOR CONTENT OF EACH DOCUMENT
          ** EACH EMPLOYEE DOCUMENT CONTAINS THESE :

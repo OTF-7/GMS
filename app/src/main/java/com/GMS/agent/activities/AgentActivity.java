@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,12 +45,15 @@ import com.GMS.firebaseFireStore.CollectionName;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Transaction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -65,12 +69,13 @@ public class AgentActivity extends AppCompatActivity {
     private ActivityAgentBinding mBinding;
 
     public static Drawable mAcceptedBackgroundImage;
-    private Dialog stationDialog , receivingMoneyDialog;
+    private Dialog stationDialog, receivingMoneyDialog;
     private static final int CALL_PERMISSION = 122;
-    private static final String REFRESH_SWIPE="REFRESH_SWIPE";
-    private static final String REFRESH_START="REFRESH_START";
+    private static final String REFRESH_SWIPE = "REFRESH_SWIPE";
+    private static final String REFRESH_START = "REFRESH_START";
     String idAction;
-    long sellingPrice ;
+    long sellingPrice;
+    long Qty;
     CitizenItemClickListener mItemClickListener;
     ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -124,27 +129,25 @@ public class AgentActivity extends AppCompatActivity {
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
-                 showReceivingMoneyDialog(position);
+                showReceivingMoneyDialog(position);
             }
         };
 
-      mBinding.activityAgentSwipeRefreshRv.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-          @Override
-          public void onRefresh() {
-              checkConnectOfWifiOrData(REFRESH_SWIPE);
-              mBinding.activityAgentSwipeRefreshRv.setRefreshing(false);
-              mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
-          }
-      });
-
-
+        mBinding.activityAgentSwipeRefreshRv.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkConnectOfWifiOrData(REFRESH_SWIPE);
+                mBinding.activityAgentSwipeRefreshRv.setRefreshing(false);
+                mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
+            }
+        });
 
 
     }
-    public  void initRV()
-    {
+
+    public void initRV() {
         mBinding.progressWhileLoading.setVisibility(View.GONE);
-        adapter = new RecyclerViewAdapterCitizen(detailsItems ,getBaseContext() ,mItemClickListener);
+        adapter = new RecyclerViewAdapterCitizen(detailsItems, getBaseContext(), mItemClickListener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mBinding.rvCitizen.setHasFixedSize(true);
         mBinding.rvCitizen.setLayoutManager(layoutManager);
@@ -173,6 +176,13 @@ public class AgentActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.general_search_item);
         SearchView searchView = (SearchView) searchItem.getActionView();
         createDialog();
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Toast.makeText(getBaseContext(), "closed", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -181,8 +191,9 @@ public class AgentActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (adapter == null)
+                    return false;
                 adapter.getFilter().filter(newText);
-
                 return false;
             }
 
@@ -269,6 +280,7 @@ public class AgentActivity extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tvCallNumber.getText().toString()));
         startActivity(callIntent);
     }
+
     private void getAction() {
 
         mCollectionRefAction.whereEqualTo(CollectionName.Fields.actionDate.name(), String.valueOf(new java.sql.Date(System.currentTimeMillis())))
@@ -278,12 +290,25 @@ public class AgentActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
                     mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
-                    idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
-                    sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
-                   mBinding.stationName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.stationDetails.name()+"."+CollectionName.Fields.stationName.name()));
-                 mBinding.stationCount.setText(String.valueOf(queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.deliveredQuantity.name())));
+                    idAction = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name());
+                    mBinding.stationName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.stationDetails.name() + "." + CollectionName.Fields.stationName.name()));
+                    mBinding.stationCount.setText(String.valueOf(queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.deliveredQuantity.name())));
                     mBinding.aqelName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.aqelName.name()));
-
+                    mBinding.countAqel.setText(String.valueOf(queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.aqelCount.name())));
+                    mCollectionRefAction.document(idAction).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            if (error != null) {
+                                Log.e(TAG, error.toString());
+                            }
+                            if(value.exists())
+                            {
+                               mBinding.countAgent.setText(String.valueOf(value.getLong(CollectionName.Fields.neighborhoodDetails
+                                       .name()+"."+CollectionName.Fields.numberOfDelivered.name())));
+                            }
+                        }
+                    });
                     getActionDetails();
 
                 } else {
@@ -308,7 +333,7 @@ public class AgentActivity extends AppCompatActivity {
                             Log.e(TAG, e.toString());
                         }
                         if (queryDocumentSnapshots.isEmpty()) {
-                            adapter = null ;
+                            adapter = null;
                             detailsItems.clear();
                             initRV();
                             mBinding.activityAgentNoItemTv.setText(getString(R.string.no_item_yet));
@@ -316,7 +341,7 @@ public class AgentActivity extends AppCompatActivity {
                             mBinding.progressWhileLoading.setVisibility(View.GONE);
                             Toast.makeText(getBaseContext(), "no Items", Toast.LENGTH_SHORT).show();
                         } else {
-                            adapter = null ;
+                            adapter = null;
                             detailsItems.clear();
                             mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
                             for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
@@ -330,41 +355,32 @@ public class AgentActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void checkConnectOfWifiOrData(String comeFrom)
-    {
-        if(NetworkCollection.checkConnection(this))
-        {
+
+    private void checkConnectOfWifiOrData(String comeFrom) {
+        if (NetworkCollection.checkConnection(this)) {
             mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
             mBinding.activityAgentInternetConnectionTv.setVisibility(View.GONE);
-            if(detailsItems.isEmpty())
-            {
+            if (detailsItems.isEmpty()) {
 
                 mBinding.progressWhileLoading.setVisibility(View.VISIBLE);
-            }
-            else
-            {
+            } else {
                 mBinding.progressWhileLoading.setVisibility(View.GONE);
             }
 
             getAction();
-        }
-        else {
+        } else {
             mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
-            if(detailsItems.isEmpty())
-            {
+            if (detailsItems.isEmpty()) {
                 mBinding.activityAgentInternetConnectionTv.setVisibility(View.VISIBLE);
                 mBinding.progressWhileLoading.setVisibility(View.GONE);
 
-            }
-            else
-            {
+            } else {
                 mBinding.activityAgentInternetConnectionTv.setVisibility(View.GONE);
                 mBinding.progressWhileLoading.setVisibility(View.GONE);
 
             }
 
-            if(comeFrom==REFRESH_SWIPE)
-            {
+            if (comeFrom == REFRESH_SWIPE) {
                 Snackbar.make(mBinding.getRoot(), getString(R.string.chose_image), Snackbar.LENGTH_LONG).setAction("Check", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -373,9 +389,7 @@ public class AgentActivity extends AppCompatActivity {
                     }
                 }).show();
 
-            }
-            else
-            {
+            } else {
 
             }
         }
@@ -393,6 +407,7 @@ public class AgentActivity extends AppCompatActivity {
 
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
     }
+
     private void showReceivingMoneyDialog(int position) {
 
 
@@ -400,32 +415,63 @@ public class AgentActivity extends AppCompatActivity {
         receivingMoneyDialog.findViewById(R.id.tv_accept).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-acceptData(position);
+                acceptData(position);
             }
         });
         receivingMoneyDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-   receivingMoneyDialog.dismiss();
+                receivingMoneyDialog.dismiss();
             }
         });
 
     }
+
     private void acceptData(int position) {
         CitizenActionDetails citizenActionDetails = detailsItems.get(position);
+        Qty=citizenActionDetails.getDeliveredQuantity();
+        Map<String, Object> updateState = citizenActionDetails.getDeliveredState();
+        updateState.put(CollectionName.Fields.received.name(), true);
+        citizenActionDetails.setDeliveredState(updateState);
+        receivingMoneyDialog.dismiss();
+        mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
+                .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        executeTransaction();
+                        Toast.makeText(mBinding.getRoot().getContext(), "have received", Toast.LENGTH_SHORT).show();
 
-            Map<String ,Object> updateState = citizenActionDetails.getDeliveredState();
-            updateState.put(CollectionName.Fields.received.name(), true);
-            citizenActionDetails.setDeliveredState(updateState);
-            receivingMoneyDialog.dismiss();
-            mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
-                    .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails , SetOptions.merge())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(mBinding.getRoot().getContext() , "have received", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-           }
+                    }
+                });
     }
+
+    private void execTransaction() {
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentReference docRef = mCollectionRefAction.document(idAction);
+                DocumentSnapshot documentSnapshot = transaction.get(docRef);
+                long qty = documentSnapshot.getLong(CollectionName.Fields.neighborhoodDetails.name()+"."+CollectionName.Fields.numberOfDelivered.name()) + Qty;
+                transaction.update(docRef, CollectionName.Fields.aqelCount.name(), qty);
+                return null;
+            }
+        });
+    }
+    private void  executeTransaction()
+    {
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentReference docRef = mCollectionRefAction.document(idAction);
+                DocumentSnapshot documentSnapshot = transaction.get(docRef);
+                long qty = documentSnapshot.getLong(CollectionName.Fields.neighborhoodDetails.name()+"."+CollectionName.Fields.numberOfDelivered.name()) + Qty;
+                transaction.update(docRef, CollectionName.Fields.neighborhoodDetails.name()+"."+CollectionName.Fields.numberOfDelivered.name(), qty);
+
+                return null;
+            }
+        });
+    }
+}
