@@ -76,6 +76,7 @@ public class AgentActivity extends AppCompatActivity {
     String idAction;
     long sellingPrice;
     long Qty;
+    TextView stationAddressTextView , stationNumberTextView;
     CitizenItemClickListener mItemClickListener;
     ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -234,6 +235,9 @@ public class AgentActivity extends AppCompatActivity {
         window.getAttributes().windowAnimations = R.style.DialogAnimation;
         stationDialog.setCancelable(true);
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        stationAddressTextView =stationDialog.findViewById(R.id.tv_address_details_dialog);
+        stationNumberTextView=stationDialog.findViewById(R.id.tv_phone_call_station_dialog);
+
     }
 
     private void showDialog() {
@@ -289,13 +293,14 @@ public class AgentActivity extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
-                    mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
                     idAction = queryDocumentSnapshots.getDocuments().get(0).getId();
                     sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name());
+                    stationAddressTextView.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.stationDetails.name() + "." + CollectionName.Fields.stationName.name()));
+                    stationNumberTextView.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.stationDetails.name() + "." + CollectionName.Fields.telephones.name()));
                     mBinding.stationName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.stationDetails.name() + "." + CollectionName.Fields.stationName.name()));
                     mBinding.stationCount.setText(String.valueOf(queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.deliveredQuantity.name())));
+                   mBinding.agentName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.agentName.name()));
                     mBinding.aqelName.setText(queryDocumentSnapshots.getDocuments().get(0).getString(CollectionName.Fields.aqelName.name()));
-                    mBinding.countAqel.setText(String.valueOf(queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.aqelCount.name())));
                     mCollectionRefAction.document(idAction).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -304,7 +309,8 @@ public class AgentActivity extends AppCompatActivity {
                             }
                             if(value.exists())
                             {
-                               mBinding.countAgent.setText(String.valueOf(value.getLong(CollectionName.Fields.neighborhoodDetails
+                                mBinding.countAqel.setText(String.valueOf(value.getLong(CollectionName.Fields.aqelCount.name())));
+                                mBinding.countAgent.setText(String.valueOf(value.getLong(CollectionName.Fields.neighborhoodDetails
                                        .name()+"."+CollectionName.Fields.numberOfDelivered.name())));
                             }
                         }
@@ -324,17 +330,17 @@ public class AgentActivity extends AppCompatActivity {
     private void getActionDetails() {
         mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
                 .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.aqelVerified, true)
-                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified, true)
-                .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.received, false)
+               // .whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified, true)
+                //.whereEqualTo(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.received, false)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
                             Log.e(TAG, e.toString());
                         }
+                         mBinding.countAqel.setText(String.valueOf(queryDocumentSnapshots.size()));   
                         if (queryDocumentSnapshots.isEmpty()) {
                             adapter = null;
-                            detailsItems.clear();
                             initRV();
                             mBinding.activityAgentNoItemTv.setText(getString(R.string.no_item_yet));
                             mBinding.activityAgentNoItemTv.setVisibility(View.VISIBLE);
@@ -345,10 +351,18 @@ public class AgentActivity extends AppCompatActivity {
                             detailsItems.clear();
                             mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
                             for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                                if(q.getBoolean(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified)&&!q.getBoolean(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.delivered)) {
+                                    CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
+                                    actionDetails.setDocumentId(q.getId());
+                                    detailsItems.add(actionDetails);
+                                }
+                            }
+                            if(detailsItems.isEmpty())
+                            {
+                                mBinding.activityAgentNoItemTv.setText(getString(R.string.no_item_yet));
+                                mBinding.activityAgentNoItemTv.setVisibility(View.VISIBLE);
+                                mBinding.progressWhileLoading.setVisibility(View.GONE);
 
-                                CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
-                                actionDetails.setDocumentId(q.getId());
-                                detailsItems.add(actionDetails);
                             }
                             initRV();
                         }
@@ -361,7 +375,6 @@ public class AgentActivity extends AppCompatActivity {
             mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
             mBinding.activityAgentInternetConnectionTv.setVisibility(View.GONE);
             if (detailsItems.isEmpty()) {
-
                 mBinding.progressWhileLoading.setVisibility(View.VISIBLE);
             } else {
                 mBinding.progressWhileLoading.setVisibility(View.GONE);
@@ -431,7 +444,7 @@ public class AgentActivity extends AppCompatActivity {
         CitizenActionDetails citizenActionDetails = detailsItems.get(position);
         Qty=citizenActionDetails.getDeliveredQuantity();
         Map<String, Object> updateState = citizenActionDetails.getDeliveredState();
-        updateState.put(CollectionName.Fields.received.name(), true);
+        updateState.put(CollectionName.Fields.delivered.name(), true);
         citizenActionDetails.setDeliveredState(updateState);
         receivingMoneyDialog.dismiss();
         mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
@@ -440,25 +453,12 @@ public class AgentActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         executeTransaction();
-                        Toast.makeText(mBinding.getRoot().getContext(), "have received", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mBinding.getRoot().getContext(), "have delivered", Toast.LENGTH_SHORT).show();
 
                     }
                 });
     }
 
-    private void execTransaction() {
-        db.runTransaction(new Transaction.Function<Void>() {
-            @Nullable
-            @Override
-            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                DocumentReference docRef = mCollectionRefAction.document(idAction);
-                DocumentSnapshot documentSnapshot = transaction.get(docRef);
-                long qty = documentSnapshot.getLong(CollectionName.Fields.neighborhoodDetails.name()+"."+CollectionName.Fields.numberOfDelivered.name()) + Qty;
-                transaction.update(docRef, CollectionName.Fields.aqelCount.name(), qty);
-                return null;
-            }
-        });
-    }
     private void  executeTransaction()
     {
         db.runTransaction(new Transaction.Function<Void>() {

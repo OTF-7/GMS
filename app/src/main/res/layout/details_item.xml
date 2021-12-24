@@ -92,12 +92,12 @@
             app:layout_constraintTop_toBottomOf="@id/tv_citizen_name">
 
             <TextView
-                android:id="@+id/tv_aqel_name"
+                android:id="@+id/tv_received"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="aqel name"
+                android:text="Received"
                 app:layout_constraintEnd_toStartOf="@+id/tv_qty"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -110,21 +110,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/qty"
-                app:layout_constraintBottom_toBottomOf="@id/tv_aqel_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_received"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_aqel_name"
-                app:layout_constraintTop_toTopOf="@id/tv_aqel_name" />
+                app:layout_constraintStart_toEndOf="@+id/tv_received"
+                app:layout_constraintTop_toTopOf="@id/tv_received" />
 
             <TextView
-                android:id="@+id/tv_rep_name"
+                android:id="@+id/tv_delivered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Representative name"
+                android:text="Delivered"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_aqel_name" />
+                app:layout_constraintTop_toBottomOf="@id/tv_received" />
 
             <TextView
                 android:id="@+id/tv_total"
@@ -132,9 +132,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="12600"
-                app:layout_constraintBottom_toBottomOf="@id/tv_rep_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_delivered"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_rep_name" />
+                app:layout_constraintTop_toTopOf="@id/tv_delivered" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

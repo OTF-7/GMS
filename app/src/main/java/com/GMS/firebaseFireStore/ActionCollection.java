@@ -26,12 +26,16 @@ public class ActionCollection {
     private  Map<String, Object> neighborhoodDetails = new HashMap<>();
     private String neighborhoodName;
     private int numberOfDelivered;
+    private String documentId;
     private  Map<String, Object> stationDetails = new HashMap<>();
     private String name;
     private double purchasingPrice;
     private int purchasedQuantity;
 
-    public ActionCollection( String aqelName ,int aqelCount, String repName, String agentName, double sellingPrice, int deliveredQuantity, String actionDate,Map<String, Object> stationDetails ,Map<String, Object> neighborhoodDetails) {
+    public ActionCollection() {
+    }
+
+    public ActionCollection(String aqelName , int aqelCount, String repName, String agentName, double sellingPrice, int deliveredQuantity, String actionDate, Map<String, Object> stationDetails , Map<String, Object> neighborhoodDetails) {
         this.aqelName = aqelName;
         this.aqelCount=aqelCount;
         this.repName = repName;
@@ -41,6 +45,15 @@ public class ActionCollection {
         this.actionDate = actionDate;
         this.stationDetails = stationDetails;
         this.neighborhoodDetails= neighborhoodDetails;
+    }
+
+    @Exclude
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public int getAqelCount() {

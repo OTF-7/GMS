@@ -13,15 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.GMS.GeneralClasses.ActionDetailsCitizen;
 import com.GMS.R;
 import com.GMS.databinding.DetailsItemBinding;
+import com.GMS.firebaseFireStore.CitizenActionDetails;
+import com.GMS.firebaseFireStore.CollectionName;
 
 import java.util.ArrayList;
 
 public class RecyclerViewAdapterDetailsHistory extends RecyclerView.Adapter<RecyclerViewAdapterDetailsHistory.DetailsViewHolder> {
 
-    ArrayList <ActionDetailsCitizen> items = new ArrayList<>();
+    ArrayList <CitizenActionDetails> items = new ArrayList<>();
     Context mContext;
 
-    public RecyclerViewAdapterDetailsHistory(ArrayList<ActionDetailsCitizen> items, Context mContext) {
+    public RecyclerViewAdapterDetailsHistory(ArrayList<CitizenActionDetails> items, Context mContext) {
         this.items = items;
         this.mContext = mContext;
     }
@@ -35,11 +37,15 @@ public class RecyclerViewAdapterDetailsHistory extends RecyclerView.Adapter<Recy
     @Override
     public void onBindViewHolder(@NonNull DetailsViewHolder holder, int position) {
 
-        ActionDetailsCitizen item = items.get(position);
-        holder.mDetailsItemBinding.tvCitizenName.setText(item.getCitizenName());
-        holder.mDetailsItemBinding.tvQty.setText(String.valueOf(item.getQty()));
-        holder.mDetailsItemBinding.tvAqelName.setText(item.getAqelName());
-        holder.mDetailsItemBinding.tvRepName.setText(item.getRepName());
+        CitizenActionDetails item = items.get(position);
+        holder.mDetailsItemBinding.tvCitizenName.setText(
+
+                item.getName().substring(0 , item.getName().lastIndexOf(" " ,item.getName().length()-1)));
+        holder.mDetailsItemBinding.tvQty.setText(String.valueOf(item.getDeliveredQuantity()));
+        holder.mDetailsItemBinding.tvTotal.setText(String.valueOf(item.getTotal()));
+        holder.mDetailsItemBinding.tvReceived.setText((Boolean) item.getDeliveredState().get(CollectionName.Fields.received.name())?"Received":"not Received");
+        holder.mDetailsItemBinding.tvReceived.setText((Boolean) item.getDeliveredState().get(CollectionName.Fields.delivered.name())?"Delivered":"not Delivered");
+
         holder.mDetailsItemBinding.ibShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

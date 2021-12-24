@@ -18,6 +18,8 @@ import com.GMS.GeneralClasses.HistoryItem;
 import com.GMS.GeneralClasses.SingleItemClickListener;
 import com.GMS.R;
 import com.GMS.databinding.HistoryItemBinding;
+import com.GMS.firebaseFireStore.ActionCollection;
+import com.GMS.firebaseFireStore.CollectionName;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,11 +29,11 @@ import java.util.Collection;
 public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerViewAdapterHistory.HistoryViewHolder> implements Filterable {
 
     Context mContect;
-    ArrayList<HistoryItem> items ;
-    ArrayList<HistoryItem> fullLists;
+    ArrayList<ActionCollection> items ;
+    ArrayList<ActionCollection> fullLists;
 
     SingleItemClickListener mSingleItemClickListener;
-    public RecyclerViewAdapterHistory(Context mContext, ArrayList<HistoryItem> items , SingleItemClickListener singleItemClickListener) {
+    public RecyclerViewAdapterHistory(Context mContext, ArrayList<ActionCollection> items , SingleItemClickListener singleItemClickListener) {
         this.mContect = mContext;
         this.items = items;
        this.mSingleItemClickListener = singleItemClickListener;
@@ -47,13 +49,14 @@ public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull HistoryViewHolder holder, int position) {
-        HistoryItem item = items.get(position);
-        holder.mHistoryItemBindingBing.historyLocation.setText(item.getLocation());
-        holder.mHistoryItemBindingBing.historyDate.setText(item.getDate());
-        holder.mHistoryItemBindingBing.historyRepName.setText(item.getPartnerName());
-        holder.mHistoryItemBindingBing.historyPrice.setText(String.valueOf(item.getPrice()));
-        holder.mHistoryItemBindingBing.historyStation.setText(item.getStation());
-        holder.mHistoryItemBindingBing.historyStationQty.setText(String.valueOf(item.getQty()));
+        ActionCollection item = items.get(position);
+
+        holder.mHistoryItemBindingBing.historyLocation.setText(item.getNeighborhoodDetails().get(CollectionName.Fields.name.name()).toString());
+        holder.mHistoryItemBindingBing.historyDate.setText(item.getActionDate());
+        holder.mHistoryItemBindingBing.historyRepName.setText(item.getRepName());
+        holder.mHistoryItemBindingBing.historyStation.setText(item.getStationDetails().get(CollectionName.Fields.stationName.name()).toString());
+        holder.mHistoryItemBindingBing.historyPrice.setText(String.valueOf(item.getSellingPrice()));
+       holder.mHistoryItemBindingBing.historyStationQty.setText(String.valueOf(item.getNeighborhoodDetails().get(CollectionName.Fields.numberOfDelivered.name())));
         holder.mHistoryItemBindingBing.ibShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +87,7 @@ public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerVie
         holder.mHistoryItemBindingBing.tvDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSingleItemClickListener.onClick("hello" , "hi");
+                mSingleItemClickListener.onClick(position);
                 Toast.makeText(mContect.getApplicationContext() ,"hello" , Toast.LENGTH_SHORT).show();
                   }
         });
@@ -105,14 +108,14 @@ public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerVie
         protected FilterResults performFiltering(CharSequence constraint) {
             String searchText = constraint.toString().toLowerCase();
 
-            ArrayList<HistoryItem> tempLst = new ArrayList<>();
+            ArrayList<ActionCollection> tempLst = new ArrayList<>();
 
             if (searchText.isEmpty()) {
                 tempLst.addAll(fullLists);
             } else {
-                for (HistoryItem item : fullLists) {
+                for (ActionCollection item : fullLists) {
 
-                   if (item.getDate().toLowerCase().replace("/" , "").contains(searchText)) {
+                   if (item.getActionDate().toLowerCase().replace("-" , "").contains(searchText)) {
 
                         tempLst.add(item);
                     }
@@ -127,7 +130,7 @@ public class RecyclerViewAdapterHistory extends RecyclerView.Adapter<RecyclerVie
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
             items.clear();
-            items.addAll((Collection<? extends HistoryItem>) results.values);
+            items.addAll((Collection<? extends ActionCollection>) results.values);
             notifyDataSetChanged();
         }
     };

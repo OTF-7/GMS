@@ -1,6 +1,7 @@
 package com.GMS.GeneralClasses;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,6 +10,10 @@ import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
 import android.widget.Toast;
+
+import com.GMS.firebaseFireStore.ActionCollection;
+import com.GMS.firebaseFireStore.CitizenActionDetails;
+import com.GMS.firebaseFireStore.CollectionName;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,7 +34,7 @@ public class Report {
     private static Canvas canvas;
     private final static int TOP_START_TEXT_DRAW = 500;
     private final static int POINT_TABLE_TOP_START = 450;
-    private  final static int POINT_TABLE_BOTTOM_END = 530;
+    private final static int POINT_TABLE_BOTTOM_END = 530;
     private static int topStartTextDraw = TOP_START_TEXT_DRAW;
     private static int pointTableTopStart = POINT_TABLE_TOP_START;
     private static int pointTableBottomEnd = POINT_TABLE_BOTTOM_END;
@@ -46,10 +51,9 @@ public class Report {
     private static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 
 
-    public static class Pdf
-    {
-        public static class Actions{
-            public static void  createActions(ArrayList<HistoryItem> mHistoryItems, Context mContext) {
+    public static class Pdf {
+        public static class Actions {
+            public static void createActions(ArrayList<ActionCollection> mHistoryItems, Context mContext) {
                 Report.pdfDocument = new PdfDocument();
                 Report.myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create();
                 PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
@@ -59,8 +63,6 @@ public class Report {
                 titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 titlePaint.setTextSize(70);
                 canvas = myPage.getCanvas();
-
-
                 canvas.drawText("Gas Managements System", PAGE_WIDTH / 2, 150, titlePaint);
                 titlePaint.setTextSize(35f);
                 titlePaint.setTextAlign(Paint.Align.LEFT);
@@ -79,26 +81,30 @@ public class Report {
                     pointTableTopStart += 80;
                     pointTableBottomEnd += 80;
                     drawCell();
+                    long x = (long) mHistoryItems.get(i).getNeighborhoodDetails().get(CollectionName.Fields.numberOfDelivered.name());
+                    double y = mHistoryItems.get(i).getSellingPrice();
+                    fillCell(1, String.valueOf(mHistoryItems.get(i).getNeighborhoodDetails().get(CollectionName.Fields.numberOfDelivered.name()))
+                            , mHistoryItems.get(i).getNeighborhoodDetails().get(CollectionName.Fields.name.name()).toString()
+                            , mHistoryItems.get(i).getStationDetails().get(CollectionName.Fields.stationName.name()).toString()
+                            , String.valueOf(mHistoryItems.get(i).getSellingPrice())
+                            , String.valueOf(x * y));
 
-                    fillCell(1, String.valueOf(mHistoryItems.get(i).getQty())
-                            , mHistoryItems.get(i).getLocation()
-                            , mHistoryItems.get(i).getStation()
-                            , String.valueOf(mHistoryItems.get(i).getPrice())
-                            , String.valueOf(mHistoryItems.get(i).getPrice() * mHistoryItems.get(i).getQty()));
 
                 }
+ drawActionLine();
 
-
-                //draw the separator line between the title in the head of table
+                /*draw the separator line between the title in the head of table
                 canvas.drawLine(locationXLine, POINT_TABLE_TOP_START, locationXLine, pointTableBottomEnd, myPaint);
                 canvas.drawLine(stationXLine, POINT_TABLE_TOP_START, stationXLine, pointTableBottomEnd, myPaint);
                 canvas.drawLine(priceXLine, POINT_TABLE_TOP_START, priceXLine, pointTableBottomEnd, myPaint);
                 canvas.drawLine(totalXLine, POINT_TABLE_TOP_START, totalXLine, pointTableBottomEnd, myPaint);
 
-
+                 */
                 pdfDocument.finishPage(myPage);
                 mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-                File file = new File(Environment.getExternalStorageDirectory(), "/" + mSimpleDateFormat.format(date) + ".pdf");
+                // ContextWrapper contextWrapper = new ContextWrapper(mContext.getApplicationContext());
+                // File pathFile = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+                File file = new File(Environment.getExternalStorageDirectory(), mSimpleDateFormat.format(date) + ".pdf");
                 try {
                     pdfDocument.writeTo(new FileOutputStream(file));
                     pdfDocument.close();
@@ -157,8 +163,9 @@ public class Report {
                 pointTableBottomEnd = POINT_TABLE_BOTTOM_END;
             }
         }
-        public static class ActionDetails{
-            public static void  createDetails(ArrayList<ActionDetailsCitizen> items, Context mContext) {
+
+        public static class ActionDetails {
+            public static void createDetails(ArrayList<CitizenActionDetails> items, Context mContext) {
                 Report.pdfDocument = new PdfDocument();
                 Report.myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create();
                 PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
@@ -181,7 +188,7 @@ public class Report {
                 // draw the header of table
                 drawCell();
                 // draw the title of the head of table
-                fillCell(0, "status", "Citizen Name", "aqel name", "Qty", "Total");
+                fillDetailsCell(0, "qty", "Citizen Name", "status", "receiving date", "Total");
 
                 // fill the data in the each raw
                 for (int i = 0; i < items.size(); i++) {
@@ -189,21 +196,23 @@ public class Report {
                     pointTableBottomEnd += 80;
                     drawCell();
 
-                    fillCell(1,items.get(i).getStatus()
-                            , items.get(i).getCitizenName()
-                            , items.get(i).getAqelName()
-                            , String.valueOf(items.get(i).getQty())
-                            , "total");
+                    fillDetailsCell(1, String.valueOf(items.get(i).getDeliveredQuantity()), items.get(i).getName().substring(0, items.get(i).getName().lastIndexOf(" ", items.get(i).getName().length() - 1))
+                            , ((Boolean) items.get(i).getDeliveredState().get(CollectionName.Fields.delivered.name()) ? "done" : "not delivered")
+                            , String.valueOf(items.get(i).getReceivingDate())
+                            , String.valueOf(items.get(i).getTotal()));
 
                 }
 
+                  drawDetailsLine();
 
-                //draw the separator line between the title in the head of table
+                /*draw the separator line between the title in the head of table
                 canvas.drawLine(locationXLine, POINT_TABLE_TOP_START, locationXLine, pointTableBottomEnd, myPaint);
                 canvas.drawLine(stationXLine, POINT_TABLE_TOP_START, stationXLine, pointTableBottomEnd, myPaint);
                 canvas.drawLine(priceXLine, POINT_TABLE_TOP_START, priceXLine, pointTableBottomEnd, myPaint);
                 canvas.drawLine(totalXLine, POINT_TABLE_TOP_START, totalXLine, pointTableBottomEnd, myPaint);
 
+
+                 */
 
                 pdfDocument.finishPage(myPage);
                 mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
@@ -223,6 +232,7 @@ public class Report {
 
 
         }
+
         private static void drawCell() {
 
             myPaint.setStyle(Paint.Style.STROKE);
@@ -267,7 +277,45 @@ public class Report {
             pointTableTopStart = POINT_TABLE_TOP_START;
             pointTableBottomEnd = POINT_TABLE_BOTTOM_END;
         }
+
+        private static void fillDetailsCell(int typeCell, String Qty, String location, String station, String price, String Total) {
+
+            if (typeCell == 0) {
+                canvas.drawText(Qty, QtyTextStartXPoint, topStartTextDraw, titlePaint);
+                canvas.drawText(location, locationTextStartXPoint-80, topStartTextDraw, titlePaint);
+                canvas.drawText(station, stationTextStartXPoint+50, topStartTextDraw, titlePaint);
+                canvas.drawText(price, priceTextStartPoint-100, topStartTextDraw, titlePaint);
+                canvas.drawText(Total, totalTextStartXPoint, topStartTextDraw, titlePaint);
+            } else {
+                canvas.drawText(Qty, QtyTextStartXPoint, topStartTextDraw, myPaint);
+                canvas.drawText(location, locationTextStartXPoint-80, topStartTextDraw, myPaint);
+                canvas.drawText(station, stationTextStartXPoint+50, topStartTextDraw, myPaint);
+                canvas.drawText(price, priceTextStartPoint-100, topStartTextDraw, myPaint);
+                canvas.drawText(Total, totalTextStartXPoint, topStartTextDraw, myPaint);
+
+            }
+            topStartTextDraw += 80;
         }
+
+    }
+    private static  void drawActionLine()
+    {
+        canvas.drawLine(locationXLine, POINT_TABLE_TOP_START, locationXLine, pointTableBottomEnd, myPaint);
+        canvas.drawLine(stationXLine, POINT_TABLE_TOP_START, stationXLine, pointTableBottomEnd, myPaint);
+        canvas.drawLine(priceXLine, POINT_TABLE_TOP_START, priceXLine, pointTableBottomEnd, myPaint);
+        canvas.drawLine(totalXLine, POINT_TABLE_TOP_START, totalXLine, pointTableBottomEnd, myPaint);
+
+
+    }
+    private static  void drawDetailsLine()
+    {
+        canvas.drawLine(locationXLine-80, POINT_TABLE_TOP_START, locationXLine-80, pointTableBottomEnd, myPaint);
+        canvas.drawLine(stationXLine+50, POINT_TABLE_TOP_START, stationXLine+50, pointTableBottomEnd, myPaint);
+        canvas.drawLine(priceXLine-100, POINT_TABLE_TOP_START, priceXLine-100, pointTableBottomEnd, myPaint);
+        canvas.drawLine(totalXLine, POINT_TABLE_TOP_START, totalXLine, pointTableBottomEnd, myPaint);
+
+
+    }
 
 
 }
