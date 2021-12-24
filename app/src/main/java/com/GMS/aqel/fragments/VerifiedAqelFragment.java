@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,15 +31,20 @@ import com.GMS.firebaseFireStore.CitizenActionDetails;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VerifiedAqelFragment extends Fragment {
 
@@ -70,10 +76,35 @@ public class VerifiedAqelFragment extends Fragment {
         mItemClickListener = new CitizenItemClickListener() {
             @Override
             public void onClick(int position) {
+                cancelTheVerification(position);
+                Toast.makeText(getContext(), ""+position, Toast.LENGTH_SHORT).show();
                 }
         };
 
         return mBinding.getRoot();
+
+    }
+    private void cancelTheVerification(int position)
+    {
+        int count = detailsItems.get(position).getDeliveredQuantity();
+        Map<String , Object> deliveredState= new HashMap<>();
+        deliveredState = detailsItems.get(position).getDeliveredState();
+        if(!((Boolean) deliveredState.get(CollectionName.Fields.delivered.name()))&& !((Boolean) deliveredState.get(CollectionName.Fields.received.name()))) {
+            deliveredState.put(CollectionName.Fields.aqelVerified.name(), false);
+            mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name()).document(detailsItems.get(position).getDocumentId())
+                    .update(CollectionName.Fields.deliveredState.name(), deliveredState)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(@NonNull Void unused) {
+                    executeTransaction(count);
+                }
+            });
+
+        }
+        else
+        {
+            Toast.makeText(mBinding.getRoot().getContext(), "impossible to canceled", Toast.LENGTH_SHORT).show();
+        }
 
     }
     private void initRV()
@@ -177,12 +208,28 @@ public class VerifiedAqelFragment extends Fragment {
                                 CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
                                 actionDetails.setDocumentId(q.getId());
                                 detailsItems.add(actionDetails);
-                                Toast.makeText(getContext().getApplicationContext(), q.getId(), Toast.LENGTH_SHORT).show();
+                           }
 
-                            }
-                            initRV();
                         }
+                        initRV();
                     }
+
                 });
+    }
+
+    private void executeTransaction(int count)
+
+    {
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentReference docRef=mCollectionRefAction.document(idAction) ;
+                DocumentSnapshot documentSnapshot =transaction.get(docRef);
+                long qty =  documentSnapshot.getLong(CollectionName.Fields.aqelCount.name().toString())-count;
+                transaction.update(docRef ,CollectionName.Fields.aqelCount.name().toString() , qty);
+                return null;
+            }
+        });
     }
 }
