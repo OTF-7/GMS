@@ -22,6 +22,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.GMS.GeneralAdapters.RecyclerViewAdapterDetailsHistory;
 import com.GMS.GeneralClasses.NetworkCollection;
@@ -62,6 +63,14 @@ public class ActionDetailsActivity extends AppCompatActivity {
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_theme_light_primary));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         intentAction = getIntent();
+        mBinding.activityActionDetailsSwipeRefreshRv.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkConnectOfWifiOrData(REFRESH_SWIPE);
+                mBinding.activityActionDetailsSwipeRefreshRv.setRefreshing(false);
+                mBinding.activityActionsDetailsNoItemTv.setVisibility(View.GONE);
+            }
+        });
         checkConnectOfWifiOrData(REFRESH_START);
     }
 

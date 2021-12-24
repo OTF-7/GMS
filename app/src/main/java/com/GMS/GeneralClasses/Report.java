@@ -2,15 +2,21 @@ package com.GMS.GeneralClasses;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.GMS.R;
 import com.GMS.firebaseFireStore.ActionCollection;
 import com.GMS.firebaseFireStore.CitizenActionDetails;
 import com.GMS.firebaseFireStore.CollectionName;
@@ -49,11 +55,12 @@ public class Report {
     private static final int priceTextStartPoint = 800;
     private static final int totalTextStartXPoint = 980;
     private static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-
+private  static  Context context;
 
     public static class Pdf {
         public static class Actions {
             public static void createActions(ArrayList<ActionCollection> mHistoryItems, Context mContext) {
+   context = mContext;
                 Report.pdfDocument = new PdfDocument();
                 Report.myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create();
                 PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
@@ -62,16 +69,17 @@ public class Report {
                 titlePaint.setTextAlign(Paint.Align.CENTER);
                 titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 titlePaint.setTextSize(70);
-                canvas = myPage.getCanvas();
-                canvas.drawText("Gas Managements System", PAGE_WIDTH / 2, 150, titlePaint);
+                canvas = myPage.getCanvas();//150
+                canvas.drawText("GMS", PAGE_WIDTH / 2, 300, titlePaint);
                 titlePaint.setTextSize(35f);
                 titlePaint.setTextAlign(Paint.Align.LEFT);
                 titlePaint.setStyle(Paint.Style.FILL);
                 titlePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-                canvas.drawText("نوع المستند : تقرير عن الحركات", 750, 250, titlePaint);
+                canvas.drawText("نوع المستند : تقرير عن الحركات", 750, 350, titlePaint);
                 mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-s");
                 canvas.drawText(mSimpleDateFormat.format(date), 50, 1950, titlePaint);
                 // draw the header of table
+                addLogo();
                 drawCell();
                 // draw the title of the head of table
                 fillCell(0, "Qty", "Location", "Station", "Price", "Total");
@@ -118,6 +126,12 @@ public class Report {
                 }
             }
 
+            private static  void addLogo()
+            {
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getApplicationContext().getResources() , R.drawable.gas_cylinder_rgb);
+                 Bitmap b = Bitmap.createScaledBitmap(bitmap , 160 , 160 , false);
+                  canvas.drawBitmap(b, (canvas.getWidth()/2)-80, 60 , null);
+            }
             private static void drawCell() {
 
                 myPaint.setStyle(Paint.Style.STROKE);
@@ -177,15 +191,16 @@ public class Report {
                 canvas = myPage.getCanvas();
 
 
-                canvas.drawText("Gas Managements System", PAGE_WIDTH / 2, 150, titlePaint);
+                canvas.drawText("GMS", PAGE_WIDTH / 2, 300, titlePaint);
                 titlePaint.setTextSize(35f);
                 titlePaint.setTextAlign(Paint.Align.LEFT);
                 titlePaint.setStyle(Paint.Style.FILL);
                 titlePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-                canvas.drawText("نوع المستند : تقرير عن الحركات", 750, 250, titlePaint);
+                canvas.drawText("نوع المستند : تقرير عن الحركات", 750, 350, titlePaint);
                 mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-s");
                 canvas.drawText(mSimpleDateFormat.format(date), 50, 1950, titlePaint);
                 // draw the header of table
+                addLogo();
                 drawCell();
                 // draw the title of the head of table
                 fillDetailsCell(0, "qty", "Citizen Name", "status", "receiving date", "Total");
@@ -233,6 +248,13 @@ public class Report {
 
         }
 
+
+        private static  void addLogo()
+        {
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getApplicationContext().getResources() , R.drawable.gas_cylinder_rgb);
+            Bitmap b = Bitmap.createScaledBitmap(bitmap , 160 , 160 , false);
+            canvas.drawBitmap(b, (canvas.getWidth()/2)-80, 60 , null);
+        }
         private static void drawCell() {
 
             myPaint.setStyle(Paint.Style.STROKE);

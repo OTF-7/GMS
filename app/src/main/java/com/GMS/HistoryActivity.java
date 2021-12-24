@@ -17,6 +17,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.GMS.GeneralAdapters.RecyclerViewAdapterHistory;
 import com.GMS.GeneralClasses.NetworkCollection;
@@ -68,6 +69,15 @@ public class HistoryActivity extends AppCompatActivity {
                 startActivity(ADAIntent);
             }
         };
+        mBinding.activityHistorySwipeRefreshRv.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkConnectOfWifiOrData(REFRESH_SWIPE);
+                mBinding.activityHistorySwipeRefreshRv.setRefreshing(false);
+                mBinding.activityHistoryNoItemTv.setVisibility(View.GONE);
+            }
+        });
+
         checkConnectOfWifiOrData(REFRESH_START);
 
     }
@@ -191,6 +201,8 @@ public class HistoryActivity extends AppCompatActivity {
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                adapter=null;
+                mHistoryItems.clear();
                 if (!queryDocumentSnapshots.isEmpty()) {
                     mBinding.activityHistoryNoItemTv.setVisibility(View.GONE);
                     for (QueryDocumentSnapshot q : queryDocumentSnapshots) {

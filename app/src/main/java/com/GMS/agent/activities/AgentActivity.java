@@ -142,7 +142,7 @@ public class AgentActivity extends AppCompatActivity {
                 mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
             }
         });
-
+        checkConnectOfWifiOrData(REFRESH_START);
 
     }
 
@@ -160,7 +160,7 @@ public class AgentActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        checkConnectOfWifiOrData(REFRESH_START);
+
 
     }
 
@@ -351,7 +351,8 @@ public class AgentActivity extends AppCompatActivity {
                             detailsItems.clear();
                             mBinding.activityAgentNoItemTv.setVisibility(View.GONE);
                             for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                                if(q.getBoolean(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified)&&!q.getBoolean(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.delivered)) {
+                                if(q.getBoolean(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.repVerified)
+                                        &&!q.getBoolean(CollectionName.Fields.deliveredState.name() + "." + CollectionName.Fields.delivered)) {
                                     CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
                                     actionDetails.setDocumentId(q.getId());
                                     detailsItems.add(actionDetails);
