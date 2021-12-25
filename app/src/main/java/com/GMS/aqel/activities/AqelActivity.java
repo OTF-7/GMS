@@ -1,8 +1,13 @@
 package com.GMS.aqel.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +22,7 @@ import com.GMS.databinding.ActivityAqelBinding;
 import com.GMS.firebaseFireStore.ActionCollection;
 import com.GMS.firebaseFireStore.CollectionName;
 import com.GMS.firebaseFireStore.NeighborhoodCollection;
+import com.GMS.representative.activities.AdditionRequestsActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,6 +38,7 @@ public class  AqelActivity extends AppCompatActivity {
 
     ActivityAqelBinding mBinding;
     ViewPager2AqelAdapter adapter;
+
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference action = db.collection(CollectionName.ACTIONS.name().toString());
     private final CollectionReference mCollectionRef = db.collection(CollectionName.NEIGHBORHOODS.name());
@@ -80,35 +87,12 @@ public class  AqelActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mBinding.tabLayoutAqel.selectTab(mBinding.tabLayoutAqel.getTabAt(position));
-             /*
-                if (position == 1) {
-                    mBinding.fabScan.setVisibility(View.GONE);
-                } else {
-                    mBinding.fabScan.setVisibility(View.VISIBLE);
-                }
 
-              */
 
             }
 
         });
-        /*
-        mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mBinding.tabLayoutAqel.getSelectedTabPosition()==0) {
 
-                    Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
-                    intent.putExtra(Constant.ACTIVITY.toString() , Constant.AQELNEEDSCANFRAGNENT.toString());
-                    startActivity(intent);
-
-
-                }
-            }
-        });
-
-
-         */
 
     }
 

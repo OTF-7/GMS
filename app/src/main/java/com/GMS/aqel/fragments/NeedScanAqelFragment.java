@@ -2,9 +2,9 @@ package com.GMS.aqel.fragments;
 
 import static android.content.ContentValues.TAG;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,24 +66,29 @@ import java.util.Map;
 public class NeedScanAqelFragment extends Fragment {
 
     public static final int FRAGMENT_ID = 1;
+    MenuItem mMenuItemNotification;
+    TextView tvNotificationCounter;
+    ImageView ivNotificationIcon;
+    public static int pendingNotification = 0;
+    private final String AQEL_NOTIFICATION = "AQEL_NOTIFICATION";
     FragmentNeedScanAqelBinding mBinding;
     RecyclerViewAqelAdapter adapter;
-    String resultId =null;
+    String resultId = null;
     ArrayList<CitizenItemOfAqel> items = new ArrayList<>();
-    private final static String SEARCH_ALL="SEARCH_ALL";
-    private final static String CHECK_ITEM ="CHECK_ITEM";
+    private final static String SEARCH_ALL = "SEARCH_ALL";
+    private final static String CHECK_ITEM = "CHECK_ITEM";
     ArrayList<CitizenActionDetails> detailsItems = new ArrayList<>();
     CitizenItemClickListener mItemClickListener;
-    private final static int AQEL_NEED_SCAN_FRAGMENT=101;
-    private  final static String RESULT="RESULT";
+    private final static int AQEL_NEED_SCAN_FRAGMENT = 101;
+    private final static String RESULT = "RESULT";
     private Dialog mDialog;
-    private final static String TYPE_OF_CHECK="TYPE_OF_CHECK";
-    private final static String POSITION ="POSITION";
+    private final static String TYPE_OF_CHECK = "TYPE_OF_CHECK";
+    private final static String POSITION = "POSITION";
     private TextInputEditText textInputEditTextQTY;
-    private TextView tvTotal , tvRequiredQty;
+    private TextView tvTotal, tvRequiredQty;
     String idAction;
 
-    long sellingPrice ;
+    long sellingPrice;
     private static int Qty;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference mCollectionRef = db.collection(CollectionName.CITIZENS.name());
@@ -102,27 +108,26 @@ public class NeedScanAqelFragment extends Fragment {
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if(result.getResultCode()==AQEL_NEED_SCAN_FRAGMENT)
-                    {
+                    if (result.getResultCode() == AQEL_NEED_SCAN_FRAGMENT) {
                         Intent intent = result.getData();
-                        if(intent != null)
-                        {
-                            resultId=intent.getStringExtra(RESULT);
-                            String checking = intent.getStringExtra(TYPE_OF_CHECK).toString();
-                            int position = intent.getIntExtra(POSITION , -1);
-                            openQrScanner(checking ,position );
-                            }
+                        if (intent != null) {
+                            resultId = intent.getStringExtra(RESULT);
+                            String checking = intent.getStringExtra(TYPE_OF_CHECK);
+                            int position = intent.getIntExtra(POSITION, -1);
+                            openQrScanner(checking, position);
+                        }
                     }
                 }
             }
     );
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentNeedScanAqelBinding.inflate(inflater, container, false);
         createDialog();
-      // addActionDetails();
+        // addActionDetails();
         getAction();
 
         mBinding.fabScan.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +135,8 @@ public class NeedScanAqelFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
-                intent.putExtra(Constant.ACTIVITY.toString() , Constant.AQELNEEDSCANFRAGNENT.toString());
-                intent.putExtra(TYPE_OF_CHECK , SEARCH_ALL);
+                intent.putExtra(Constant.ACTIVITY.toString(), Constant.AQELNEEDSCANFRAGNENT.toString());
+                intent.putExtra(TYPE_OF_CHECK, SEARCH_ALL);
                 activityResultLauncher.launch(intent);
 
 
@@ -143,66 +148,55 @@ public class NeedScanAqelFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(mBinding.getRoot().getContext(), QRScannerActivity.class);
-                intent.putExtra(Constant.ACTIVITY.toString() , Constant.AQELNEEDSCANFRAGNENT.toString());
-                intent.putExtra(TYPE_OF_CHECK , CHECK_ITEM);
-                intent.putExtra(POSITION , position);
+                intent.putExtra(Constant.ACTIVITY.toString(), Constant.AQELNEEDSCANFRAGNENT.toString());
+                intent.putExtra(TYPE_OF_CHECK, CHECK_ITEM);
+                intent.putExtra(POSITION, position);
                 activityResultLauncher.launch(intent);
 
 
-                  }
+            }
         };
 
         return mBinding.getRoot();
     }
-    public  void openQrScanner( String checking , int position)
-    {
 
-        if( checking.equals(CHECK_ITEM) && position>-1)
-        {
-            if(resultId.equals(detailsItems.get(position).getIdInParent().toString())) {
+    public void openQrScanner(String checking, int position) {
+
+        if (checking.equals(CHECK_ITEM) && position > -1) {
+            if (resultId.equals(detailsItems.get(position).getIdInParent())) {
                 tvRequiredQty.setText(String.valueOf(detailsItems.get(position).getQuantityRequired()));
-               showDialog(position);
-            }
-            else
-            {
-                Toast.makeText(getActivity().getApplicationContext() , "there is error try again to read QR code", Toast.LENGTH_SHORT).show();
+                showDialog(position);
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "there is error try again to read QR code", Toast.LENGTH_SHORT).show();
             }
 
 
+        } else {
+            checkingItm();
         }
-        else
-        {
-              checkingItm();
-        }
-
-
 
 
     }
-    private void checkingItm()
-    {
+
+    private void checkingItm() {
         boolean isAvailable = false;
-        int position=-1;
-        for(int i =0 ; i<detailsItems.size() ; i++)
-        {
-            if(resultId.equals(detailsItems.get(i).getIdInParent()))
-            {
+        int position = -1;
+        for (int i = 0; i < detailsItems.size(); i++) {
+            if (resultId.equals(detailsItems.get(i).getIdInParent())) {
                 tvRequiredQty.setText(String.valueOf(detailsItems.get(i).getQuantityRequired()));
-              position = i ;
-                isAvailable=true;
+                position = i;
+                isAvailable = true;
                 break;
             }
         }
-        if (isAvailable)
-        {
+        if (isAvailable) {
             showDialog(position);
-        }
-        else
-        {
-            Toast.makeText(getActivity().getApplicationContext() , "there is error try again to read QR code", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "there is error try again to read QR code", Toast.LENGTH_SHORT).show();
 
         }
     }
+
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -214,19 +208,19 @@ public class NeedScanAqelFragment extends Fragment {
         inflater.inflate(R.menu.menu_aqel_top_bar, menu);
         MenuItem searchItem = menu.findItem(R.id.aqel_search_ic);
         SearchView searchView = (SearchView) searchItem.getActionView();
-
+        mMenuItemNotification = menu.findItem(R.id.menu_aqel_notification);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(adapter!=null)
-                adapter.getFilter().filter(query);
+                if (adapter != null)
+                    adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(adapter!=null)
-                adapter.getFilter().filter(newText);
+                if (adapter != null)
+                    adapter.getFilter().filter(newText);
                 return false;
             }
 
@@ -245,9 +239,7 @@ public class NeedScanAqelFragment extends Fragment {
                 Intent mSettingIntent = new Intent(this.getActivity(), SettingActivity.class);
                 startActivity(mSettingIntent);
                 break;
-            case R.id.notification:
-                Intent mNotifications = new Intent(this.getActivity(), AqelNotificationsActivity.class);
-                startActivity(mNotifications);
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -288,35 +280,32 @@ public class NeedScanAqelFragment extends Fragment {
     private void acceptData(int position) {
         if (textInputEditTextQTY.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "no Quantity", Toast.LENGTH_SHORT).show();
-        }
-        else if (Integer.valueOf(textInputEditTextQTY.getText().toString().trim().toString())>detailsItems.get(position).getQuantityRequired()) {
-        Toast.makeText(getActivity() , "qty is so much" , Toast.LENGTH_SHORT).show();
-        }
-            else
-        {
-            Qty =Integer.valueOf(textInputEditTextQTY.getText().toString().trim().toString());
+        } else if (Integer.valueOf(textInputEditTextQTY.getText().toString().trim()) > detailsItems.get(position).getQuantityRequired()) {
+            Toast.makeText(getActivity(), "qty is so much", Toast.LENGTH_SHORT).show();
+        } else {
+            Qty = Integer.valueOf(textInputEditTextQTY.getText().toString().trim());
             CitizenActionDetails citizenActionDetails = detailsItems.get(position);
             citizenActionDetails.setDeliveredQuantity((int) Qty);
-            citizenActionDetails.setTotal((int)(sellingPrice*Qty));
-            Map<String ,Object> updateState = citizenActionDetails.getDeliveredState();
+            citizenActionDetails.setTotal((int) (sellingPrice * Qty));
+            Map<String, Object> updateState = citizenActionDetails.getDeliveredState();
             updateState.put(CollectionName.Fields.aqelVerified.name(), true);
             citizenActionDetails.setDeliveredState(updateState);
             Qty = Integer.valueOf(textInputEditTextQTY.getText().toString());
             mHandler.removeCallbacks(mRunnable);
             mDialog.dismiss();
             mCollectionRefAction.document(idAction).collection(CollectionName.ACTION_DETAILS.name())
-                    .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails , SetOptions.merge())
+                    .document(detailsItems.get(position).getDocumentId()).set(citizenActionDetails, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(getActivity(), "Verified", Toast.LENGTH_SHORT).show();
 
-                           executeTransaction();
+                            executeTransaction();
 
                         }
 
                     });
-           // Toast.makeText(getActivity(), String.valueOf(Qty*sellingPrice), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(), String.valueOf(Qty*sellingPrice), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -345,10 +334,13 @@ public class NeedScanAqelFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 
     private void getAction() {
 
@@ -358,8 +350,10 @@ public class NeedScanAqelFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (!queryDocumentSnapshots.isEmpty()) {
-                        idAction =queryDocumentSnapshots.getDocuments().get(0).getId().toString();
-                        sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name().toString());
+                    pendingNotification = 1;
+
+                    idAction = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    sellingPrice = queryDocumentSnapshots.getDocuments().get(0).getLong(CollectionName.Fields.sellingPrice.name());
                     getActionDetails();
 
                 } else {
@@ -367,8 +361,10 @@ public class NeedScanAqelFragment extends Fragment {
                     Toast.makeText(getContext().getApplicationContext(), "no Action today", Toast.LENGTH_SHORT).show();
 
                 }
+                checkNotification();
             }
         });
+
     }
 
     private void getActionDetails() {
@@ -381,20 +377,20 @@ public class NeedScanAqelFragment extends Fragment {
                             Log.e(TAG, e.toString());
                         }
                         if (queryDocumentSnapshots.isEmpty()) {
-                            adapter = null ;
+                            adapter = null;
                             detailsItems.clear();
                             initRV();
                             mBinding.progressWhileLoading.setVisibility(View.GONE);
                             Toast.makeText(getContext().getApplicationContext(), "no Items", Toast.LENGTH_SHORT).show();
                         } else {
-                            adapter = null ;
+                            adapter = null;
                             detailsItems.clear();
                             for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
 
                                 CitizenActionDetails actionDetails = q.toObject(CitizenActionDetails.class);
                                 actionDetails.setDocumentId(q.getId());
                                 detailsItems.add(actionDetails);
-                                 }
+                            }
                             initRV();
                         }
                     }
@@ -438,16 +434,16 @@ public class NeedScanAqelFragment extends Fragment {
 
                                                         for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
                                                             detailsItems.add(new CitizenActionDetails(q.getId(),
-                                                                    q.getString(CollectionName.Fields.serialNumber.name()) ,
-                                                                    q.getString(CollectionName.Fields.firstName.name()) ,
-                                                                    q.getString(CollectionName.Fields.secondName.name()) ,
+                                                                    q.getString(CollectionName.Fields.serialNumber.name()),
+                                                                    q.getString(CollectionName.Fields.firstName.name()),
+                                                                    q.getString(CollectionName.Fields.secondName.name()),
                                                                     q.getString(CollectionName.Fields.lastName.name())
                                                                     , 0, 0.0, String.valueOf(new java.sql.Date(System.currentTimeMillis())),
                                                                     ""
                                                                     , deliveredState, q.getLong(CollectionName.Fields.numberOfCylinders.name())));
                                                         }
                                                         for (CitizenActionDetails c : detailsItems) {
-                                                            mCollectionRefAction.document(actionId).collection(CollectionName.ACTION_DETAILS.name().toString()).add(c)
+                                                            mCollectionRefAction.document(actionId).collection(CollectionName.ACTION_DETAILS.name()).add(c)
                                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                         @Override
                                                                         public void onSuccess(DocumentReference documentReference) {
@@ -470,19 +466,49 @@ public class NeedScanAqelFragment extends Fragment {
     }
 
 
-    private void executeTransaction()
-
-    {
+    private void executeTransaction() {
         db.runTransaction(new Transaction.Function<Void>() {
             @Nullable
             @Override
             public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                DocumentReference docRef=mCollectionRefAction.document(idAction) ;
-                DocumentSnapshot documentSnapshot =transaction.get(docRef);
-                long qty =  documentSnapshot.getLong(CollectionName.Fields.aqelCount.name().toString())+Qty;
-                transaction.update(docRef ,CollectionName.Fields.aqelCount.name().toString() , qty);
+                DocumentReference docRef = mCollectionRefAction.document(idAction);
+                DocumentSnapshot documentSnapshot = transaction.get(docRef);
+                long qty = documentSnapshot.getLong(CollectionName.Fields.aqelCount.name()) + Qty;
+                transaction.update(docRef, CollectionName.Fields.aqelCount.name(), qty);
                 return null;
             }
         });
+    }
+
+    private void checkNotification() {
+
+
+        try {
+
+            if (pendingNotification <= 0) {
+                mMenuItemNotification.setActionView(null);
+            } else {
+                mMenuItemNotification.setActionView(R.layout.notification_layout);
+                View view = mMenuItemNotification.getActionView();
+                tvNotificationCounter = view.findViewById(R.id.notification_counter);
+                ivNotificationIcon = view.findViewById(R.id.iv_notification_icon);
+                ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openAdditionRequestActivity();
+                    }
+                });
+                Drawable mDrawable = getActivity().getDrawable(R.drawable.notification_counter_shape);
+                view.findViewById(R.id.card_view).setBackground(mDrawable);
+                tvNotificationCounter.setText(String.valueOf(pendingNotification));
+            }
+        } catch (Exception ex) {
+            Log.e(AQEL_NOTIFICATION, ex.getMessage());
+        }
+    }
+
+    private void openAdditionRequestActivity() {
+        Intent intent = new Intent(mBinding.getRoot().getContext(), AqelNotificationsActivity.class);
+        startActivity(intent);
     }
 }

@@ -10,7 +10,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/notification"
+        android:id="@+id/menu_aqel_notification"
         android:icon="@drawable/ic_notification_addition"
         android:title="notification addition"
         app:showAsAction="ifRoom" />
