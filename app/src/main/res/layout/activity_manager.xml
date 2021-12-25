@@ -87,6 +87,7 @@
                 android:src="@drawable/ic_add"
                 app:borderWidth="0dp"
                 app:fabSize="normal"
+                android:contentDescription="@string/add"
                 app:layout_anchor="@id/manager_bottomAppBar" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

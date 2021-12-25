@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        tools:context=".manager.fragments.EmployeeDetailsFragment">
+
+        <Button
+            android:id="@+id/employee_details_fire_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/English_vermillion"
+            android:text="fire"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_chat_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_chat_button"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_chat_button" />
+
+        <Button
+            android:id="@+id/employee_details_chat_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/blue"
+            android:text="chat"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_fire_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_call_button"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_edit_button" />
+
+        <Button
+            android:id="@+id/employee_details_call_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:text="call"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_chat_button"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_chat_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_chat_button" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/employee_details_image"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="32dp"
+            android:elevation="8dp"
+            android:src="@drawable/sign_in_image"
+            app:civ_border_color="?attr/colorSurface"
+            app:civ_border_width="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/employee_details_full_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Full Name:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_full_name"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_change_image_button" />
+
+        <TextView
+            android:id="@+id/employee_details_full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Omar Taha Alfaqeer"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_full_name_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_full_name_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_full_name_text" />
+
+        <EditText
+            android:id="@+id/employee_details_full_name_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your full name"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_full_name_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_full_name_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_full_name_text" />
+
+        <TextView
+            android:id="@+id/employee_details_user_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="User Name:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_user_name"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_full_name_text" />
+
+        <TextView
+            android:id="@+id/employee_details_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="omar_taha"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_user_name_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_user_name_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_user_name_text" />
+
+        <EditText
+            android:id="@+id/employee_details_user_name_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your user name"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_user_name_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_user_name_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_user_name_text" />
+
+        <TextView
+            android:id="@+id/employee_details_email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Email:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_email"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_user_name_text" />
+
+        <TextView
+            android:id="@+id/employee_details_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="a.777118407@gmail.com"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_email_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_email_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_email_text" />
+
+
+        <EditText
+            android:id="@+id/employee_details_email_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your email"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_email_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_email_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_email_text" />
+
+        <TextView
+            android:id="@+id/employee_details_type_of_jop_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Type:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_type_of_jop"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_email_text" />
+
+        <TextView
+            android:id="@+id/employee_details_type_of_jop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Representative"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_type_of_jop_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_type_of_jop_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_type_of_jop_text" />
+
+        <EditText
+            android:id="@+id/employee_details_type_of_jop_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your jop type"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_type_of_jop_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_type_of_jop_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_type_of_jop_text" />
+
+        <TextView
+            android:id="@+id/employee_details_age_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Age:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_age"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_type_of_jop_text" />
+
+        <TextView
+            android:id="@+id/employee_details_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="22"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_age_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_age_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_age_text" />
+
+
+        <EditText
+            android:id="@+id/employee_details_age_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your age"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_age_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_age_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_age_text" />
+
+        <TextView
+            android:id="@+id/employee_details_phone_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Phone:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_phone"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_age_text" />
+
+        <TextView
+            android:id="@+id/employee_details_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="777118407"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_phone_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_phone_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_phone_text" />
+
+
+        <EditText
+            android:id="@+id/employee_details_phone_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your phone"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_phone_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_phone_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_phone_text" />
+
+        <TextView
+            android:id="@+id/employee_details_neighborhood_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Neighborhood:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_neighborhood"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_phone_text" />
+
+        <TextView
+            android:id="@+id/employee_details_neighborhood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Almadena"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_neighborhood_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_neighborhood_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_neighborhood_text" />
+
+        <EditText
+            android:id="@+id/employee_details_neighborhood_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your neighborhood"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_neighborhood_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_neighborhood_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_neighborhood_text" />
+
+        <TextView
+            android:id="@+id/employee_details_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Hiring Date:"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_date"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_neighborhood_text" />
+
+
+        <TextView
+            android:id="@+id/employee_details_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="2021/01/22"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_date_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_date_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_date_text" />
+
+        <EditText
+            android:id="@+id/employee_details_date_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/fields_shape"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Enter your hiring date"
+            android:minHeight="48dp"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_date_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/employee_details_date_text"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_date_text" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/employee_details_edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/edit"
+            android:soundEffectsEnabled="true"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_date_edit_text" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/employee_details_cancel_button"
+            style="@style/Theme.MyFloatingActionButtonError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="?attr/colorError"
+            android:contentDescription="@string/edit"
+            android:soundEffectsEnabled="true"
+            android:src="@drawable/ic_close"
+            android:tint="?attr/colorOnError"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/employee_details_edit_button"
+            app:layout_constraintEnd_toStartOf="@+id/employee_details_edit_button"
+            app:layout_constraintTop_toTopOf="@+id/employee_details_edit_button" />
+
+        <Button
+            android:id="@+id/employee_details_change_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="change image"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/employee_details_image"
+            app:layout_constraintStart_toStartOf="@+id/employee_details_image"
+            app:layout_constraintTop_toBottomOf="@+id/employee_details_image" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

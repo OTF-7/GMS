@@ -26,4 +26,9 @@
         android:id="@+id/menu_manager_item_log_out"
         android:title="@string/log_out"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_manager_item_map"
+        android:title="@string/map"
+        app:showAsAction="never" />
 </menu>

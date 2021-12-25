@@ -91,6 +91,13 @@
     <string name="employees">Employees</string>
     <string name="stations">Stations</string>
     <string name="change_theme">change theme</string>
+    <string name="map">Map</string>
+    <string name="change_price">Change price</string>
+    <string name="representative_name">Representative name</string>
+    <string name="edit">Edit</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="delete">delete</string>
+    <string name="price">price</string>
     <string name="serial_number">serial number</string>
     <string name="no_item_yet">there is no item yet</string>
     <string name="no_action_yet">there is no action</string>

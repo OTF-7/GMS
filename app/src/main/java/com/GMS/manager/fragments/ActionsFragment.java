@@ -15,14 +15,19 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.GMS.MapsActivity;
 import com.GMS.R;
 import com.GMS.SettingActivity;
 import com.GMS.databinding.FragmentActionsBinding;
 import com.GMS.login.activities.LoginActivity;
 import com.GMS.manager.adapters.ActionsAdapter;
+import com.GMS.manager.helperClasses.ItemClickListener;
 import com.GMS.manager.models.Actions;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -35,6 +40,9 @@ public class ActionsFragment extends Fragment {
     ArrayList<Actions> mActionsList;
     ActionsAdapter adapter;
     FirebaseAuth mAuth;
+    NavController mNavController;
+    ItemClickListener mItemClickListener;
+
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -50,7 +58,7 @@ public class ActionsFragment extends Fragment {
         mActionsBinding = FragmentActionsBinding.inflate(inflater, container, false);
         mActionsList = new ArrayList<>();
         fillActions();
-        adapter = new ActionsAdapter(mActionsList);
+        adapter = new ActionsAdapter(mActionsList, mItemClickListener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mActionsBinding.actionsRecyclerView.setAdapter(adapter);
         mActionsBinding.actionsRecyclerView.setLayoutManager(layoutManager);
@@ -87,6 +95,7 @@ public class ActionsFragment extends Fragment {
         action.setActionState(false);
         action.setAgentName("Omar Swaid");
         action.setRepresentativeName("Mohammed shehab");
+        action.setAqelName("Ali ahmed");
         action.setNeighborhoodName("Almadena");
         action.setDate("2022/7/11");
         mActionsList.add(action);
@@ -94,6 +103,7 @@ public class ActionsFragment extends Fragment {
         action = new Actions();
         action.setActionState(true);
         action.setAgentName("Salah Doos");
+        action.setAqelName("Ali ahmed");
         action.setRepresentativeName("Mohammed shehab");
         action.setNeighborhoodName("Mosa ST");
         action.setDate("Today");
@@ -101,6 +111,7 @@ public class ActionsFragment extends Fragment {
 
         action = new Actions();
         action.setActionState(false);
+        action.setAqelName("Ali ahmed");
         action.setAgentName("Abdulrahman khaled");
         action.setRepresentativeName("Naseem Ahmed");
         action.setNeighborhoodName("Palastine ST");
@@ -108,6 +119,7 @@ public class ActionsFragment extends Fragment {
         mActionsList.add(action);
 
         action = new Actions();
+        action.setAqelName("Ali ahmed");
         action.setActionState(true);
         action.setAgentName("Ammar sharqy");
         action.setRepresentativeName("Haitham Taresh");
@@ -116,6 +128,7 @@ public class ActionsFragment extends Fragment {
         mActionsList.add(action);
 
         action = new Actions();
+        action.setAqelName("Ali ahmed");
         action.setActionState(true);
         action.setAgentName("Omar Swaid");
         action.setRepresentativeName("Mohammed shehab");
@@ -124,12 +137,19 @@ public class ActionsFragment extends Fragment {
         mActionsList.add(action);
 
         action = new Actions();
+        action.setAqelName("Ali ahmed");
         action.setActionState(false);
         action.setAgentName("Omar Swaid");
         action.setRepresentativeName("Mohammed shehab");
         action.setNeighborhoodName("Alhamdy");
         action.setDate("2022/7/11");
         mActionsList.add(action);
+
+        mItemClickListener = position -> {
+            @NonNull NavDirections navigationAction = ActionsFragmentDirections.actionActionsFragmentToActionDetailsFragment(mActionsList.get(position));
+            mNavController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+            mNavController.navigate(navigationAction);
+        };
     }
 
     @Override
@@ -162,7 +182,6 @@ public class ActionsFragment extends Fragment {
                 break;
             case R.id.menu_manager_item_setting:
                 startActivity(new Intent(requireContext(), SettingActivity.class));
-                requireActivity().finish();
                 break;
 
             case R.id.menu_manager_item_log_out:
@@ -170,6 +189,9 @@ public class ActionsFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 requireActivity().finish();
                 break;
+
+            case R.id.menu_manager_item_map:
+                startActivity(new Intent(getActivity(), MapsActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

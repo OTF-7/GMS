@@ -53,6 +53,11 @@
         <item name="tint">?attr/colorPrimarySurface</item>
     </style>
 
+    <style name="Theme.MyFloatingActionButtonError" parent="Widget.Material3.FloatingActionButton.Surface">
+        <item name="backgroundTint">?attr/colorError</item>
+        <item name="tint">?attr/colorOnError</item>
+    </style>
+
 
     <style name="Base.AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <!--System/platform attributes-->

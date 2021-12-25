@@ -1,6 +1,9 @@
 package com.GMS.manager.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,7 +15,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +29,7 @@ import com.GMS.SettingActivity;
 import com.GMS.databinding.FragmentStationsBinding;
 import com.GMS.login.activities.LoginActivity;
 import com.GMS.manager.adapters.StationsAdapter;
+import com.GMS.manager.helperClasses.ItemClickListener;
 import com.GMS.manager.models.Stations;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -34,7 +42,10 @@ public class StationsFragment extends Fragment {
     FragmentStationsBinding mBinding;
     StationsAdapter mStationsAdapter;
     List<Stations> mStationsList;
+    NavController mNavController;
     private FirebaseAuth mAuth;
+    StationsFragment thisFragment = this;
+    private ItemClickListener mItemClickListener;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -43,47 +54,70 @@ public class StationsFragment extends Fragment {
     }
 
     private void fillStations() {
+        mItemClickListener = position -> {
+            onClick(position);
+        };
         Stations station = new Stations();
 
         station.setStationName("Aleesi");
-        station.setStationIcon(R.drawable.station_1);
+        station.setStationImage(R.drawable.station_1);
         mStationsList.add(station);
 
         station = new Stations();
         station.setStationName("Shamsan");
-        station.setStationIcon(R.drawable.station_2);
+        station.setStationImage(R.drawable.station_2);
         mStationsList.add(station);
 
         station = new Stations();
         station.setStationName("Alrajehy");
-        station.setStationIcon(R.drawable.ic_petrol_pump);
+        station.setStationImage(R.drawable.ic_petrol_pump);
         mStationsList.add(station);
 
         station = new Stations();
         station.setStationName("Alnoor");
-        station.setStationIcon(R.drawable.station_3);
+        station.setStationImage(R.drawable.station_3);
         mStationsList.add(station);
 
         station = new Stations();
         station.setStationName("Alhuda");
-        station.setStationIcon(R.drawable.station_4);
+        station.setStationImage(R.drawable.station_4);
         mStationsList.add(station);
 
         station = new Stations();
         station.setStationName("Altayseer");
-        station.setStationIcon(R.drawable.ic_petrol_pump);
+        station.setStationImage(R.drawable.ic_petrol_pump);
         mStationsList.add(station);
 
         station = new Stations();
         station.setStationName("Hodaidah Center");
-        station.setStationIcon(R.drawable.station_1);
+        station.setStationImage(R.drawable.station_1);
         mStationsList.add(station);
 
         station = new Stations();
         station.setStationName("Aleesi");
-        station.setStationIcon(R.drawable.ic_petrol_pump);
+        station.setStationImage(R.drawable.ic_petrol_pump);
         mStationsList.add(station);
 
+    }
+
+    private void onClick(int position) {
+        switch (getId()) {
+            case R.id.manager_station_details_call_button:
+                Intent call_intent = new Intent(Intent.ACTION_CALL);
+                call_intent.setData(Uri.parse("tel:777118407"));
+                if (ActivityCompat
+                        .checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) !=
+                        PackageManager.PERMISSION_GRANTED)
+                    requestPermission();
+                else
+                    requireContext().startActivity(call_intent);
+                break;
+            default:
+                @NonNull NavDirections navigationAction = StationsFragmentDirections.actionStationFragmentToStationDetailsFragment(mStationsList.get(position), mStationsList.get(position).getStationName());
+                mNavController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                mNavController.navigate(navigationAction);
+                break;
+        }
     }
 
     @Override
@@ -95,7 +129,7 @@ public class StationsFragment extends Fragment {
         mStationsList = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         fillStations();
-        mStationsAdapter = new StationsAdapter(mStationsList);
+        mStationsAdapter = new StationsAdapter(mStationsList, requireContext(), mItemClickListener);
         mBinding.stationsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         mBinding.stationsRecyclerView.setAdapter(mStationsAdapter);
@@ -125,6 +159,11 @@ public class StationsFragment extends Fragment {
             }
         });
         return mBinding.getRoot();
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(requireActivity(),
+                new String[]{Manifest.permission.CALL_PHONE}, 1);
     }
 
     @Override
@@ -158,7 +197,6 @@ public class StationsFragment extends Fragment {
                 break;
             case R.id.menu_manager_item_setting:
                 startActivity(new Intent(requireContext(), SettingActivity.class));
-                requireActivity().finish();
                 break;
 
             case R.id.menu_manager_item_log_out:
@@ -175,4 +213,5 @@ public class StationsFragment extends Fragment {
         super.onDestroy();
         mBinding = null;
     }
+
 }

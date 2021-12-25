@@ -29,6 +29,19 @@
                 app:showAsAction="ifRoom" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/menu_manager_item_map"
+        android:checkable="true"
+        android:title="@string/map"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_manager_item_change_price"
+        android:checkable="true"
+        android:title="@string/change_price"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/menu_manager_item_setting"
         android:checkable="true"

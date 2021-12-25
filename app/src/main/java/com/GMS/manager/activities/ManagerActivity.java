@@ -6,19 +6,21 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.GMS.R;
 import com.GMS.databinding.ActivityManagerBinding;
-import com.google.android.material.navigation.NavigationBarView;
+import com.GMS.manager.fragments.ActionsFragmentDirections;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ManagerActivity extends AppCompatActivity {
     ActivityManagerBinding mManagerBinding;
     NavController mNavController;
     AppBarConfiguration appBarConfiguration;
+    long currentFragmentId = R.id.actions_fragment;
     private FirebaseFirestore mFirestore;
 
     @Override
@@ -40,16 +42,31 @@ public class ManagerActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(mManagerBinding.actionToolbar, mNavController, appBarConfiguration);
         NavigationUI.setupWithNavController(mManagerBinding.managerNavigationView, mNavController, false);
 
-        mManagerBinding.managerBottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                mManagerBinding.managerNavigationView.setCheckedItem(item);
-                mNavController.navigateUp();
-                mNavController.navigate(item.getItemId());
-                return true;
+        mNavController.addOnDestinationChangedListener((navController, navDestination, bundle) -> {
+            if (navDestination.getId() == R.id.actions_fragment ||
+                    navDestination.getId() == R.id.employee_fragment ||
+                    navDestination.getId() == R.id.station_fragment)
+                currentFragmentId = navDestination.getId();
+        });
+        mManagerBinding.managerBottomNavigationView.setOnItemSelectedListener(item -> {
+            mManagerBinding.managerNavigationView.setCheckedItem(item);
+            mNavController.navigateUp();
+            mNavController.navigate(item.getItemId());
+            if (item.getItemId() == R.id.employee_fragment)
+                mManagerBinding.managerAddFloatingActionButton.setImageResource(R.drawable.ic_baseline_message_24);
+            else
+                mManagerBinding.managerAddFloatingActionButton.setImageResource(R.drawable.ic_add);
+            return true;
+        });
+        mManagerBinding.managerAddFloatingActionButton.setOnClickListener(v -> {
+            if (currentFragmentId == R.id.actions_fragment) {
+                @NonNull NavDirections navigationAction = ActionsFragmentDirections.actionActionsFragmentToCreateActionFragment();
+                mNavController.navigate(navigationAction);
             }
         });
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

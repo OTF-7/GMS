@@ -8,24 +8,85 @@
         android:id="@+id/actions_fragment"
         android:name="com.GMS.manager.fragments.ActionsFragment"
         android:label="Actions"
-        tools:layout="@layout/fragment_actions" />
+        tools:layout="@layout/fragment_actions">
+        <action
+            android:id="@+id/action_actions_fragment_to_actionDetailsFragment"
+            app:destination="@id/actionDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_actions_fragment_to_createActionFragment"
+            app:destination="@id/createActionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/employee_fragment"
         android:name="com.GMS.manager.fragments.EmployeesFragment"
         android:label="Employees"
-        tools:layout="@layout/fragment_employees" />
+        tools:layout="@layout/fragment_employees">
+        <action
+            android:id="@+id/action_employee_fragment_to_signUpRequestsFragment"
+            app:destination="@id/signUpRequestsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_employee_fragment_to_employeeDetailsFragment"
+            app:destination="@id/employeeDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/station_fragment"
         android:name="com.GMS.manager.fragments.StationsFragment"
         android:label="Stations"
-        tools:layout="@layout/fragment_stations" />
+        tools:layout="@layout/fragment_stations">
+        <action
+            android:id="@+id/action_station_fragment_to_stationDetailsFragment"
+            app:destination="@id/stationDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpRequestsFragment"
         android:name="com.GMS.manager.fragments.SignUpRequestsFragment"
-        android:label="fragment_sign_up_requests"
+        android:label="Sign up requests"
         tools:layout="@layout/fragment_sign_up_requests" />
-    <action
-        android:id="@+id/action_global_signUpRequestsFragment"
-        app:destination="@id/signUpRequestsFragment" />
+    <fragment
+        android:id="@+id/actionDetailsFragment"
+        android:name="com.GMS.manager.fragments.ActionDetailsFragment"
+        android:label="Action details"
+        tools:layout="@layout/fragment_action_details">
+        <argument
+            android:name="actionData"
+            app:argType="com.GMS.manager.models.Actions" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeDetailsFragment"
+        android:name="com.GMS.manager.fragments.EmployeeDetailsFragment"
+        android:label="{employeeName}\'s details"
+        tools:layout="@layout/fragment_employee_details">
+        <argument
+            android:name="employeeData"
+            app:argType="com.GMS.manager.models.Employees" />
+        <argument
+            android:name="employeeName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/stationDetailsFragment"
+        android:name="com.GMS.manager.fragments.StationDetailsFragment"
+        android:label="{stationName}\'s details"
+        tools:layout="@layout/fragment_station_details">
+        <argument
+            android:name="stationData"
+            app:argType="com.GMS.manager.models.Stations" />
+        <argument
+            android:name="stationName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/createActionFragment"
+        android:name="com.GMS.manager.fragments.CreateActionFragment"
+        android:label="Create action"
+        tools:layout="@layout/fragment_create_action" />
 
 </navigation>

@@ -18,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,17 +31,13 @@ import com.GMS.SettingActivity;
 import com.GMS.databinding.FragmentEmployeesBinding;
 import com.GMS.login.activities.LoginActivity;
 import com.GMS.manager.adapters.EmployeesAdapter;
+import com.GMS.manager.helperClasses.ItemClickListener;
 import com.GMS.manager.models.Employees;
-import com.GMS.representative.activities.AdditionRequestsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.MetadataChanges;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,8 +54,10 @@ public class EmployeesFragment extends Fragment {
     MenuItem mMenuItemNotification;
     TextView tvNotificationCounter;
     ImageView ivNotificationIcon;
+    NavController mNavController;
     private FirebaseFirestore mFirestore;
     private FirebaseAuth mAuth;
+    private ItemClickListener mItemClickListener;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -64,9 +65,8 @@ public class EmployeesFragment extends Fragment {
         // Inflate the layout for this fragment
         mEmployeesBinding = FragmentEmployeesBinding.inflate(inflater, container, false);
         mEmployeesList = new ArrayList<>();
-        fillEmployees();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        employeesAdapter = new EmployeesAdapter(mEmployeesList);
+        employeesAdapter = new EmployeesAdapter(mEmployeesList, mItemClickListener);
         mEmployeesBinding.employeesRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(),
                 DividerItemDecoration.VERTICAL));
         mEmployeesBinding.employeesRecyclerView.setAdapter(employeesAdapter);
@@ -103,68 +103,53 @@ public class EmployeesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mFirestore = FirebaseFirestore.getInstance();
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-//        fillEmployees();
+        fillEmployees();
     }
 
     private void fillEmployees() {
+        mItemClickListener = position -> {
+            @NonNull NavDirections navigationAction = EmployeesFragmentDirections.actionEmployeeFragmentToEmployeeDetailsFragment(mEmployeesList.get(position), mEmployeesList.get(position).getEmployeeFirstName());
+            mNavController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+            mNavController.navigate(navigationAction);
+        };
         CollectionReference employees_collection = mFirestore.collection(Constant.Employees.toString());
-
-        employees_collection.addSnapshotListener(requireActivity(), MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.d("TAG", "Error getting documents: ", error);
-                    return;
-                }
-
-
-                assert value != null;
-                for (DocumentChange documentChange : value.getDocumentChanges()) {
-                    if (documentChange.getType() == DocumentChange.Type.REMOVED) {
-                        mEmployeesList.remove(documentChange.getOldIndex());
-                        employeesAdapter.notifyItemRemoved(documentChange.getOldIndex());
-                        continue;
-                    }
-                    employee = new Employees();
-                    DocumentSnapshot document = documentChange.getDocument();
-                    String employeeName = document.getString("Name");
-                    int employeeIcon = R.drawable.sign_in_image;
-                    String employeeType = document.getString("Type_of_jop");
-                    String employeeCurrentState = "Working on madena'a street";
-                    int employeeTypeIcon = R.drawable.ic_rep_icon;
-                    switch (documentChange.getType()) {
-                        case ADDED:
-                            employee.setEmployeeName(employeeName);
-                            employee.setEmployeeIcon(employeeIcon);
-                            employee.setEmployeeType(employeeType);
-                            employee.setEmployeeCurrentState(employeeCurrentState);
-                            employee.setEmployeeTypeIcon(employeeTypeIcon);
-                            mEmployeesList.add(employee);
-                            employeesAdapter.notifyItemInserted(documentChange.getNewIndex());
-                            break;
-                        case MODIFIED:
-                            employee.setEmployeeName(employeeName);
-                            employee.setEmployeeIcon(employeeIcon);
-                            employee.setEmployeeType(employeeType);
-                            employee.setEmployeeCurrentState(employeeCurrentState);
-                            employee.setEmployeeTypeIcon(employeeTypeIcon);
-                            mEmployeesList.set(documentChange.getOldIndex(), employee);
-                            employeesAdapter.notifyItemChanged(documentChange.getNewIndex());
-                            break;
-                    }
-                    Toast.makeText(getContext(), String.valueOf(mEmployeesList.size()), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onComplete: " + mEmployeesList.size());
-                }
-                Log.d("TAG", mEmployeesList.toString());
+        employees_collection.addSnapshotListener((value, error) -> {
+            if (error != null) {
+                Log.d("TAG", "Error getting documents: ", error);
+                return;
             }
-        });
 
+            assert value != null;
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                if (documentChange.getType() == DocumentChange.Type.REMOVED) {
+                    mEmployeesList.remove(documentChange.getOldIndex());
+                    employeesAdapter.notifyItemRemoved(documentChange.getOldIndex());
+                    continue;
+                }
+                employee = new Employees();
+                DocumentSnapshot document = documentChange.getDocument();
+                String employeeName = document.getString("Name");
+                int employeeIcon = R.drawable.sign_in_image;
+                String employeeType = document.getString("Type_of_jop");
+
+                employee.setEmployeeFirstName(employeeName);
+                employee.setEmployeeImage(employeeIcon);
+                employee.setEmployeeJopType(employeeType);
+                switch (documentChange.getType()) {
+                    case ADDED:
+                        mEmployeesList.add(employee);
+                        employeesAdapter.notifyItemInserted(documentChange.getNewIndex());
+                        break;
+                    case MODIFIED:
+                        mEmployeesList.set(documentChange.getOldIndex(), employee);
+                        employeesAdapter.notifyItemChanged(documentChange.getNewIndex());
+                        break;
+                }
+                Toast.makeText(getContext(), String.valueOf(mEmployeesList.size()), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onComplete: " + mEmployeesList.size());
+            }
+            Log.d("TAG", mEmployeesList.toString());
+        });
     }
 
 
@@ -176,19 +161,18 @@ public class EmployeesFragment extends Fragment {
         ivNotificationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAdditionRequestActivity();
+                @NonNull NavDirections action = EmployeesFragmentDirections.actionEmployeeFragmentToSignUpRequestsFragment();
+                mNavController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                mNavController.navigate(action);
             }
         });
-        Drawable mDrawable = getActivity().getDrawable(R.drawable.notification_counter_shape);
-        view.findViewById(R.id.card_view).setBackground(mDrawable);
-        tvNotificationCounter.setText(String.valueOf(pendingNotification));
+        if (pendingNotification > 0) {
+            Drawable mDrawable = requireActivity().getDrawable(R.drawable.notification_counter_shape);
+            view.findViewById(R.id.card_view).setBackground(mDrawable);
+            tvNotificationCounter.setText(String.valueOf(pendingNotification));
+        }
     }
 
-
-    private void openAdditionRequestActivity() {
-        Intent intent = new Intent(getContext(), AdditionRequestsActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
@@ -197,7 +181,6 @@ public class EmployeesFragment extends Fragment {
         checkNotification();
         MenuItem searchItem = menu.findItem(R.id.menu_manager_item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -218,12 +201,8 @@ public class EmployeesFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_manager_item_notification:
-
-                break;
             case R.id.menu_manager_item_setting:
                 startActivity(new Intent(requireContext(), SettingActivity.class));
-                requireActivity().finish();
                 break;
 
             case R.id.menu_manager_item_log_out:
@@ -233,11 +212,5 @@ public class EmployeesFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mEmployeesBinding = null;
     }
 }

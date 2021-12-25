@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/stationIcon"
+        android:id="@+id/manager_station_image"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="center"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/stationName"
+        android:id="@+id/manager_station_name"
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="16dp"
@@ -30,36 +30,11 @@
         android:text="Aleesi"
         android:textColor="?attr/colorOnSurface"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/stationIcon"
-        app:layout_constraintEnd_toStartOf="@+id/stationCallIcon"
-        app:layout_constraintStart_toEndOf="@+id/stationIcon"
-        app:layout_constraintTop_toTopOf="@+id/stationIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/manager_station_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/manager_station_image"
+        app:layout_constraintTop_toTopOf="@+id/manager_station_image"
         app:layout_constraintVertical_bias="0.513" />
 
-    <ImageView
-        android:id="@+id/stationCallIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:padding="8dp"
-        android:src="@drawable/ic_location"
-        app:layout_constraintBottom_toBottomOf="@+id/stationName"
-        app:layout_constraintEnd_toStartOf="@+id/stationoShowLocationIcon"
-        app:layout_constraintTop_toTopOf="@+id/stationName"
-        app:tint="?attr/colorPrimary" />
-
-    <ImageView
-        android:id="@+id/stationoShowLocationIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="8dp"
-        android:padding="8dp"
-        android:src="@drawable/ic_call"
-        app:layout_constraintBottom_toBottomOf="@+id/stationCallIcon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/stationCallIcon"
-        app:layout_constraintVertical_bias="0.0"
-        app:tint="?attr/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
